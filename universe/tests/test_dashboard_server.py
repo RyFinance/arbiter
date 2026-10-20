@@ -216,7 +216,7 @@ def test_console_exposes_sequential_telemetry_without_market_listing(client):
     assert "strategy-phase" in html
     assert "FIRST-LEG EXPOSURE" in html
     assert "LightGBM regime" in html
-    assert "PAPER-ONLY SAFETY BOUNDARY" in html
+    assert "SAFETY BOUNDARY" in html
     assert "universe-table" not in html
     assert 'fetchJson("/api/strategy")' in script
     assert 'message.type === "strategy_update"' in script

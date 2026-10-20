@@ -213,7 +213,9 @@ async def main():
         log.info(f"paper_fill_source={_resolve_paper_fill_source()}")
     if SETTINGS.strategy_mode == "sequential":
         log.info(
-            "strategy=sequential paper-only | first leg early+near-even+volatile; "
+            f"strategy=sequential venue={SETTINGS.venue} "
+            f"mode={'live' if SETTINGS.live_execution else 'dry_run' if SETTINGS.dry_run else 'paper'} | "
+            "first leg early+near-even+volatile; "
             f"second leg fee-adjusted net_edge>={SETTINGS.sequential_min_net_edge:.4f} "
             f"timeout={SETTINGS.sequential_second_leg_timeout_s:.1f}s"
         )

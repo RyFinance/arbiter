@@ -409,11 +409,7 @@ function renderStatus(status) {
     ? `${config.venue === "kalshi" ? "Kalshi" : "Polymarket"} · ${mode === "dry_run" ? "dry-run" : mode} · ${config.scope === "btc" ? "BTC only" : "universe"}`
     : "idle";
   renderVenuePick(running && config.venue ? config.venue : selectedVenue, running);
-  const live = mode === "live";
-  els.safetyChip.textContent = live ? "LIVE" : mode === "dry_run" ? "DRY-RUN" : "PAPER";
-  els.safetyChip.className = `chip ${live ? "chip--red" : "chip--green"}`;
-  els.liveCheckText.textContent = live ? "LIVE · real orders within caps" : "off · paper only";
-  check(els.checkLive, live ? "bad" : "ok", live ? "!" : "✓");
+  renderModeSummary();
 
   els.btnStart.disabled = running || external.length > 0;
   els.btnStop.disabled = state === "STOPPED" || state === "STOPPING";
@@ -434,10 +430,50 @@ function renderStatus(status) {
 }
 
 function renderLiveControl(control) {
-  const isLive = Boolean(control.effective_live_submission_enabled);
-  els.banner.className = `head ${isLive ? "banner--live" : "banner--paper"}`;
-  els.modeLabel.textContent = isLive ? "LIVE" : "PAPER";
   els.controlRevision.textContent = `rev ${control.revision ?? "--"}`;
+}
+
+// ---------------------------------------------------------------- mode summary
+// One place decides what the header, safety chip, live check, equity title and
+// reminder say, from: what is running (venue + mode), each venue's selected
+// mode, and the venue picked at the top.
+
+const VENUE_LABELS = {polymarket: "Polymarket", kalshi: "Kalshi"};
+const RUN_MODE_LABELS = {live: "LIVE", paper: "PAPER", dry_run: "DRY-RUN"};
+let venueModes = {polymarket: "paper", kalshi: "paper"};
+let liveSetups = {};
+
+function renderModeSummary() {
+  const status = lastStatus || {};
+  const config = status.run_config || {};
+  const running = String(status.run_state || "STOPPED").toUpperCase() !== "STOPPED";
+  const runVenue = running && config.venue ? config.venue : selectedVenue;
+  const runMode = running && config.mode ? config.mode : null;
+  const venueMode = venueModes[runVenue] || "paper";
+  const liveNow = runMode === "live";
+  const armed = !running && venueMode === "live";
+
+  const word = runMode ? RUN_MODE_LABELS[runMode] : armed ? "LIVE ARMED" : "PAPER";
+  els.modeLabel.textContent = `${word} · ${VENUE_LABELS[runVenue] || runVenue}`;
+  els.banner.className = `head ${liveNow ? "banner--live" : "banner--paper"}`;
+  els.safetyChip.textContent = word === "LIVE ARMED" ? "ARMED" : word;
+  els.safetyChip.className = `chip ${liveNow ? "chip--red" : armed ? "" : "chip--green"}`;
+
+  const perVenue = Object.keys(VENUE_LABELS)
+    .map((venue) => `${VENUE_LABELS[venue]} ${venueModes[venue] === "live" ? "LIVE" : venueModes[venue] === "read_only" ? "read-only" : "paper"}`)
+    .join(" · ");
+  if (liveNow) {
+    els.liveCheckText.textContent = `LIVE on ${VENUE_LABELS[runVenue]} · real orders within caps`;
+    check(els.checkLive, "bad", "!");
+  } else if (Object.values(venueModes).includes("live")) {
+    els.liveCheckText.textContent = `${perVenue} · live applies on next Start`;
+    check(els.checkLive, "warn", "!");
+  } else {
+    els.liveCheckText.textContent = perVenue;
+    check(els.checkLive, "ok", "✓");
+  }
+  byId("equity-title").textContent = liveNow ? `Live equity · ${VENUE_LABELS[runVenue]}` : `Paper equity · ${VENUE_LABELS[runVenue]}`;
+  renderReminder(runVenue);
 }
 
 // ---------------------------------------------------------------- scope
@@ -460,6 +496,7 @@ venueButtons.forEach((button) => {
     selectedVenue = button.dataset.venuePick;
     try { localStorage.setItem("arbiter.venue", selectedVenue); } catch (_) {}
     renderVenuePick(selectedVenue, false);
+    renderModeSummary();
   });
 });
 renderVenuePick(selectedVenue, false);
@@ -714,7 +751,19 @@ function renderSteps(list, steps, next) {
   });
 }
 
+function renderReminder(venue) {
+  const setup = liveSetups[venue];
+  const label = VENUE_LABELS[venue] || venue;
+  if (!setup || !Array.isArray(setup.steps)) return;
+  const next = setup.steps.find((step) => !step.done);
+  byId("reminder-title").textContent = `Paper mode on ${label}. Add your keys to trade live.`;
+  byId("reminder-next").textContent = next ? `Next step: ${next.label.charAt(0).toLowerCase()}${next.label.slice(1)}.` : `${label} is ready: pick LIVE on the Venues sheet.`;
+  byId("reminder-open").textContent = `Set up live on ${label}`;
+  reminder.hidden = Boolean(setup.live) || reminderHidden;
+}
+
 function renderLiveSetup(setup, kalshiSetup) {
+  liveSetups = {polymarket: setup, kalshi: kalshiSetup};
   if (kalshiSetup && Array.isArray(kalshiSetup.steps)) {
     const kSteps = kalshiSetup.steps;
     renderSteps(byId("setup-steps-kalshi"), kSteps, kSteps.find((step) => !step.done));
@@ -732,13 +781,14 @@ function renderLiveSetup(setup, kalshiSetup) {
   byId("setup-chip").textContent = setup.live ? "LIVE ON" : `${doneCount} / ${steps.length}`;
   byId("setup-chip").className = `chip ${setup.live ? "chip--red" : doneCount === steps.length ? "chip--green" : ""}`;
   byId("setup-dot").hidden = anyLive;
-  byId("reminder-next").textContent = next ? `Next step: ${next.label.charAt(0).toLowerCase()}${next.label.slice(1)}.` : "";
-  reminder.hidden = anyLive || reminderHidden;
+  renderModeSummary();
 }
 
 byId("reminder-open").addEventListener("click", () => {
   showSheet("setup");
-  byId("live-setup").scrollIntoView({behavior: "smooth", block: "start"});
+  const config = (lastStatus && lastStatus.run_config) || {};
+  const venue = lastStatus && lastStatus.run_state !== "STOPPED" && config.venue ? config.venue : selectedVenue;
+  byId(venue === "kalshi" ? "live-setup-kalshi" : "live-setup").scrollIntoView({behavior: "smooth", block: "start"});
 });
 byId("reminder-close").addEventListener("click", () => {
   reminderHidden = true;
@@ -752,6 +802,8 @@ function renderVenues(snapshot) {
   const totals = snapshot.totals || {};
   venues.forEach(renderVenueCard);
   venues.forEach(renderVenueMode);
+  venues.forEach((venue) => { venueModes[venue.venue] = venue.mode || "read_only"; });
+  renderModeSummary();
   renderPositions(venues.filter((venue) => venue.linked && venue.status === "ok"));
   const linked = asFinite(totals.linked) || 0;
   els.totalValue.textContent = linked ? fmtMoney(totals.account_value_usd) : "--";

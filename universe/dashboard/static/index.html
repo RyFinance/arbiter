@@ -5,7 +5,7 @@
   <title>Arbiter · polyuni</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/style.css?v=16">
+  <link rel="stylesheet" href="/static/style.css?v=17">
 </head>
 <body>
 <canvas id="ascii" aria-hidden="true"></canvas>
@@ -47,7 +47,7 @@
   <!-- live-trading setup reminder -->
   <div class="reminder" id="live-reminder" hidden>
     <span class="reminder__icon" aria-hidden="true">🔑</span>
-    <div class="reminder__text"><b>Paper mode. Add your keys to trade live.</b> <span id="reminder-next">Next step: link your Polymarket wallet.</span></div>
+    <div class="reminder__text"><b id="reminder-title">Paper mode. Add your keys to trade live.</b> <span id="reminder-next"></span></div>
     <button class="pill pill--go" type="button" id="reminder-open">Set up live trading</button>
     <button class="reminder__close" type="button" id="reminder-close" aria-label="Hide for now">✕</button>
   </div>
@@ -73,7 +73,7 @@
 
           <div class="tiles">
             <article class="card tile">
-              <div class="card__head"><span class="card__title">Paper equity</span><span class="tile-icon tile-icon--amber">$</span></div>
+              <div class="card__head"><span class="card__title" id="equity-title">Paper equity</span><span class="tile-icon tile-icon--amber">$</span></div>
               <div class="tile__value mono" id="paper-equity">--</div>
               <p class="tile__sub">bankroll <span id="paper-bankroll" class="mono">--</span></p>
             </article>
@@ -125,10 +125,10 @@
             <ul class="checks">
               <li><span class="tile-icon tile-icon--sm" id="run-state-dot">●</span><div><b>Engine</b><small><span id="run-state-label">stopped</span> <span id="uptime"></span></small></div><i class="ok" id="check-engine">–</i></li>
               <li><span class="tile-icon tile-icon--sm tile-icon--blue">⇄</span><div><b>Data link</b><small id="connection-state">connecting</small></div><i class="ok" id="link-dot">–</i></li>
-              <li><span class="tile-icon tile-icon--sm tile-icon--amber">!</span><div><b>Live orders</b><small id="live-check-text">off · paper only</small></div><i class="ok" id="check-live">✓</i></li>
+              <li><span class="tile-icon tile-icon--sm tile-icon--amber">!</span><div><b>Live orders</b><small id="live-check-text">paper on every venue</small></div><i class="ok" id="check-live">✓</i></li>
               <li><span class="tile-icon tile-icon--sm">⌁</span><div><b>Process</b><small id="owner-state">no process</small></div><i class="ok" id="check-owner">–</i></li>
             </ul>
-            <p class="fine">PAPER-ONLY SAFETY BOUNDARY unless LIVE is opted into three times. <span id="control-revision" class="mono">rev --</span></p>
+            <p class="fine"><b>SAFETY BOUNDARY</b> · paper by default on Polymarket and Kalshi. Real orders need ARBITER_LIVE_TRADING=enabled, a key, and LIVE picked for that venue. <span id="control-revision" class="mono">rev --</span></p>
           </article>
         </aside>
       </div>
@@ -266,7 +266,7 @@ cp .env.example .env</code></pre></div></li>
             <div class="card__head"><span class="card__title card__title--lg">How the numbers stay honest</span></div>
             <ul class="facts">
               <li><b>Real fills.</b> Every simulated order walks the live order book: it fills only if the full size is there within the limit, at the depth-weighted price.</li>
-              <li><b>Real fees.</b> Each fill pays Polymarket's taker-fee curve.</li>
+              <li><b>Real fees.</b> Polymarket fills pay its taker-fee curve; Kalshi fills pay Kalshi's fee, rounded up to the cent.</li>
               <li><b>No fill, no trade.</b> Thin books mean the leg simply doesn't go, the same as a killed market order.</li>
               <li><b>Kill switch.</b> A daily loss limit halts new entries; Stop writes an emergency-stop file the bot obeys.</li>
             </ul>
@@ -281,7 +281,7 @@ cp .env.example .env</code></pre></div></li>
           </article>
 
 
-          <article class="card setup">
+          <article class="card setup" id="live-setup-kalshi">
             <div class="card__head"><span class="card__title card__title--lg">Kalshi live setup</span><span class="chip" id="setup-chip-kalshi">0 / 3</span></div>
             <ol class="steps" id="setup-steps-kalshi"></ol>
             <p class="hint">Paper on Kalshi needs no key: pick Kalshi at the top and press Start. Practise live against Kalshi's demo exchange with KALSHI_ENV=demo.</p>
@@ -313,6 +313,6 @@ cp .env.example .env</code></pre></div></li>
 
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 <script src="/static/ascii.js?v=11"></script>
-<script src="/static/app.js?v=16"></script>
+<script src="/static/app.js?v=17"></script>
 </body>
 </html>

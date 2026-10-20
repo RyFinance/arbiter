@@ -576,7 +576,8 @@ class SequentialPairEngine:
         return {
             "generated_at": now,
             "mode": self.settings.strategy_mode,
-            "paper_only": True,
+            "paper_only": getattr(getattr(self.execution, "client", None), "mode", "dry_run") != "live",
+            "venue": getattr(self.settings, "venue", "polymarket"),
             "risk_halted": bool(getattr(self.execution.risk, "halted", False)),
             "risk_capital_deployed_usd": round(
                 float(getattr(self.execution.risk, "total_deployed", 0.0)), 5

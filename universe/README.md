@@ -1,8 +1,8 @@
-# polyuni — universe-wide Polymarket arb bot
+# polyuni — universe-wide Polymarket + Kalshi arb bot
 
-Scans eligible Polymarket binary markets (including YES/NO and Up/Down), filters to
-books with tradeable liquidity/spread/resolution clarity, and runs a paper-only
-sequential pair strategy by default.
+Scans eligible Polymarket or Kalshi binary markets (including YES/NO and Up/Down),
+filters to books with tradeable liquidity/spread/resolution clarity, and runs the
+sequential pair strategy in paper mode by default. Live trading is opt-in per venue.
 
 Forked from [btc5m](../btc5m), generalizing its BTC-only window
 rotation into N-concurrent-market tracking, splitting its execution god-object into
