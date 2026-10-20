@@ -405,9 +405,7 @@ function renderStatus(status) {
   check(els.checkOwner, external.length ? "bad" : ownership === "none" ? "" : "ok", external.length ? "✗" : ownership === "none" ? "–" : "✓");
 
   const mode = running && config.mode ? config.mode : null;
-  els.runConfig.textContent = mode
-    ? `${config.venue === "kalshi" ? "Kalshi" : "Polymarket"} · ${mode === "dry_run" ? "dry-run" : mode} · ${config.scope === "btc" ? "BTC only" : "universe"}`
-    : "idle";
+  els.runConfig.textContent = mode ? (config.scope === "btc" ? "BTC only" : "universe") : "idle";
   renderVenuePick(running && config.venue ? config.venue : selectedVenue, running);
   renderModeSummary();
 

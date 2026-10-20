@@ -39,6 +39,9 @@ KALSHI_BASE_URLS = {
 # Kalshi's basic tier allows ~20 reads/s; stay under it when polling many books.
 READS_PER_SECOND = 15.0
 MAX_DISCOVERY_PAGES = 5
+# Track the next BTC window this long before it opens, so the engine is already
+# watching its book at the open (its early-entry window is only ~2 minutes).
+PREOPEN_LEAD_S = 300.0
 TOKEN_SEP = ":"
 
 
@@ -183,7 +186,7 @@ def _epoch(value: Any) -> float:
         return 0.0
 
 
-def market_meta(market: Dict[str, Any], fee_rate: float = 0.07) -> Optional[MarketMeta]:
+def market_meta(market: Dict[str, Any], fee_rate: float = 0.07, now: Optional[float] = None) -> Optional[MarketMeta]:
     """Map one Kalshi market to the engine's MarketMeta (None if not tradable)."""
     if market.get("market_type", "binary") != "binary" or not market.get("ticker"):
         return None
@@ -216,10 +219,19 @@ def market_meta(market: Dict[str, Any], fee_rate: float = 0.07) -> Optional[Mark
         volume_24h_usd=_num(market, "volume_24h_fp", "volume_24h") * float(last),
         enable_order_book=True,
         neg_risk=False,
-        accepting_orders=str(market.get("status", "")).lower() in {"active", "open"},
+        accepting_orders=_accepting(market, now if now is not None else time.time()),
         has_description=bool(market.get("rules_primary")),
         spread_at_discovery=(round(yes_ask - yes_bid, 4) if yes_ask is not None and yes_bid is not None else None),
     )
+
+
+def _accepting(market: Dict[str, Any], now: float) -> bool:
+    status = str(market.get("status", "")).lower()
+    if status in {"active", "open"}:
+        return True
+    # Listed-but-not-yet-open window opening soon: track it early.
+    opens = _epoch(market.get("open_time"))
+    return status in {"initialized", "unopened"} and 0 < opens - now <= PREOPEN_LEAD_S
 
 
 async def discover_markets(session: httpx.AsyncClient, settings: Any) -> List[MarketMeta]:
@@ -231,7 +243,11 @@ async def discover_markets(session: httpx.AsyncClient, settings: Any) -> List[Ma
     if getattr(settings, "btc_only", False) or getattr(settings, "include_btc_short_windows", True):
         for name in series:
             try:
-                resp = await session.get(f"{base}/markets", params={"series_ticker": name, "status": "open", "limit": 200})
+                # Current + next windows (no status filter: upcoming ones are "initialized").
+                now = int(time.time())
+                resp = await session.get(f"{base}/markets", params={
+                    "series_ticker": name, "min_close_ts": now, "max_close_ts": now + 3600, "limit": 200,
+                })
                 resp.raise_for_status()
                 for m in resp.json().get("markets") or []:
                     raw[m["ticker"]] = m

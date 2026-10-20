@@ -123,3 +123,12 @@ def test_kalshi_live_order_respects_cap(monkeypatch):
 def test_botctl_rejects_unknown_venue():
     from dashboard import botctl
     assert botctl.start_bot(venue="binance") == {"error": "venue must be one of polymarket, kalshi"}
+
+
+def test_next_window_is_tracked_shortly_before_it_opens():
+    base = {"ticker": "KXBTC15M-NEXT", "title": "BTC price up in next 15 mins?", "market_type": "binary",
+            "status": "initialized", "open_time": "2026-10-20T22:45:00Z", "close_time": "2026-10-20T23:00:00Z"}
+    opens = kalshi._epoch(base["open_time"])
+    assert kalshi.market_meta(base, now=opens - 120).accepting_orders          # 2 min before open
+    assert not kalshi.market_meta(base, now=opens - 3600).accepting_orders     # an hour out
+    assert not kalshi.market_meta(dict(base, status="closed"), now=opens + 10).accepting_orders
