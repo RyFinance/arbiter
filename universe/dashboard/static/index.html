@@ -5,7 +5,7 @@
   <title>Arbiter · polyuni</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/style.css?v=15">
+  <link rel="stylesheet" href="/static/style.css?v=16">
 </head>
 <body>
 <canvas id="ascii" aria-hidden="true"></canvas>
@@ -22,6 +22,10 @@
       </div>
     </div>
     <div class="head__actions">
+      <div class="pills" role="radiogroup" aria-label="Venue">
+        <button type="button" class="pill seg__opt is-on" data-venue-pick="polymarket" role="radio" aria-checked="true">Polymarket</button>
+        <button type="button" class="pill seg__opt" data-venue-pick="kalshi" role="radio" aria-checked="false">Kalshi</button>
+      </div>
       <div class="pills" role="radiogroup" aria-label="Market scope">
         <button type="button" class="pill seg__opt is-on" data-scope="universe" role="radio" aria-checked="true">◎ Universe</button>
         <button type="button" class="pill seg__opt" data-scope="btc" role="radio" aria-checked="false">₿ BTC only</button>
@@ -238,11 +242,12 @@
         <div class="setup-col">
           <article class="card">
             <div class="card__head"><span class="card__title card__title--lg">What Arbiter does</span><a class="link-btn" href="https://github.com/RyFinance/arbiter" target="_blank" rel="noopener">GitHub ↗</a></div>
-            <p class="prose">Every Polymarket binary pays exactly $1 to one side. Arbiter buys one side when it's cheap early in a volatile market, then waits for the other side to get cheap enough that the pair costs less than $1 after fees. It scans the whole market universe, or only the rotating BTC up/down windows.</p>
+            <p class="prose">Every Polymarket or Kalshi binary pays exactly $1 to one side. Arbiter buys one side when it's cheap early in a volatile market, then waits for the other side to get cheap enough that the pair costs less than $1 after fees. It scans the whole market universe, or only the rotating BTC up/down windows.</p>
             <div class="modes">
               <div><b>Dry-run</b><span>No key. Live public order books, simulated fills.</span></div>
               <div><b>Paper</b><span>With a key. Authenticated market access, simulated fills.</span></div>
               <div><b>Live</b><span>Opt-in. Real fill-or-kill orders on your account, capped.</span></div>
+              <div><b>Venues</b><span>Polymarket or Kalshi, picked at the top. Both paper-trade with no key.</span></div>
             </div>
           </article>
 
@@ -270,11 +275,17 @@ cp .env.example .env</code></pre></div></li>
 
         <div class="setup-col">
           <article class="card setup" id="live-setup">
-            <div class="card__head"><span class="card__title card__title--lg">Live trading setup</span><span class="chip" id="setup-chip">0 / 4</span></div>
+            <div class="card__head"><span class="card__title card__title--lg">Polymarket live setup</span><span class="chip" id="setup-chip">0 / 4</span></div>
             <ol class="steps" id="setup-steps"></ol>
             <p class="hint">Keys live only in <span class="mono">universe/.env</span> on this machine (git-ignored). Orders stay capped: $5 per order, $25 open, stop at −$25 by default.</p>
           </article>
 
+
+          <article class="card setup">
+            <div class="card__head"><span class="card__title card__title--lg">Kalshi live setup</span><span class="chip" id="setup-chip-kalshi">0 / 3</span></div>
+            <ol class="steps" id="setup-steps-kalshi"></ol>
+            <p class="hint">Paper on Kalshi needs no key: pick Kalshi at the top and press Start. Practise live against Kalshi's demo exchange with KALSHI_ENV=demo.</p>
+          </article>
 
           <article class="card">
             <div class="card__head"><span class="card__title card__title--lg">Settings</span><span class="chip">universe/.env</span></div>
@@ -302,6 +313,6 @@ cp .env.example .env</code></pre></div></li>
 
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 <script src="/static/ascii.js?v=11"></script>
-<script src="/static/app.js?v=14"></script>
+<script src="/static/app.js?v=16"></script>
 </body>
 </html>

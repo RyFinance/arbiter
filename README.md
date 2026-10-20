@@ -28,7 +28,7 @@ When the two asks add up to less than a dollar after fees, the difference is loc
 
 | | **`btc5m/`** | **`universe/`** |
 |---|---|---|
-| **Scope** | Polymarket's BTC 5-minute YES/NO windows | The whole active market set, 2,000+ markets |
+| **Scope** | Polymarket's BTC 5-minute YES/NO windows | The whole active market set on Polymarket (2,000+) or Kalshi, or just the BTC up/down windows |
 | **Strategy** | Simultaneous pair: buy both sides at once | Sequential pair: one side near 50/50 early, the other side later |
 | **Edge check** | 10 ms pair barrier, then REST revalidation of full-size depth | Depth-walked fills priced against Polymarket's taker-fee curve |
 | **Dashboard** | Streamlit, with a hash-verified demo replay | FastAPI + WebSocket push: a workbook with Desk, Venues, Engine, Log and Setup sheets |

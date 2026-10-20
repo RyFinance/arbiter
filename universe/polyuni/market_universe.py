@@ -119,11 +119,15 @@ class MarketUniverse:
         now = time.time()
         result = SyncResult()
 
-        fresh = await discover_markets(
-            session,
-            whitelist=self.settings.market_whitelist,
-            include_btc_short_windows=self.settings.include_btc_short_windows,
-        )
+        if getattr(self.settings, "venue", "polymarket") == "kalshi":
+            from .kalshi import discover_markets as discover_kalshi
+            fresh = await discover_kalshi(session, self.settings)
+        else:
+            fresh = await discover_markets(
+                session,
+                whitelist=self.settings.market_whitelist,
+                include_btc_short_windows=self.settings.include_btc_short_windows,
+            )
         result.discovered = len(fresh)
         fresh_ids = {m.market_id for m in fresh}
 

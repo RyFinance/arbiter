@@ -1,4 +1,4 @@
-"""Polymarket fee math used by paper execution.
+"""Taker fee math used by paper and live execution (Polymarket and Kalshi).
 
 The protocol charges takers ``shares * rate * (p * (1-p)) ** exponent`` and
 rounds the USDC fee to five decimal places. Makers pay zero, but PolyUni's
@@ -6,7 +6,7 @@ paper simulator crosses the current book and is therefore modeled as a taker.
 """
 from __future__ import annotations
 
-from decimal import Decimal, ROUND_HALF_UP
+from decimal import Decimal, ROUND_CEILING, ROUND_HALF_UP
 
 _FEE_QUANTUM = Decimal("0.00001")
 
@@ -32,6 +32,10 @@ def taker_fee(
         # component keeps the final protocol rounding deterministic.
         curved = Decimal(str(float(component) ** float(exponent)))
     raw = quantity * r * curved
+    from .config import SETTINGS
+    if getattr(SETTINGS, "venue", "polymarket") == "kalshi":
+        # Kalshi rounds every fee UP to the next cent.
+        return float(raw.quantize(Decimal("0.01"), rounding=ROUND_CEILING))
     return float(raw.quantize(_FEE_QUANTUM, rounding=ROUND_HALF_UP))
 
 

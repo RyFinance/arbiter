@@ -79,8 +79,8 @@ def test_live_mode_needs_env_opt_in(tmp_path, monkeypatch):
     monkeypatch.setattr(venues, "MODE_AUDIT_PATH", tmp_path / "audit.jsonl")
     with pytest.raises(ValueError, match="ARBITER_LIVE_TRADING"):
         venues.set_mode("polymarket", "live", "LIVE")
-    with pytest.raises(ValueError, match="no Kalshi engine"):
-        venues.set_mode("kalshi", "paper")
+    with pytest.raises(ValueError, match="ARBITER_LIVE_TRADING"):
+        venues.set_mode("kalshi", "live", "LIVE")
 
 
 def test_live_setup_lists_missing_steps_in_order(tmp_path, monkeypatch):

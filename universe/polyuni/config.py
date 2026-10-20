@@ -86,6 +86,13 @@ class Settings:
     # lineage) and skip the rest of the universe.
     btc_only: bool = field(default_factory=lambda: _bool("BTC_ONLY", False))
 
+    # ---- Venue the engine trades: polymarket | kalshi ----
+    venue: str = field(default_factory=lambda: os.getenv("VENUE", "polymarket").strip().lower())
+    # Kalshi quadratic taker fee multiplier (fee = rate * C * P * (1-P), rounded up to the cent).
+    kalshi_fee_rate: float = field(default_factory=lambda: _float("KALSHI_FEE_RATE", 0.07))
+    # Kalshi series tracked for the BTC-only scope (BTC up/down in 15 minutes).
+    kalshi_btc_series: List[str] = field(default_factory=lambda: _list("KALSHI_BTC_SERIES", ["KXBTC15M"]))
+
     # ---- Live execution (opt-in; see live_control.py) ----
     live_execution: bool = field(default_factory=lambda: _bool("LIVE_EXECUTION", False))
     live_max_order_usd: float = field(default_factory=lambda: _float("LIVE_MAX_ORDER_USD", 5.0))
@@ -261,6 +268,9 @@ class Settings:
         Does not authorize order posting: the live-control layer and the fact that
         no exchange order-submission code exists remain independent hard blocks.
         """
+        if self.venue == "kalshi":
+            # Kalshi signs with its own API key (venues.py); no Polymarket wallet.
+            return (not self.dry_run) and self.live_signing_verified and self.live_execution
         return (not self.dry_run) and bool(self.private_key) and self.live_signing_verified
 
 

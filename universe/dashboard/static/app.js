@@ -405,7 +405,10 @@ function renderStatus(status) {
   check(els.checkOwner, external.length ? "bad" : ownership === "none" ? "" : "ok", external.length ? "✗" : ownership === "none" ? "–" : "✓");
 
   const mode = running && config.mode ? config.mode : null;
-  els.runConfig.textContent = mode ? `${mode === "dry_run" ? "dry-run" : mode} · ${config.scope === "btc" ? "BTC only" : "universe"}` : "idle";
+  els.runConfig.textContent = mode
+    ? `${config.venue === "kalshi" ? "Kalshi" : "Polymarket"} · ${mode === "dry_run" ? "dry-run" : mode} · ${config.scope === "btc" ? "BTC only" : "universe"}`
+    : "idle";
+  renderVenuePick(running && config.venue ? config.venue : selectedVenue, running);
   const live = mode === "live";
   els.safetyChip.textContent = live ? "LIVE" : mode === "dry_run" ? "DRY-RUN" : "PAPER";
   els.safetyChip.className = `chip ${live ? "chip--red" : "chip--green"}`;
@@ -438,6 +441,28 @@ function renderLiveControl(control) {
 }
 
 // ---------------------------------------------------------------- scope
+
+const venueButtons = Array.from(document.querySelectorAll("[data-venue-pick]"));
+let selectedVenue = "polymarket";
+try { selectedVenue = localStorage.getItem("arbiter.venue") === "kalshi" ? "kalshi" : "polymarket"; } catch (_) {}
+
+function renderVenuePick(active, locked) {
+  venueButtons.forEach((button) => {
+    const on = button.dataset.venuePick === active;
+    button.classList.toggle("is-on", on);
+    button.setAttribute("aria-checked", String(on));
+    button.disabled = locked;
+  });
+}
+
+venueButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    selectedVenue = button.dataset.venuePick;
+    try { localStorage.setItem("arbiter.venue", selectedVenue); } catch (_) {}
+    renderVenuePick(selectedVenue, false);
+  });
+});
+renderVenuePick(selectedVenue, false);
 
 const scopeButtons = Array.from(document.querySelectorAll(".seg__opt[data-scope]"));
 let selectedScope = "universe";
@@ -667,11 +692,7 @@ const reminder = byId("live-reminder");
 let reminderHidden = false;
 try { reminderHidden = sessionStorage.getItem("arbiter.reminder") === "hidden"; } catch (_) {}
 
-function renderLiveSetup(setup) {
-  if (!setup || !Array.isArray(setup.steps)) return;
-  const steps = setup.steps;
-  const next = steps.find((step) => !step.done);
-  const list = byId("setup-steps");
+function renderSteps(list, steps, next) {
   list.replaceChildren();
   steps.forEach((step, index) => {
     const li = document.createElement("li");
@@ -691,12 +712,28 @@ function renderLiveSetup(setup) {
     li.append(num, body, mark);
     list.appendChild(li);
   });
+}
+
+function renderLiveSetup(setup, kalshiSetup) {
+  if (kalshiSetup && Array.isArray(kalshiSetup.steps)) {
+    const kSteps = kalshiSetup.steps;
+    renderSteps(byId("setup-steps-kalshi"), kSteps, kSteps.find((step) => !step.done));
+    const kDone = kSteps.filter((step) => step.done).length;
+    byId("setup-chip-kalshi").textContent = kalshiSetup.live ? "LIVE ON" : `${kDone} / ${kSteps.length}`;
+    byId("setup-chip-kalshi").className = `chip ${kalshiSetup.live ? "chip--red" : ""}`;
+  }
+  if (!setup || !Array.isArray(setup.steps)) return;
+  const steps = setup.steps;
+  const next = steps.find((step) => !step.done);
+  const list = byId("setup-steps");
+  renderSteps(list, steps, next);
+  const anyLive = Boolean(setup.live) || Boolean(kalshiSetup && kalshiSetup.live);
   const doneCount = steps.filter((step) => step.done).length;
   byId("setup-chip").textContent = setup.live ? "LIVE ON" : `${doneCount} / ${steps.length}`;
   byId("setup-chip").className = `chip ${setup.live ? "chip--red" : doneCount === steps.length ? "chip--green" : ""}`;
-  byId("setup-dot").hidden = Boolean(setup.live);
+  byId("setup-dot").hidden = anyLive;
   byId("reminder-next").textContent = next ? `Next step: ${next.label.charAt(0).toLowerCase()}${next.label.slice(1)}.` : "";
-  reminder.hidden = Boolean(setup.live) || reminderHidden;
+  reminder.hidden = anyLive || reminderHidden;
 }
 
 byId("reminder-open").addEventListener("click", () => {
@@ -710,7 +747,7 @@ byId("reminder-close").addEventListener("click", () => {
 });
 
 function renderVenues(snapshot) {
-  renderLiveSetup(snapshot.live_setup);
+  renderLiveSetup(snapshot.live_setup, snapshot.live_setup_kalshi);
   const venues = Array.isArray(snapshot.venues) ? snapshot.venues : [];
   const totals = snapshot.totals || {};
   venues.forEach(renderVenueCard);
@@ -1105,10 +1142,10 @@ els.btnStart.addEventListener("click", async () => {
     await fetchJson("/api/botctl/start", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({scope: selectedScope}),
+      body: JSON.stringify({scope: selectedScope, venue: selectedVenue}),
     });
     startRequestedAt = Date.now();
-    showToast(`Loop starting · ${selectedScope === "btc" ? "BTC only" : "universe"}`);
+    showToast(`Loop starting · ${selectedVenue === "kalshi" ? "Kalshi" : "Polymarket"} · ${selectedScope === "btc" ? "BTC only" : "universe"}`);
   } catch (error) {
     showToast(`Start failed: ${error.message}`, true);
   }

@@ -41,7 +41,7 @@ import httpx  # noqa: E402
 import botctl  # noqa: E402  (dashboard/botctl.py, same directory)
 from push import PushManager  # noqa: E402  (dashboard/push.py, same directory)
 from polyuni.live_control import default_live_control  # noqa: E402
-from polyuni import venues  # noqa: E402
+from polyuni import kalshi, venues  # noqa: E402
 from polyuni.config import SETTINGS  # noqa: E402
 
 STATIC_DIR = DASHBOARD_DIR / "static"
@@ -74,6 +74,7 @@ def _read_json(path: Path) -> Optional[dict]:
 class StartRequest(BaseModel):
     risk: Optional[Dict[str, float]] = None
     scope: str = "universe"
+    venue: str = "polymarket"
 
 
 class LiveControlToggleRequest(BaseModel):
@@ -96,7 +97,7 @@ def status() -> Dict[str, Any]:
 
 @app.post("/api/botctl/start")
 def start(req: StartRequest) -> Dict[str, Any]:
-    result = botctl.start_bot(risk=req.risk, scope=req.scope)
+    result = botctl.start_bot(risk=req.risk, scope=req.scope, venue=req.venue)
     if "error" in result:
         raise HTTPException(status_code=409, detail=result["error"])
     return result
@@ -218,11 +219,21 @@ _book_cache: Dict[str, Any] = {}
 
 
 def _top_of_book(client: "httpx.Client", token_id: str) -> Dict[str, Optional[float]]:
-    """Best bid/ask from the public CLOB book, cached ~2 s per token."""
+    """Best bid/ask from the public book (Polymarket CLOB or Kalshi), cached ~2 s."""
     cached = _book_cache.get(token_id)
     if cached and time.time() - cached[0] < 2.0:
         return cached[1]
     top: Dict[str, Optional[float]] = {"bid": None, "ask": None}
+    if kalshi.is_kalshi_token(token_id):
+        try:
+            ticker, side = kalshi.split_token(token_id)
+            resp = client.get(f"{kalshi.kalshi_base()}/markets/{ticker}/orderbook")
+            best = kalshi.top_of_book(kalshi.parse_book(resp.json()))
+            top = {"bid": best[f"{side}_bid"], "ask": best[f"{side}_ask"]}
+        except Exception:
+            pass
+        _book_cache[token_id] = (time.time(), top)
+        return top
     try:
         book = client.get(f"{CLOB_BASE_URL}/book", params={"token_id": token_id}).json()
         bids = [float(level["price"]) for level in book.get("bids") or []]
@@ -253,7 +264,9 @@ def live_markets() -> Dict[str, Any]:
             rows.append({
                 "market_id": market.get("market_id"),
                 "question": market.get("question"),
-                "url": f"https://polymarket.com/event/{market['slug']}" if market.get("slug") else None,
+                "url": (f"https://kalshi.com/markets/{str(market['market_id']).split('-')[0].lower()}"
+                        if kalshi.is_kalshi_token(market.get("yes_token_id", ""))
+                        else f"https://polymarket.com/event/{market['slug']}" if market.get("slug") else None),
                 "outcome_yes": market.get("outcome_yes") or "Yes",
                 "outcome_no": market.get("outcome_no") or "No",
                 "seconds_left": round(market["end_time"] - now, 1) if market.get("end_time") else None,
@@ -272,6 +285,7 @@ def live_markets() -> Dict[str, Any]:
 
 # name, default, description, secret? -- secrets are reported only as set / not set
 SETUP_SETTINGS = [
+    ("VENUE", "polymarket", "polymarket or kalshi (the dashboard switch sets it per run).", False),
     ("DRY_RUN", "true", "Simulated fills on public books when no key is set.", False),
     ("BTC_ONLY", "false", "Track only the rotating BTC up/down windows.", False),
     ("MAX_CONCURRENT_MARKETS", "50", "How many markets the universe scan tracks at once.", False),
@@ -289,6 +303,8 @@ SETUP_SETTINGS = [
     ("KALSHI_API_KEY_ID", "", "Kalshi API key ID (read-only view).", True),
     ("KALSHI_PRIVATE_KEY_PATH", "", "Path to the Kalshi RSA key.", True),
     ("KALSHI_ENV", "prod", "prod or demo.", False),
+    ("KALSHI_FEE_RATE", "0.07", "Kalshi quadratic fee multiplier.", False),
+    ("KALSHI_BTC_SERIES", "KXBTC15M", "Kalshi series used for BTC only.", False),
 ]
 
 

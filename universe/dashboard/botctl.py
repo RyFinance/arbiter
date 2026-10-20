@@ -43,6 +43,7 @@ UNIVERSE_SNAPSHOT_PATH = PROJECT_ROOT / "state" / "universe_snapshot.json"
 PID_PATH = PROJECT_ROOT / "state" / "bot_control_pid.json"
 RUN_CONFIG_PATH = PROJECT_ROOT / "state" / "bot_control_run.json"
 SCOPES = ("universe", "btc")
+VENUES = ("polymarket", "kalshi")
 
 
 def _has_paper_signer() -> bool:
@@ -195,9 +196,12 @@ def clear_emergency_stop() -> None:
     EMERGENCY_STOP_PATH.unlink(missing_ok=True)
 
 
-def start_bot(risk: Optional[Dict[str, Any]] = None, scope: str = "universe") -> Dict[str, Any]:
+def start_bot(risk: Optional[Dict[str, Any]] = None, scope: str = "universe",
+              venue: str = "polymarket") -> Dict[str, Any]:
     if scope not in SCOPES:
         return {"error": f"scope must be one of {', '.join(SCOPES)}"}
+    if venue not in VENUES:
+        return {"error": f"venue must be one of {', '.join(VENUES)}"}
     with _STATE_LOCK:
         if _STATE["proc"] is not None and _STATE["proc"].poll() is None:
             return {"error": "managed bot already running", "pid": _STATE["proc"].pid}
@@ -221,15 +225,16 @@ def start_bot(risk: Optional[Dict[str, Any]] = None, scope: str = "universe") ->
         clear_emergency_stop()
         READY_PATH.unlink(missing_ok=True)
         from polyuni import venues
-        live = venues.get_mode("polymarket") == "live"
+        live = venues.get_mode(venue) == "live"
         if live:
-            ready, reason = venues.polymarket_live_ready()
+            ready, reason = venues.live_ready(venue)
             if not ready:
                 return {"error": reason}
             profile = dict(profile)
             profile["max_total_capital"] = min(profile["max_total_capital"], SETTINGS.live_max_open_usd)
             profile["daily_kill_switch_usd"] = min(profile["daily_kill_switch_usd"], SETTINGS.live_max_session_loss_usd)
-        authenticated = live or _has_paper_signer()
+        # Kalshi paper is always dry-run: public books, no key.
+        authenticated = live or (venue == "polymarket" and _has_paper_signer())
         mode = "live" if live else ("paper" if authenticated else "dry_run")
         env = dict(os.environ)
         env.update({
@@ -238,6 +243,7 @@ def start_bot(risk: Optional[Dict[str, Any]] = None, scope: str = "universe") ->
             "LIVE_SIGNING_VERIFIED": "true" if authenticated else "false",
             "LIVE_EXECUTION": "true" if live else "false",
             "BTC_ONLY": "true" if scope == "btc" else "false",
+            "VENUE": venue,
             "ORDER_SIZE": str(profile["order_size"]),
             "MIN_EDGE": str(profile["min_edge"]),
             "MAX_POSITION_PER_MARKET": str(profile["max_position_per_market"]),
@@ -250,7 +256,7 @@ def start_bot(risk: Optional[Dict[str, Any]] = None, scope: str = "universe") ->
         log_handle = SESSION_LOG_PATH.open("a", buffering=1, encoding="utf-8")
         log_handle.write(
             f"--- dashboard bot control session start "
-            f"{time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())} mode={mode} scope={scope} "
+            f"{time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())} venue={venue} mode={mode} scope={scope} "
             f"risk={json.dumps(profile)} ---\n"
         )
         python_bin = PROJECT_ROOT / ".venv" / "bin" / "python"
@@ -261,9 +267,9 @@ def start_bot(risk: Optional[Dict[str, Any]] = None, scope: str = "universe") ->
         started_at = time.time()
         _STATE.update({"proc": proc, "started_at": started_at})
         _write_pid_record(proc.pid, started_at)
-        RUN_CONFIG_PATH.write_text(json.dumps({"mode": mode, "scope": scope}), encoding="utf-8")
+        RUN_CONFIG_PATH.write_text(json.dumps({"mode": mode, "scope": scope, "venue": venue}), encoding="utf-8")
         return {
-            "started": True, "pid": proc.pid, "risk": profile, "mode": mode, "scope": scope,
+            "started": True, "pid": proc.pid, "risk": profile, "mode": mode, "scope": scope, "venue": venue,
             "note": ("LIVE — real fill-or-kill orders within the configured caps" if live
                      else "PAPER TRADE ONLY — no real orders can be placed by this process"),
         }

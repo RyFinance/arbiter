@@ -186,7 +186,12 @@ class TradingClient:
         # the source of truth, on top of the deterministic `dryrun-` prefix.
         self._order_modes: dict = {}
 
-        if settings.live:
+        self._venue = getattr(settings, "venue", "polymarket")
+        self._kalshi_orders = None
+        if settings.live and self._venue == "kalshi":
+            from ..kalshi import KalshiOrderClient
+            self._kalshi_orders = KalshiOrderClient.from_linked_account()
+        elif settings.live:
             self._init_live_client()
             # PAPER_TRADE: dry_run must be False (else `live` is already False and
             # we never reach here). The flag is independent of credentials so an
@@ -207,7 +212,7 @@ class TradingClient:
         # PAPER_TRADE mode the full real auth flow runs — including trading
         # approvals — because the requirement is that PAPER_TRADE still runs the
         # FULL real auth flow.
-        if settings.live:
+        if settings.live and self._venue != "kalshi":
             try:
                 self.setup_trading_approvals()
             except Exception as e:
@@ -782,13 +787,18 @@ class TradingClient:
         """
         side_upper = side.upper()
         try:
-            resp = httpx.get(
-                f"{self.s.clob_base_url.rstrip('/')}/book",
-                params={"token_id": token_id},
-                timeout=5.0,
-            )
-            resp.raise_for_status()
-            book = resp.json()
+            from ..kalshi import fetch_book_sync, is_kalshi_token, side_book, split_token
+            if is_kalshi_token(token_id):
+                ticker, outcome = split_token(token_id)
+                book = side_book(fetch_book_sync(ticker), outcome)
+            else:
+                resp = httpx.get(
+                    f"{self.s.clob_base_url.rstrip('/')}/book",
+                    params={"token_id": token_id},
+                    timeout=5.0,
+                )
+                resp.raise_for_status()
+                book = resp.json()
         except Exception as exc:
             log.warning(f"DRY_RUN book fetch failed for {token_id[-8:]}: {exc!r}")
             return None
@@ -946,6 +956,16 @@ class TradingClient:
                 "token_suffix": token_id[-8:],
             })
             return None
+        if getattr(self, "_venue", "polymarket") == "kalshi" or getattr(self, "_kalshi_orders", None) is not None:
+            try:
+                result = self._kalshi_orders.post_fok(token_id, price, size, side_upper)
+            except Exception as exc:
+                log.error(f"LIVE Kalshi order failed {side_upper} {token_id}: {exc!r}")
+                return None
+            if result is None:
+                return None
+            order_id, fill_price = result
+            return self._record_live_fill(order_id, token_id, price, size, side_upper, fill_price)
         from py_clob_client_v2.clob_types import OrderArgsV2, OrderType
         try:
             self._ensure_creds()
@@ -967,6 +987,9 @@ class TradingClient:
                 fill_price = making / taking if side_upper == "BUY" else taking / making
         except (TypeError, ValueError):
             pass
+        return self._record_live_fill(order_id, token_id, price, size, side_upper, fill_price)
+
+    def _record_live_fill(self, order_id, token_id, price, size, side_upper, fill_price) -> str:
         if not hasattr(self, "_paper_fill_details"):
             self._paper_fill_details = {}
         self._paper_fill_details[str(order_id)] = {
@@ -1063,6 +1086,11 @@ class TradingClient:
 
         if getattr(self, "_paper_trade", False):
             # Nothing was ever posted; nothing to cancel.
+            await asyncio.sleep(0)
+            return True
+
+        if getattr(self, "_venue", "polymarket") == "kalshi":
+            # Kalshi orders are fill-or-kill: nothing ever rests on the book.
             await asyncio.sleep(0)
             return True
 

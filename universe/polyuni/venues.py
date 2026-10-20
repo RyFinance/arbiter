@@ -446,7 +446,7 @@ CONNECTORS: Dict[str, VenueConnector] = {
 MODES_PATH = STATE_DIR / "venue_modes.local.json"
 MODE_AUDIT_PATH = STATE_DIR / "venue_mode_audit.jsonl"
 MODES = ("read_only", "paper", "live")
-DEFAULT_MODES = {"polymarket": "paper", "kalshi": "read_only"}
+DEFAULT_MODES = {"polymarket": "paper", "kalshi": "paper"}
 
 
 def get_mode(venue: str) -> str:
@@ -455,9 +455,23 @@ def get_mode(venue: str) -> str:
     except (OSError, json.JSONDecodeError):
         data = {}
     mode = str(data.get(venue, DEFAULT_MODES.get(venue, "read_only")))
-    if mode == "live" and not polymarket_live_ready()[0]:
+    if mode == "live" and not live_ready(venue)[0]:
         return "paper"  # fail closed if the env opt-in or key disappeared
     return mode if mode in MODES else "read_only"
+
+
+def live_ready(venue: str) -> tuple[bool, str]:
+    if venue == "kalshi":
+        return kalshi_live_ready()
+    return polymarket_live_ready()
+
+
+def kalshi_live_ready() -> tuple[bool, str]:
+    if os.getenv("ARBITER_LIVE_TRADING", "").strip().lower() != "enabled":
+        return False, "Set ARBITER_LIVE_TRADING=enabled in .env to allow live trading."
+    if CONNECTORS["kalshi"].credentials() is None:
+        return False, "Live Kalshi trading needs a linked Kalshi API key (Venues sheet)."
+    return True, ""
 
 
 def polymarket_live_ready() -> tuple[bool, str]:
@@ -472,9 +486,22 @@ def polymarket_live_ready() -> tuple[bool, str]:
     return True, ""
 
 
-def live_setup_status() -> Dict[str, Any]:
-    """What is still missing before Polymarket can trade live, in setup order."""
+def live_setup_status(venue: str = "polymarket") -> Dict[str, Any]:
+    """What is still missing before a venue can trade live, in setup order."""
     from .config import SETTINGS
+    if venue == "kalshi":
+        steps = [
+            {"id": "link", "label": "Link your Kalshi API key",
+             "done": CONNECTORS["kalshi"].credentials() is not None,
+             "how": "Venues sheet → Kalshi → API key ID + private key (or KALSHI_API_KEY_ID / KALSHI_PRIVATE_KEY_PATH in .env). Use KALSHI_ENV=demo to practise."},
+            {"id": "opt_in", "label": "Opt in: ARBITER_LIVE_TRADING=enabled",
+             "done": os.getenv("ARBITER_LIVE_TRADING", "").strip().lower() == "enabled",
+             "how": "universe/.env → ARBITER_LIVE_TRADING=enabled, then restart the dashboard."},
+            {"id": "mode", "label": "Pick LIVE for Kalshi",
+             "done": get_mode("kalshi") == "live",
+             "how": "Venues sheet → Kalshi → Mode → Live, type LIVE to confirm. Then choose Kalshi at the top and press Start."},
+        ]
+        return {"ready": all(step["done"] for step in steps[:2]), "live": steps[2]["done"], "steps": steps}
     try:
         from eth_account import Account
         Account.from_key(str(SETTINGS.private_key or ""))
@@ -510,11 +537,11 @@ def mode_options(venue: str) -> Dict[str, Dict[str, Any]]:
             "paper": {"available": True, "note": "The engine trades simulated fills against live Polymarket books."},
             "live": {"available": ready, "reason": reason, "note": caps},
         }
-    no_engine = "Arbiter's engine runs on Polymarket books; there is no Kalshi engine yet."
+    ready, reason = kalshi_live_ready()
     return {
-        "read_only": {"available": True, "note": "View balances, positions, P&L and volume."},
-        "paper": {"available": False, "reason": no_engine},
-        "live": {"available": False, "reason": no_engine},
+        "read_only": {"available": True, "note": "View the linked account; the engine still paper-trades."},
+        "paper": {"available": True, "note": "Choose Kalshi at the top: the engine trades simulated fills against live Kalshi books. No key needed."},
+        "live": {"available": ready, "reason": reason, "note": caps},
     }
 
 
@@ -539,13 +566,13 @@ def set_mode(venue: str, mode: str, confirm: str = "") -> None:
         MODE_AUDIT_PATH.parent.mkdir(parents=True, exist_ok=True)
         with MODE_AUDIT_PATH.open("a", encoding="utf-8") as handle:
             handle.write(json.dumps({"at": time.time(), "venue": venue, "from": previous, "to": mode}) + "\n")
-    if venue == "polymarket":
-        # The audited operator flag follows the venue mode; leaving live
-        # revokes permission for the running process on its next order.
-        from .live_control import default_live_control
-        default_live_control().set_operator_enabled(
-            mode == "live", actor="dashboard", reason=f"venue mode {previous} -> {mode}"
-        )
+    # The audited operator flag is on while any venue is live; leaving live
+    # revokes permission for the running process on its next order.
+    from .live_control import default_live_control
+    any_live = any(data.get(name) == "live" for name in CONNECTORS)
+    default_live_control().set_operator_enabled(
+        any_live, actor="dashboard", reason=f"{venue} mode {previous} -> {mode}"
+    )
 
 
 # --------------------------------------------------------------------------
@@ -572,7 +599,8 @@ def snapshot(force: bool = False, client_factory: Callable[[], httpx.Client] = N
         data = {
             "generated_at": time.time(),
             "read_only": True,
-            "live_setup": live_setup_status(),
+            "live_setup": live_setup_status("polymarket"),
+            "live_setup_kalshi": live_setup_status("kalshi"),
             "venues": [dict(a.to_dict(), env_managed=CONNECTORS[a.venue].env_managed(),
                             mode=get_mode(a.venue), modes=mode_options(a.venue)) for a in accounts],
             "totals": {

@@ -115,8 +115,15 @@ Each venue has a mode, picked in the dashboard's **Venues** row:
 | Mode | Polymarket | Kalshi |
 |---|---|---|
 | **Read-only** | Balances, positions, P&L, volume | Same |
-| **Paper** (default) | The engine trades simulated fills against live books | Not available: there is no Kalshi engine yet |
-| **Live** | The engine places REAL fill-or-kill orders on your account | Not available |
+| **Paper** (default) | The engine trades simulated fills against live books | Same, against live Kalshi books (no key needed) |
+| **Live** | The engine places REAL fill-or-kill orders on your account | Same, signed with your Kalshi API key |
+
+Pick the venue the engine trades with the **Polymarket / Kalshi** switch at the
+top of the dashboard. On Kalshi, "BTC only" tracks the `KXBTC15M` series
+("BTC price up in next 15 mins?"); fees follow Kalshi's quadratic schedule,
+7% × contracts × p × (1 − p), rounded up to the cent. Kalshi prices are polled
+from its public order books, so paper needs no key; live needs a linked Kalshi
+API key (try `KALSHI_ENV=demo` first) plus the same opt-ins and caps.
 
 Link Polymarket with your public wallet address, or Kalshi with an API key,
 from the dashboard or `.env` (`POLYMARKET_ADDRESS`, `KALSHI_API_KEY_ID`,

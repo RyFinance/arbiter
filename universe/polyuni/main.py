@@ -50,6 +50,13 @@ def validate_startup_configuration(settings=SETTINGS) -> list[str]:
             errors.append("LIVE_EXECUTION=true requires DRY_RUN=false and PAPER_TRADE=false")
         if not live_endpoint_enabled():
             errors.append("live trading is not enabled: set ARBITER_LIVE_TRADING=enabled in .env")
+        if getattr(settings, "venue", "polymarket") == "kalshi":
+            from .venues import CONNECTORS
+            if CONNECTORS["kalshi"].credentials() is None:
+                errors.append("live Kalshi trading needs a linked Kalshi API key")
+            if float(getattr(settings, "order_size", 0)) != int(getattr(settings, "order_size", 0)):
+                errors.append("Kalshi orders need a whole-number ORDER_SIZE (contracts)")
+            return errors
         if not settings.live:
             errors.append("live trading requires PRIVATE_KEY and LIVE_SIGNING_VERIFIED=true")
         try:
@@ -59,6 +66,10 @@ def validate_startup_configuration(settings=SETTINGS) -> list[str]:
         if getattr(settings, "polymarket_signature_type", "eoa") not in {"eoa", "proxy", "safe"}:
             errors.append("POLYMARKET_SIGNATURE_TYPE must be eoa, proxy or safe")
         return errors
+    if getattr(settings, "venue", "polymarket") not in {"polymarket", "kalshi"}:
+        errors.append("VENUE must be polymarket or kalshi")
+    if getattr(settings, "venue", "polymarket") == "kalshi" and settings.paper_trade:
+        errors.append("Kalshi paper trading runs as DRY_RUN=true (public books, simulated fills)")
     if bool(settings.dry_run) == bool(settings.paper_trade):
         errors.append(
             "select exactly one supported mode: DRY_RUN=true/PAPER_TRADE=false "
@@ -288,7 +299,10 @@ async def main():
         sequential.on_leg_update(st, token_id)
         heartbeat.touch()
 
-    feed = PriceFeed(
+    feed_class = PriceFeed
+    if SETTINGS.venue == "kalshi":
+        from .kalshi import KalshiPriceFeed as feed_class
+    feed = feed_class(
         states,
         on_update=_on_tick,
         alerter=alerter,
