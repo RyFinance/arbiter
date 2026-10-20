@@ -224,3 +224,11 @@ def test_console_exposes_sequential_telemetry_without_market_listing(client):
     assert 'phase === "CONSUMED"' in script
     assert "manual_review_sequences" in script
     assert "MANUAL REVIEW" in script
+
+
+def test_setup_endpoint_never_returns_secret_values(client, monkeypatch):
+    monkeypatch.setenv("PRIVATE_KEY", "0x" + "ab" * 32)
+    body = client.get("/api/setup").json()
+    row = next(r for r in body["settings"] if r["name"] == "PRIVATE_KEY")
+    assert row["now"] == "set"
+    assert "ab" * 32 not in str(body)

@@ -270,6 +270,43 @@ def live_markets() -> Dict[str, Any]:
     return {"generated_at": now, "markets": rows, "tracked_active": len(active)}
 
 
+# name, default, description, secret? -- secrets are reported only as set / not set
+SETUP_SETTINGS = [
+    ("DRY_RUN", "true", "Simulated fills on public books when no key is set.", False),
+    ("BTC_ONLY", "false", "Track only the rotating BTC up/down windows.", False),
+    ("MAX_CONCURRENT_MARKETS", "50", "How many markets the universe scan tracks at once.", False),
+    ("ORDER_SIZE", "10", "Shares per leg.", False),
+    ("MIN_EDGE", "0.01", "Minimum locked edge per pair after fees.", False),
+    ("POLYMARKET_ADDRESS", "", "Public wallet address for balances and positions.", False),
+    ("PRIVATE_KEY", "", "Signer key: unlocks paper (authenticated) and live.", True),
+    ("PROXY_WALLET", "", "Your Polymarket profile wallet (email/Magic accounts).", False),
+    ("POLYMARKET_SIGNATURE_TYPE", "eoa", "eoa, proxy (email accounts) or safe.", False),
+    ("ARBITER_LIVE_TRADING", "disabled", "Set to enabled to allow live orders at all.", False),
+    ("LIVE_MAX_ORDER_USD", "5", "Live cap per order.", False),
+    ("LIVE_MAX_OPEN_USD", "25", "Live cap on open exposure.", False),
+    ("LIVE_MAX_SESSION_LOSS_USD", "25", "Live session loss that stops new entries.", False),
+    ("LIVE_BROADCAST_APPROVALS", "false", "Send on-chain approvals (costs gas).", False),
+    ("KALSHI_API_KEY_ID", "", "Kalshi API key ID (read-only view).", True),
+    ("KALSHI_PRIVATE_KEY_PATH", "", "Path to the Kalshi RSA key.", True),
+    ("KALSHI_ENV", "prod", "prod or demo.", False),
+]
+
+
+@app.get("/api/setup")
+def setup_info() -> Dict[str, Any]:
+    """Which settings are in effect. Secret values are never returned."""
+    import os
+    rows = []
+    for name, default, about, secret in SETUP_SETTINGS:
+        raw = os.getenv(name, "")
+        if secret:
+            now = "set" if raw.strip() else "not set"
+        else:
+            now = raw.strip() or (f"{default} (default)" if default else "not set")
+        rows.append({"name": name, "now": now, "default": default or "—", "about": about, "secret": secret})
+    return {"settings": rows}
+
+
 class VenueLinkRequest(BaseModel):
     address: Optional[str] = None
     key_id: Optional[str] = None

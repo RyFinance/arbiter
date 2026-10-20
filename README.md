@@ -31,7 +31,7 @@ When the two asks add up to less than a dollar after fees, the difference is loc
 | **Scope** | Polymarket's BTC 5-minute YES/NO windows | The whole active market set, 2,000+ markets |
 | **Strategy** | Simultaneous pair: buy both sides at once | Sequential pair: one side near 50/50 early, the other side later |
 | **Edge check** | 10 ms pair barrier, then REST revalidation of full-size depth | Depth-walked fills priced against Polymarket's taker-fee curve |
-| **Dashboard** | Streamlit, with a hash-verified demo replay | FastAPI + WebSocket push, one live page |
+| **Dashboard** | Streamlit, with a hash-verified demo replay | FastAPI + WebSocket push: a workbook with Desk, Venues, Engine, Log and Setup sheets |
 | **Extra signal** | LightGBM volatility regime, exported for the universe engine | Reads that regime to tune BTC first-entry thresholds |
 
 `universe/` started as a fork of `btc5m/`. It generalized one rotating BTC window into N concurrent markets and split a monolithic execution module into focused parts: an order router, fill tracker, partial-fill recovery and P&L ledger.
@@ -93,10 +93,14 @@ cd arbiter
 ```bash
 cd universe
 python3 -m venv .venv && .venv/bin/pip install -e ".[dev]"
-cp .env.example .env            # DRY_RUN=true by default
-.venv/bin/python -m polyuni.main
-.venv/bin/uvicorn dashboard.server:app --port 8811   # http://localhost:8811
+cp .env.example .env            # dry-run by default: live books, simulated fills, no key
+.venv/bin/uvicorn dashboard.server:app --port 8811
 ```
+
+Open http://127.0.0.1:8811, pick **Universe** or **BTC only**, and press **Start**.
+The dashboard launches and manages the bot itself; don't also run `polyuni.main`
+by hand. The **Setup** sheet in the dashboard walks through linking accounts and
+the optional live-trading opt-in.
 
 **BTC 5-minute engine:**
 

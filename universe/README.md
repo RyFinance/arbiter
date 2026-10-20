@@ -85,21 +85,28 @@ PnL ledger, dashboard server, botctl, and the WebSocket push layer.
 ## Install
 
 ```bash
-cd polyuni
+cd universe
 python3 -m venv .venv
 .venv/bin/pip install -e ".[dev]"
-cp .env.example .env  # then edit — never commit a populated .env
+cp .env.example .env  # then edit; never commit a populated .env
 ```
 
-## Run the bot
+## Run
 
 ```bash
-.venv/bin/python -m polyuni.main
+.venv/bin/uvicorn dashboard.server:app --port 8811
 ```
 
-Requires `DRY_RUN=false`, `PAPER_TRADE=true`, `LIVE_SIGNING_VERIFIED=true`, and a
-valid `PRIVATE_KEY` in `.env` for authenticated (but still simulated-fill) paper
-trading. `DRY_RUN=true` (the default) needs no key at all.
+Open `http://127.0.0.1:8811`, choose **Universe** or **BTC only**, and press
+**Start**. The dashboard launches `python -m polyuni.main` as a managed
+subprocess and picks the mode for you:
+
+- no `PRIVATE_KEY`: **dry-run**, live public books, simulated fills, no key needed;
+- valid `PRIVATE_KEY`: **paper**, authenticated read-only market access, simulated fills;
+- Polymarket set to **Live** (see below): real fill-or-kill orders within the caps.
+
+Running `.venv/bin/python -m polyuni.main` by hand still works for headless use
+(it reads the mode from `.env`), but don't run it alongside a dashboard-started bot.
 
 ## Venues and trading modes
 
@@ -128,14 +135,18 @@ confirmation. Orders are fill-or-kill and capped by `LIVE_MAX_ORDER_USD`
 Leaving live mode revokes permission for the running bot on its next order.
 Live trading risks real money; start with the default caps.
 
-## Run the dashboard
+## Dashboard sheets
 
-```bash
-.venv/bin/uvicorn dashboard.server:app --port 8811
-```
+- **Desk**: live markets with time left and odds, paper equity, P&L, fees, capital gauges, safety checks.
+- **Venues**: linked Polymarket / Kalshi accounts, trading mode per venue, positions.
+- **Engine**: strategy counters, session P&L trace, rejection reasons, LightGBM regime.
+- **Log**: the bot's session log.
+- **Setup**: quick start, every `.env` setting, and the live-trading checklist.
 
-Open `http://127.0.0.1:8811`. Start/stop the bot from the banner; it launches
-`python -m polyuni.main` as a managed subprocess (paper-only — see Safety status).
+Tables are spreadsheet grids: click a cell to see it in the formula bar,
+shift/cmd-click to sum a range in the status bar. Put a picture at
+`dashboard/static/bg.local.jpg` (git-ignored) to render it as the moving ASCII
+background; without one the background is a warm gradient.
 
 ## Tests
 

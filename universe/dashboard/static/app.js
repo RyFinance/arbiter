@@ -694,13 +694,13 @@ function renderLiveSetup(setup) {
   const doneCount = steps.filter((step) => step.done).length;
   byId("setup-chip").textContent = setup.live ? "LIVE ON" : `${doneCount} / ${steps.length}`;
   byId("setup-chip").className = `chip ${setup.live ? "chip--red" : doneCount === steps.length ? "chip--green" : ""}`;
-  byId("venues-dot").hidden = Boolean(setup.live);
+  byId("setup-dot").hidden = Boolean(setup.live);
   byId("reminder-next").textContent = next ? `Next step: ${next.label.charAt(0).toLowerCase()}${next.label.slice(1)}.` : "";
   reminder.hidden = Boolean(setup.live) || reminderHidden;
 }
 
 byId("reminder-open").addEventListener("click", () => {
-  showSheet("venues");
+  showSheet("setup");
   byId("live-setup").scrollIntoView({behavior: "smooth", block: "start"});
 });
 byId("reminder-close").addEventListener("click", () => {
@@ -961,6 +961,36 @@ function renderLog(log) {
   if (wrap) wrap.scrollTop = wrap.scrollHeight;
 }
 
+// ---------------------------------------------------------------- setup sheet
+
+async function loadSetup() {
+  try {
+    const data = await fetchJson("/api/setup");
+    renderGrid(byId("env-grid"), "Setup", ["Setting", "Now", "Default", "What it does"],
+      (data.settings || []).map((row) => [
+        {text: row.name, cls: "setting", formula: `ENV("${row.name}")`},
+        {text: row.now, cls: row.now === "set" || (!row.now.includes("default") && row.now !== "not set") ? "state-set" : "dim"},
+        {text: row.default},
+        {text: row.about, cls: "wrap"},
+      ]), "No settings found.");
+  } catch (error) {
+    console.warn("setup info unavailable", error);
+  }
+}
+
+document.querySelectorAll(".code .copy").forEach((button) => {
+  button.addEventListener("click", async () => {
+    const text = button.parentElement.querySelector("code").textContent;
+    try {
+      await navigator.clipboard.writeText(text);
+      button.textContent = "copied";
+    } catch (_) {
+      button.textContent = "select + copy";
+    }
+    setTimeout(() => { button.textContent = "copy"; }, 1600);
+  });
+});
+
 // ---------------------------------------------------------------- transport
 
 let wsConnected = false;
@@ -1116,3 +1146,4 @@ pollPrimary();
 pollSecondary();
 pollVenues();
 pollLiveMarkets();
+loadSetup();
