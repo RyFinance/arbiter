@@ -1,0 +1,2501 @@
+{
+  "candidate_library_count_per_horizon": 207,
+  "created_at_utc": "2026-08-27T07:08:00.294972+00:00",
+  "current_fee_formula": "fee_per_share = 0.07 * p * (1-p)",
+  "data_integrity": {
+    "duplicate_timestamps": 0,
+    "first_timestamp": "2025-01-01T00:00:00+00:00",
+    "flat_candles": 1,
+    "gap_events": 1,
+    "invalid_ohlcv_rows": 0,
+    "last_timestamp": "2026-08-11T08:03:00+00:00",
+    "missing_minutes": 1,
+    "path": "~/polymarket_arb/state/btc_1m_candles_real_2025_2026.parquet",
+    "rows": 845763,
+    "sha256": "e484eb9965e74dcaf2f0e59a5b992a07f9ab7e5f66d0c834d69b7849941b3833"
+  },
+  "development_folds": [
+    [
+      "2025-07-01",
+      "2025-09-01"
+    ],
+    [
+      "2025-09-01",
+      "2025-11-01"
+    ],
+    [
+      "2025-11-01",
+      "2026-01-01"
+    ],
+    [
+      "2026-01-01",
+      "2026-03-01"
+    ],
+    [
+      "2026-03-01",
+      "2026-05-01"
+    ]
+  ],
+  "holdout_start": "2026-05-01T00:00:00+00:00",
+  "label_scope": {
+    "15m": "Binance 1m endpoint proxy for current Chainlink BTC/USD 60s TWAP",
+    "240m": "Binance 1m endpoint proxy for current Chainlink BTC/USD 60s TWAP",
+    "5m": "Binance 1m endpoint proxy for current Chainlink BTC/USD 60s TWAP",
+    "60m": "Exact finalized Binance BTCUSDT 1H open/close rule"
+  },
+  "lock_id": "ae84399a9918ed35625832615500c49731a09d1dcd66f5fa969d97e431b666f7",
+  "lock_sha_material": {
+    "candidate_library": [
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_1:momentum:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_1",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_1:momentum:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_1",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_1:momentum:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_1",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_1:momentum:q0.95",
+        "params": {
+          "abs_quantile": 0.95,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_1",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_1:reversal:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_1",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_1:reversal:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_1",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_1:reversal:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_1",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_1:reversal:q0.95",
+        "params": {
+          "abs_quantile": 0.95,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_1",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_3:momentum:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_3",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_3:momentum:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_3",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_3:momentum:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_3",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_3:momentum:q0.95",
+        "params": {
+          "abs_quantile": 0.95,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_3",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_3:reversal:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_3",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_3:reversal:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_3",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_3:reversal:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_3",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_3:reversal:q0.95",
+        "params": {
+          "abs_quantile": 0.95,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_3",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_5:momentum:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_5",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_5:momentum:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_5",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_5:momentum:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_5",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_5:momentum:q0.95",
+        "params": {
+          "abs_quantile": 0.95,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_5",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_5:reversal:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_5",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_5:reversal:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_5",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_5:reversal:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_5",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_5:reversal:q0.95",
+        "params": {
+          "abs_quantile": 0.95,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_5",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_15:momentum:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_15",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_15:momentum:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_15",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_15:momentum:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_15",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_15:momentum:q0.95",
+        "params": {
+          "abs_quantile": 0.95,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_15",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_15:reversal:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_15",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_15:reversal:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_15",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_15:reversal:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_15",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_15:reversal:q0.95",
+        "params": {
+          "abs_quantile": 0.95,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_15",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_30:momentum:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_30",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_30:momentum:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_30",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_30:momentum:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_30",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_30:momentum:q0.95",
+        "params": {
+          "abs_quantile": 0.95,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_30",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_30:reversal:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_30",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_30:reversal:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_30",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_30:reversal:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_30",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_30:reversal:q0.95",
+        "params": {
+          "abs_quantile": 0.95,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_30",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_60:momentum:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_60",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_60:momentum:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_60",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_60:momentum:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_60",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_60:momentum:q0.95",
+        "params": {
+          "abs_quantile": 0.95,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_60",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_60:reversal:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_60",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_60:reversal:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_60",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_60:reversal:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_60",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_60:reversal:q0.95",
+        "params": {
+          "abs_quantile": 0.95,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_60",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_240:momentum:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_240",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_240:momentum:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_240",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_240:momentum:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_240",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_240:momentum:q0.95",
+        "params": {
+          "abs_quantile": 0.95,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_240",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_240:reversal:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_240",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_240:reversal:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_240",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_240:reversal:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_240",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_240:reversal:q0.95",
+        "params": {
+          "abs_quantile": 0.95,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_240",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:ewm_5:momentum:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "ewm_5",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:ewm_5:momentum:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "ewm_5",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:ewm_5:momentum:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "ewm_5",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:ewm_5:momentum:q0.95",
+        "params": {
+          "abs_quantile": 0.95,
+          "modifier": "all",
+          "regime": "all",
+          "score": "ewm_5",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:ewm_5:reversal:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "ewm_5",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:ewm_5:reversal:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "ewm_5",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:ewm_5:reversal:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "ewm_5",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:ewm_5:reversal:q0.95",
+        "params": {
+          "abs_quantile": 0.95,
+          "modifier": "all",
+          "regime": "all",
+          "score": "ewm_5",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:ewm_15:momentum:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "ewm_15",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:ewm_15:momentum:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "ewm_15",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:ewm_15:momentum:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "ewm_15",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:ewm_15:momentum:q0.95",
+        "params": {
+          "abs_quantile": 0.95,
+          "modifier": "all",
+          "regime": "all",
+          "score": "ewm_15",
+          "sign": 1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:ewm_15:reversal:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "ewm_15",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:ewm_15:reversal:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "ewm_15",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:ewm_15:reversal:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "ewm_15",
+          "sign": -1
+        }
+      },
+      {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:ewm_15:reversal:q0.95",
+        "params": {
+          "abs_quantile": 0.95,
+          "modifier": "all",
+          "regime": "all",
+          "score": "ewm_15",
+          "sign": -1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:svi_5:continuation:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "svi_5",
+          "sign": 1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:svi_5:continuation:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "svi_5",
+          "sign": 1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:svi_5:continuation:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "svi_5",
+          "sign": 1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:svi_5:reversal:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "svi_5",
+          "sign": -1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:svi_5:reversal:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "svi_5",
+          "sign": -1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:svi_5:reversal:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "svi_5",
+          "sign": -1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:svi_15:continuation:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "svi_15",
+          "sign": 1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:svi_15:continuation:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "svi_15",
+          "sign": 1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:svi_15:continuation:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "svi_15",
+          "sign": 1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:svi_15:reversal:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "svi_15",
+          "sign": -1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:svi_15:reversal:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "svi_15",
+          "sign": -1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:svi_15:reversal:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "svi_15",
+          "sign": -1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:svi_60:continuation:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "svi_60",
+          "sign": 1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:svi_60:continuation:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "svi_60",
+          "sign": 1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:svi_60:continuation:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "svi_60",
+          "sign": 1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:svi_60:reversal:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "svi_60",
+          "sign": -1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:svi_60:reversal:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "svi_60",
+          "sign": -1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:svi_60:reversal:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "svi_60",
+          "sign": -1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:clvi_5:continuation:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "clvi_5",
+          "sign": 1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:clvi_5:continuation:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "clvi_5",
+          "sign": 1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:clvi_5:continuation:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "clvi_5",
+          "sign": 1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:clvi_5:reversal:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "clvi_5",
+          "sign": -1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:clvi_5:reversal:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "clvi_5",
+          "sign": -1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:clvi_5:reversal:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "clvi_5",
+          "sign": -1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:clvi_15:continuation:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "clvi_15",
+          "sign": 1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:clvi_15:continuation:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "clvi_15",
+          "sign": 1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:clvi_15:continuation:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "clvi_15",
+          "sign": 1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:clvi_15:reversal:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "clvi_15",
+          "sign": -1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:clvi_15:reversal:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "clvi_15",
+          "sign": -1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:clvi_15:reversal:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "clvi_15",
+          "sign": -1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:clvi_60:continuation:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "clvi_60",
+          "sign": 1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:clvi_60:continuation:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "clvi_60",
+          "sign": 1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:clvi_60:continuation:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "clvi_60",
+          "sign": 1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:clvi_60:reversal:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "clvi_60",
+          "sign": -1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:clvi_60:reversal:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "clvi_60",
+          "sign": -1
+        }
+      },
+      {
+        "family": "ohlcv_order_flow_proxy",
+        "kind": "score",
+        "name": "ohlcv_flow:clvi_60:reversal:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "clvi_60",
+          "sign": -1
+        }
+      },
+      {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:clv:continuation:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "clv",
+          "sign": 1
+        }
+      },
+      {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:clv:continuation:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "clv",
+          "sign": 1
+        }
+      },
+      {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:clv:continuation:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "clv",
+          "sign": 1
+        }
+      },
+      {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:clv:reversal:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "clv",
+          "sign": -1
+        }
+      },
+      {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:clv:reversal:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "clv",
+          "sign": -1
+        }
+      },
+      {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:clv:reversal:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "clv",
+          "sign": -1
+        }
+      },
+      {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:wick_asym:continuation:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "wick_asym",
+          "sign": 1
+        }
+      },
+      {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:wick_asym:continuation:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "wick_asym",
+          "sign": 1
+        }
+      },
+      {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:wick_asym:continuation:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "wick_asym",
+          "sign": 1
+        }
+      },
+      {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:wick_asym:reversal:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "wick_asym",
+          "sign": -1
+        }
+      },
+      {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:wick_asym:reversal:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "wick_asym",
+          "sign": -1
+        }
+      },
+      {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:wick_asym:reversal:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "wick_asym",
+          "sign": -1
+        }
+      },
+      {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:body_z:continuation:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "body_z",
+          "sign": 1
+        }
+      },
+      {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:body_z:continuation:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "body_z",
+          "sign": 1
+        }
+      },
+      {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:body_z:continuation:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "body_z",
+          "sign": 1
+        }
+      },
+      {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:body_z:reversal:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "body_z",
+          "sign": -1
+        }
+      },
+      {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:body_z:reversal:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "body_z",
+          "sign": -1
+        }
+      },
+      {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:body_z:reversal:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "body_z",
+          "sign": -1
+        }
+      },
+      {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:price_z_60:continuation:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "price_z_60",
+          "sign": 1
+        }
+      },
+      {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:price_z_60:continuation:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "price_z_60",
+          "sign": 1
+        }
+      },
+      {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:price_z_60:continuation:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "price_z_60",
+          "sign": 1
+        }
+      },
+      {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:price_z_60:reversal:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "price_z_60",
+          "sign": -1
+        }
+      },
+      {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:price_z_60:reversal:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "price_z_60",
+          "sign": -1
+        }
+      },
+      {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:price_z_60:reversal:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "price_z_60",
+          "sign": -1
+        }
+      },
+      {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:price_z_240:continuation:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "price_z_240",
+          "sign": 1
+        }
+      },
+      {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:price_z_240:continuation:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "price_z_240",
+          "sign": 1
+        }
+      },
+      {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:price_z_240:continuation:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "price_z_240",
+          "sign": 1
+        }
+      },
+      {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:price_z_240:reversal:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "all",
+          "score": "price_z_240",
+          "sign": -1
+        }
+      },
+      {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:price_z_240:reversal:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "price_z_240",
+          "sign": -1
+        }
+      },
+      {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:price_z_240:reversal:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "price_z_240",
+          "sign": -1
+        }
+      },
+      {
+        "family": "volatility_regime_interaction",
+        "kind": "score",
+        "name": "vol_regime:mom_1:continuation:low:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "low",
+          "score": "mom_1",
+          "sign": 1
+        }
+      },
+      {
+        "family": "volatility_regime_interaction",
+        "kind": "score",
+        "name": "vol_regime:mom_1:continuation:low:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "low",
+          "score": "mom_1",
+          "sign": 1
+        }
+      },
+      {
+        "family": "volatility_regime_interaction",
+        "kind": "score",
+        "name": "vol_regime:mom_1:continuation:high:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "high",
+          "score": "mom_1",
+          "sign": 1
+        }
+      },
+      {
+        "family": "volatility_regime_interaction",
+        "kind": "score",
+        "name": "vol_regime:mom_1:continuation:high:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "high",
+          "score": "mom_1",
+          "sign": 1
+        }
+      },
+      {
+        "family": "volatility_regime_interaction",
+        "kind": "score",
+        "name": "vol_regime:mom_1:reversal:low:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "low",
+          "score": "mom_1",
+          "sign": -1
+        }
+      },
+      {
+        "family": "volatility_regime_interaction",
+        "kind": "score",
+        "name": "vol_regime:mom_1:reversal:low:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "low",
+          "score": "mom_1",
+          "sign": -1
+        }
+      },
+      {
+        "family": "volatility_regime_interaction",
+        "kind": "score",
+        "name": "vol_regime:mom_1:reversal:high:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "high",
+          "score": "mom_1",
+          "sign": -1
+        }
+      },
+      {
+        "family": "volatility_regime_interaction",
+        "kind": "score",
+        "name": "vol_regime:mom_1:reversal:high:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "high",
+          "score": "mom_1",
+          "sign": -1
+        }
+      },
+      {
+        "family": "volatility_regime_interaction",
+        "kind": "score",
+        "name": "vol_regime:mom_5:continuation:low:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "low",
+          "score": "mom_5",
+          "sign": 1
+        }
+      },
+      {
+        "family": "volatility_regime_interaction",
+        "kind": "score",
+        "name": "vol_regime:mom_5:continuation:low:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "low",
+          "score": "mom_5",
+          "sign": 1
+        }
+      },
+      {
+        "family": "volatility_regime_interaction",
+        "kind": "score",
+        "name": "vol_regime:mom_5:continuation:high:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "high",
+          "score": "mom_5",
+          "sign": 1
+        }
+      },
+      {
+        "family": "volatility_regime_interaction",
+        "kind": "score",
+        "name": "vol_regime:mom_5:continuation:high:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "high",
+          "score": "mom_5",
+          "sign": 1
+        }
+      },
+      {
+        "family": "volatility_regime_interaction",
+        "kind": "score",
+        "name": "vol_regime:mom_5:reversal:low:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "low",
+          "score": "mom_5",
+          "sign": -1
+        }
+      },
+      {
+        "family": "volatility_regime_interaction",
+        "kind": "score",
+        "name": "vol_regime:mom_5:reversal:low:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "low",
+          "score": "mom_5",
+          "sign": -1
+        }
+      },
+      {
+        "family": "volatility_regime_interaction",
+        "kind": "score",
+        "name": "vol_regime:mom_5:reversal:high:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "high",
+          "score": "mom_5",
+          "sign": -1
+        }
+      },
+      {
+        "family": "volatility_regime_interaction",
+        "kind": "score",
+        "name": "vol_regime:mom_5:reversal:high:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "high",
+          "score": "mom_5",
+          "sign": -1
+        }
+      },
+      {
+        "family": "volatility_regime_interaction",
+        "kind": "score",
+        "name": "vol_regime:svi_15:continuation:low:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "low",
+          "score": "svi_15",
+          "sign": 1
+        }
+      },
+      {
+        "family": "volatility_regime_interaction",
+        "kind": "score",
+        "name": "vol_regime:svi_15:continuation:low:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "low",
+          "score": "svi_15",
+          "sign": 1
+        }
+      },
+      {
+        "family": "volatility_regime_interaction",
+        "kind": "score",
+        "name": "vol_regime:svi_15:continuation:high:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "high",
+          "score": "svi_15",
+          "sign": 1
+        }
+      },
+      {
+        "family": "volatility_regime_interaction",
+        "kind": "score",
+        "name": "vol_regime:svi_15:continuation:high:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "high",
+          "score": "svi_15",
+          "sign": 1
+        }
+      },
+      {
+        "family": "volatility_regime_interaction",
+        "kind": "score",
+        "name": "vol_regime:svi_15:reversal:low:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "low",
+          "score": "svi_15",
+          "sign": -1
+        }
+      },
+      {
+        "family": "volatility_regime_interaction",
+        "kind": "score",
+        "name": "vol_regime:svi_15:reversal:low:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "low",
+          "score": "svi_15",
+          "sign": -1
+        }
+      },
+      {
+        "family": "volatility_regime_interaction",
+        "kind": "score",
+        "name": "vol_regime:svi_15:reversal:high:q0.00",
+        "params": {
+          "abs_quantile": 0.0,
+          "modifier": "all",
+          "regime": "high",
+          "score": "svi_15",
+          "sign": -1
+        }
+      },
+      {
+        "family": "volatility_regime_interaction",
+        "kind": "score",
+        "name": "vol_regime:svi_15:reversal:high:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "high",
+          "score": "svi_15",
+          "sign": -1
+        }
+      },
+      {
+        "family": "large_single_move_reaction",
+        "kind": "score",
+        "name": "large_move:mom_1:continuation:q0.90:high_volume",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "high_volume",
+          "regime": "all",
+          "score": "mom_1",
+          "sign": 1
+        }
+      },
+      {
+        "family": "large_single_move_reaction",
+        "kind": "score",
+        "name": "large_move:mom_1:continuation:q0.95:high_volume",
+        "params": {
+          "abs_quantile": 0.95,
+          "modifier": "high_volume",
+          "regime": "all",
+          "score": "mom_1",
+          "sign": 1
+        }
+      },
+      {
+        "family": "large_single_move_reaction",
+        "kind": "score",
+        "name": "large_move:mom_1:reversal:q0.90:high_volume",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "high_volume",
+          "regime": "all",
+          "score": "mom_1",
+          "sign": -1
+        }
+      },
+      {
+        "family": "large_single_move_reaction",
+        "kind": "score",
+        "name": "large_move:mom_1:reversal:q0.95:high_volume",
+        "params": {
+          "abs_quantile": 0.95,
+          "modifier": "high_volume",
+          "regime": "all",
+          "score": "mom_1",
+          "sign": -1
+        }
+      },
+      {
+        "family": "large_single_move_reaction",
+        "kind": "score",
+        "name": "large_move:mom_5:continuation:q0.90:high_volume",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "high_volume",
+          "regime": "all",
+          "score": "mom_5",
+          "sign": 1
+        }
+      },
+      {
+        "family": "large_single_move_reaction",
+        "kind": "score",
+        "name": "large_move:mom_5:continuation:q0.95:high_volume",
+        "params": {
+          "abs_quantile": 0.95,
+          "modifier": "high_volume",
+          "regime": "all",
+          "score": "mom_5",
+          "sign": 1
+        }
+      },
+      {
+        "family": "large_single_move_reaction",
+        "kind": "score",
+        "name": "large_move:mom_5:reversal:q0.90:high_volume",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "high_volume",
+          "regime": "all",
+          "score": "mom_5",
+          "sign": -1
+        }
+      },
+      {
+        "family": "large_single_move_reaction",
+        "kind": "score",
+        "name": "large_move:mom_5:reversal:q0.95:high_volume",
+        "params": {
+          "abs_quantile": 0.95,
+          "modifier": "high_volume",
+          "regime": "all",
+          "score": "mom_5",
+          "sign": -1
+        }
+      },
+      {
+        "family": "time_of_day_session",
+        "kind": "seasonal",
+        "name": "seasonal:hour:edge0.000",
+        "params": {
+          "group": "hour",
+          "min_edge": 0.0
+        }
+      },
+      {
+        "family": "time_of_day_session",
+        "kind": "seasonal",
+        "name": "seasonal:hour:edge0.005",
+        "params": {
+          "group": "hour",
+          "min_edge": 0.005
+        }
+      },
+      {
+        "family": "time_of_day_session",
+        "kind": "seasonal",
+        "name": "seasonal:hour:edge0.010",
+        "params": {
+          "group": "hour",
+          "min_edge": 0.01
+        }
+      },
+      {
+        "family": "time_of_day_session",
+        "kind": "seasonal",
+        "name": "seasonal:hour:edge0.020",
+        "params": {
+          "group": "hour",
+          "min_edge": 0.02
+        }
+      },
+      {
+        "family": "time_of_day_session",
+        "kind": "seasonal",
+        "name": "seasonal:minute:edge0.000",
+        "params": {
+          "group": "minute",
+          "min_edge": 0.0
+        }
+      },
+      {
+        "family": "time_of_day_session",
+        "kind": "seasonal",
+        "name": "seasonal:minute:edge0.005",
+        "params": {
+          "group": "minute",
+          "min_edge": 0.005
+        }
+      },
+      {
+        "family": "time_of_day_session",
+        "kind": "seasonal",
+        "name": "seasonal:minute:edge0.010",
+        "params": {
+          "group": "minute",
+          "min_edge": 0.01
+        }
+      },
+      {
+        "family": "time_of_day_session",
+        "kind": "seasonal",
+        "name": "seasonal:minute:edge0.020",
+        "params": {
+          "group": "minute",
+          "min_edge": 0.02
+        }
+      },
+      {
+        "family": "time_of_day_session",
+        "kind": "seasonal",
+        "name": "seasonal:dow:edge0.000",
+        "params": {
+          "group": "dow",
+          "min_edge": 0.0
+        }
+      },
+      {
+        "family": "time_of_day_session",
+        "kind": "seasonal",
+        "name": "seasonal:dow:edge0.005",
+        "params": {
+          "group": "dow",
+          "min_edge": 0.005
+        }
+      },
+      {
+        "family": "time_of_day_session",
+        "kind": "seasonal",
+        "name": "seasonal:dow:edge0.010",
+        "params": {
+          "group": "dow",
+          "min_edge": 0.01
+        }
+      },
+      {
+        "family": "time_of_day_session",
+        "kind": "seasonal",
+        "name": "seasonal:dow:edge0.020",
+        "params": {
+          "group": "dow",
+          "min_edge": 0.02
+        }
+      },
+      {
+        "family": "time_of_day_session",
+        "kind": "seasonal",
+        "name": "seasonal:hour_of_week:edge0.000",
+        "params": {
+          "group": "hour_of_week",
+          "min_edge": 0.0
+        }
+      },
+      {
+        "family": "time_of_day_session",
+        "kind": "seasonal",
+        "name": "seasonal:hour_of_week:edge0.005",
+        "params": {
+          "group": "hour_of_week",
+          "min_edge": 0.005
+        }
+      },
+      {
+        "family": "time_of_day_session",
+        "kind": "seasonal",
+        "name": "seasonal:hour_of_week:edge0.010",
+        "params": {
+          "group": "hour_of_week",
+          "min_edge": 0.01
+        }
+      },
+      {
+        "family": "time_of_day_session",
+        "kind": "seasonal",
+        "name": "seasonal:hour_of_week:edge0.020",
+        "params": {
+          "group": "hour_of_week",
+          "min_edge": 0.02
+        }
+      },
+      {
+        "family": "unconditional_baseline",
+        "kind": "majority",
+        "name": "baseline:expanding_majority",
+        "params": {}
+      },
+      {
+        "family": "regularized_logistic",
+        "kind": "logistic",
+        "name": "logistic:C0.01:q0.00",
+        "params": {
+          "C": 0.01,
+          "confidence_quantile": 0.0
+        }
+      },
+      {
+        "family": "regularized_logistic",
+        "kind": "logistic",
+        "name": "logistic:C0.01:q0.50",
+        "params": {
+          "C": 0.01,
+          "confidence_quantile": 0.5
+        }
+      },
+      {
+        "family": "regularized_logistic",
+        "kind": "logistic",
+        "name": "logistic:C0.01:q0.80",
+        "params": {
+          "C": 0.01,
+          "confidence_quantile": 0.8
+        }
+      },
+      {
+        "family": "regularized_logistic",
+        "kind": "logistic",
+        "name": "logistic:C0.01:q0.90",
+        "params": {
+          "C": 0.01,
+          "confidence_quantile": 0.9
+        }
+      },
+      {
+        "family": "regularized_logistic",
+        "kind": "logistic",
+        "name": "logistic:C0.1:q0.00",
+        "params": {
+          "C": 0.1,
+          "confidence_quantile": 0.0
+        }
+      },
+      {
+        "family": "regularized_logistic",
+        "kind": "logistic",
+        "name": "logistic:C0.1:q0.50",
+        "params": {
+          "C": 0.1,
+          "confidence_quantile": 0.5
+        }
+      },
+      {
+        "family": "regularized_logistic",
+        "kind": "logistic",
+        "name": "logistic:C0.1:q0.80",
+        "params": {
+          "C": 0.1,
+          "confidence_quantile": 0.8
+        }
+      },
+      {
+        "family": "regularized_logistic",
+        "kind": "logistic",
+        "name": "logistic:C0.1:q0.90",
+        "params": {
+          "C": 0.1,
+          "confidence_quantile": 0.9
+        }
+      },
+      {
+        "family": "regularized_logistic",
+        "kind": "logistic",
+        "name": "logistic:C1.0:q0.00",
+        "params": {
+          "C": 1.0,
+          "confidence_quantile": 0.0
+        }
+      },
+      {
+        "family": "regularized_logistic",
+        "kind": "logistic",
+        "name": "logistic:C1.0:q0.50",
+        "params": {
+          "C": 1.0,
+          "confidence_quantile": 0.5
+        }
+      },
+      {
+        "family": "regularized_logistic",
+        "kind": "logistic",
+        "name": "logistic:C1.0:q0.80",
+        "params": {
+          "C": 1.0,
+          "confidence_quantile": 0.8
+        }
+      },
+      {
+        "family": "regularized_logistic",
+        "kind": "logistic",
+        "name": "logistic:C1.0:q0.90",
+        "params": {
+          "C": 1.0,
+          "confidence_quantile": 0.9
+        }
+      },
+      {
+        "family": "shallow_boosted_tree",
+        "kind": "hgb",
+        "name": "shallow_hgb:leaves7:l21.0:q0.00",
+        "params": {
+          "confidence_quantile": 0.0,
+          "l2": 1.0,
+          "max_leaf_nodes": 7
+        }
+      },
+      {
+        "family": "shallow_boosted_tree",
+        "kind": "hgb",
+        "name": "shallow_hgb:leaves7:l21.0:q0.50",
+        "params": {
+          "confidence_quantile": 0.5,
+          "l2": 1.0,
+          "max_leaf_nodes": 7
+        }
+      },
+      {
+        "family": "shallow_boosted_tree",
+        "kind": "hgb",
+        "name": "shallow_hgb:leaves7:l21.0:q0.80",
+        "params": {
+          "confidence_quantile": 0.8,
+          "l2": 1.0,
+          "max_leaf_nodes": 7
+        }
+      },
+      {
+        "family": "shallow_boosted_tree",
+        "kind": "hgb",
+        "name": "shallow_hgb:leaves7:l21.0:q0.90",
+        "params": {
+          "confidence_quantile": 0.9,
+          "l2": 1.0,
+          "max_leaf_nodes": 7
+        }
+      },
+      {
+        "family": "shallow_boosted_tree",
+        "kind": "hgb",
+        "name": "shallow_hgb:leaves15:l23.0:q0.00",
+        "params": {
+          "confidence_quantile": 0.0,
+          "l2": 3.0,
+          "max_leaf_nodes": 15
+        }
+      },
+      {
+        "family": "shallow_boosted_tree",
+        "kind": "hgb",
+        "name": "shallow_hgb:leaves15:l23.0:q0.50",
+        "params": {
+          "confidence_quantile": 0.5,
+          "l2": 3.0,
+          "max_leaf_nodes": 15
+        }
+      },
+      {
+        "family": "shallow_boosted_tree",
+        "kind": "hgb",
+        "name": "shallow_hgb:leaves15:l23.0:q0.80",
+        "params": {
+          "confidence_quantile": 0.8,
+          "l2": 3.0,
+          "max_leaf_nodes": 15
+        }
+      },
+      {
+        "family": "shallow_boosted_tree",
+        "kind": "hgb",
+        "name": "shallow_hgb:leaves15:l23.0:q0.90",
+        "params": {
+          "confidence_quantile": 0.9,
+          "l2": 3.0,
+          "max_leaf_nodes": 15
+        }
+      }
+    ],
+    "dataset_sha256": "e484eb9965e74dcaf2f0e59a5b992a07f9ab7e5f66d0c834d69b7849941b3833",
+    "development_folds": [
+      [
+        "2025-07-01",
+        "2025-09-01"
+      ],
+      [
+        "2025-09-01",
+        "2025-11-01"
+      ],
+      [
+        "2025-11-01",
+        "2026-01-01"
+      ],
+      [
+        "2026-01-01",
+        "2026-03-01"
+      ],
+      [
+        "2026-03-01",
+        "2026-05-01"
+      ]
+    ],
+    "fee_formula": "fee_per_share = 0.07 * p * (1-p)",
+    "holdout_start": "2026-05-01T00:00:00+00:00",
+    "locked_configs": {
+      "15": {
+        "family": "regularized_logistic",
+        "kind": "logistic",
+        "name": "logistic:C0.1:q0.50",
+        "params": {
+          "C": 0.1,
+          "confidence_quantile": 0.5
+        }
+      },
+      "240": {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:ewm_5:reversal:q0.90",
+        "params": {
+          "abs_quantile": 0.9,
+          "modifier": "all",
+          "regime": "all",
+          "score": "ewm_5",
+          "sign": -1
+        }
+      },
+      "5": {
+        "family": "regularized_logistic",
+        "kind": "logistic",
+        "name": "logistic:C0.01:q0.50",
+        "params": {
+          "C": 0.01,
+          "confidence_quantile": 0.5
+        }
+      },
+      "60": {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:ewm_15:reversal:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "ewm_15",
+          "sign": -1
+        }
+      }
+    },
+    "primary_selection_entry_price": 0.5,
+    "script_sha256": "122921d4c574b216808127dcf49c758198bf827f5da4f15bc23b6d21edce324b"
+  },
+  "primary_selection_entry_price": 0.5
+}

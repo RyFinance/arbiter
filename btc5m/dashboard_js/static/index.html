@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PM TERMINAL — polymarket_arb</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div id="ticker-tape" aria-label="opportunity ticker">
+  <div class="tape-label">01 OPP FEED</div>
+  <div class="tape-viewport"><div class="tape-track" id="tape-track">
+    <span class="tape-item tape-empty">◇ NO OPPORTUNITY DATA THIS SESSION — WAITING FOR FEED</span>
+  </div></div>
+</div>
+
+<div id="command-bar">
+  <span class="cmd-item" id="cmd-conn">CONN <span class="cmd-badge stale" id="cmd-conn-state">…</span></span>
+  <span class="cmd-sep">|</span>
+  <span class="cmd-item">MODE <span class="cmd-value" id="cmd-mode">…</span></span>
+  <span class="cmd-sep">|</span>
+  <span class="cmd-item">KILL <span class="cmd-badge" id="cmd-kill">…</span></span>
+  <span class="cmd-sep">|</span>
+  <span class="cmd-item">UTC <span class="cmd-value" id="cmd-utc">…</span></span>
+  <span class="cmd-sep">|</span>
+  <span class="cmd-item">SESS <span class="cmd-value" id="cmd-sess">…</span></span>
+  <span class="cmd-sep">|</span>
+  <span class="cmd-item">LOOPS <span class="cmd-value" id="cmd-loops">…</span></span>
+  <span class="cmd-fill"></span>
+  <span class="cmd-item cmd-prompt">PM&gt; <span class="cmd-cursor">_</span></span>
+</div>
+
+<main id="grid">
+
+  <section class="panel" id="panel-status">
+    <header class="panel-head"><span class="panel-title">01 SESSION STATUS</span>
+      <span class="panel-age" id="age-command">…</span>
+      <span class="panel-btns"><i class="pb">–</i><i class="pb">□</i><i class="pb">×</i></span>
+    </header>
+    <div class="panel-body" id="body-status"><div class="empty">NO DATA — BACKEND UNREACHABLE</div></div>
+  </section>
+
+  <section class="panel" id="panel-heatmap">
+    <header class="panel-head"><span class="panel-title">02 EXECUTION HEATMAP</span>
+      <span class="panel-age" id="age-heatmap">…</span>
+      <span class="panel-btns"><i class="pb">–</i><i class="pb">□</i><i class="pb">×</i></span>
+    </header>
+    <div class="panel-body" id="body-heatmap"><div class="empty">NO DATA — 0 FILLS / REJECTS</div></div>
+  </section>
+
+  <section class="panel panel-wide" id="panel-pnl">
+    <header class="panel-head"><span class="panel-title">03 PNL CURVE — LOCKED / SESSION / RESIDUAL</span>
+      <span class="panel-age" id="age-pnl">…</span>
+      <span class="panel-btns"><i class="pb">–</i><i class="pb">□</i><i class="pb">×</i></span>
+    </header>
+    <div class="panel-body" id="body-pnl">
+      <div class="pnl-chart-wrap"><canvas id="pnl-canvas" width="820" height="170"></canvas></div>
+      <div class="pnl-readout" id="pnl-readout"><div class="empty">NO DATA — 0 METRIC POINTS</div></div>
+    </div>
+  </section>
+
+  <section class="panel" id="panel-depth">
+    <header class="panel-head"><span class="panel-title">04 DEPTH CAPTURE HEALTH</span>
+      <span class="panel-age" id="age-depth">…</span>
+      <span class="panel-btns"><i class="pb">–</i><i class="pb">□</i><i class="pb">×</i></span>
+    </header>
+    <div class="panel-body" id="body-depth"><div class="empty">NO DATA — BACKEND UNREACHABLE</div></div>
+  </section>
+
+  <section class="panel" id="panel-alerts">
+    <header class="panel-head"><span class="panel-title">05 ALERTS WIRE</span>
+      <span class="panel-age" id="age-alerts">…</span>
+      <span class="panel-btns"><i class="pb">–</i><i class="pb">□</i><i class="pb">×</i></span>
+    </header>
+    <div class="panel-body wire" id="body-alerts"><div class="empty">NO ALERTS RECORDED</div></div>
+  </section>
+
+  <section class="panel" id="panel-models">
+    <header class="panel-head"><span class="panel-title">06 MODEL STATUS</span>
+      <span class="panel-age" id="age-models">…</span>
+      <span class="panel-btns"><i class="pb">–</i><i class="pb">□</i><i class="pb">×</i></span>
+    </header>
+    <div class="panel-body" id="body-models"><div class="empty">NO DATA — BACKEND UNREACHABLE</div></div>
+  </section>
+
+  <section class="panel" id="panel-latency">
+    <header class="panel-head"><span class="panel-title">07 LATENCY — OPP→ORDER</span>
+      <span class="panel-age" id="age-latency">…</span>
+      <span class="panel-btns"><i class="pb">–</i><i class="pb">□</i><i class="pb">×</i></span>
+    </header>
+    <div class="panel-body" id="body-latency"><div class="empty">NO DATA — n=0 FIRES</div></div>
+  </section>
+
+  <section class="panel panel-wide" id="panel-checklist">
+    <header class="panel-head"><span class="panel-title">08 GO-LIVE GATES</span>
+      <span class="panel-age" id="age-checklist">…</span>
+      <span class="panel-btns"><i class="pb">–</i><i class="pb">□</i><i class="pb">×</i></span>
+    </header>
+    <div class="panel-body" id="body-checklist"><div class="empty">NO DATA — BACKEND UNREACHABLE</div></div>
+  </section>
+
+  <section class="panel panel-wide" id="panel-ticker-stream">
+    <header class="panel-head"><span class="panel-title">09 TICKER FEED — OPPORTUNITY STREAM</span>
+      <span class="panel-age" id="age-ticker">…</span>
+      <span class="panel-btns"><i class="pb">–</i><i class="pb">□</i><i class="pb">×</i></span>
+    </header>
+    <div class="panel-body wire" id="body-ticker-stream"><div class="empty">NO OPPORTUNITY DATA THIS SESSION</div></div>
+  </section>
+
+</main>
+
+<footer id="statusline">
+  <span>PM TERMINAL v1 — polymarket_arb — all sessions PAPER_TRADE — real orders 0</span>
+  <span class="cmd-fill"></span>
+  <span id="footer-ts">…</span>
+</footer>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

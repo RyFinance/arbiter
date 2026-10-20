@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PM CANVAS — polymarket_arb</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="command-bar">
+  <span class="cmd-item">CONN <span class="cmd-badge stale" id="cmd-conn-state">…</span></span>
+  <span class="cmd-sep">|</span>
+  <span class="cmd-item">MODE <span class="cmd-value" id="cmd-mode">…</span></span>
+  <span class="cmd-sep">|</span>
+  <span class="cmd-item">KILL <span class="cmd-badge" id="cmd-kill">…</span></span>
+  <span class="cmd-sep">|</span>
+  <span class="cmd-item">UTC <span class="cmd-value" id="cmd-utc">…</span></span>
+  <span class="cmd-sep">|</span>
+  <span class="cmd-item">SESS <span class="cmd-value" id="cmd-sess">…</span></span>
+  <span class="cmd-sep">|</span>
+  <span class="cmd-item">LOOPS <span class="cmd-value" id="cmd-loops">…</span></span>
+  <span class="cmd-fill"></span>
+  <button id="cmd-restore" type="button" title="Re-open panels closed with ×">RESTORE PANELS</button>
+  <span class="cmd-sep">|</span>
+  <button id="cmd-reset" type="button" title="Clear saved layout and restore defaults">RESET LAYOUT</button>
+  <span class="cmd-sep">|</span>
+  <span class="cmd-item cmd-prompt">PM&gt; <span class="cmd-cursor">_</span></span>
+</div>
+
+<nav id="tab-bar" aria-label="dashboard sections">
+  <button class="tab-btn active" data-tab="bot" type="button">BOT</button>
+  <button class="tab-btn" data-tab="loop" type="button">LOOP BOT</button>
+  <button class="tab-btn" data-tab="markets" type="button">MARKETS</button>
+  <button class="tab-btn" data-tab="news" type="button">NEWS</button>
+  <button class="tab-btn" data-tab="social" type="button">SOCIAL</button>
+  <button class="tab-btn" data-tab="charts" type="button">CHARTS</button>
+  <span class="tab-fill"></span>
+  <span class="tab-hint" id="tab-hint"></span>
+</nav>
+
+<canvas id="globe-canvas" aria-hidden="true"></canvas>
+<div id="canvas">
+
+  <!-- ============ BOT ============ -->
+
+  <section class="panel panel-mind" id="panel-mind" data-panel data-group="bot">
+    <header class="panel-head" data-drag>
+      <span class="panel-title">00 BOT MIND — LIVE THOUGHTS</span>
+      <span class="panel-age" id="age-botmind">…</span>
+      <span class="panel-btns"><i class="pb" data-act="min" title="minimize">–</i><i class="pb" data-act="max" title="maximize">□</i><i class="pb" data-act="close" title="close">×</i></span>
+    </header>
+    <div class="panel-body" id="body-mind">
+      <div id="mind-windows"><div class="empty">loading timeframe grid…</div></div>
+      <div id="mind-main"><div class="empty">NO DATA — BACKEND UNREACHABLE</div></div>
+    </div>
+    <div class="resize-handle" data-resize></div>
+  </section>
+
+  <section class="panel" id="panel-botctl" data-panel data-group="bot">
+    <header class="panel-head" data-drag>
+      <span class="panel-title">14 BOT CONTROL — PAPER ONLY</span>
+      <span class="panel-age" id="age-botctl_status">…</span>
+      <span class="panel-btns"><i class="pb" data-act="min" title="minimize">–</i><i class="pb" data-act="max" title="maximize">□</i><i class="pb" data-act="close" title="close">×</i></span>
+    </header>
+    <div class="panel-body" id="body-botctl"><div class="empty">NO DATA — BACKEND UNREACHABLE</div></div>
+    <div class="resize-handle" data-resize></div>
+  </section>
+
+  <section class="panel" id="panel-pnl" data-panel data-group="bot">
+    <header class="panel-head" data-drag>
+      <span class="panel-title">02 PNL SESSION CHART</span>
+      <span class="panel-age" id="age-pnl">…</span>
+      <span class="panel-btns"><i class="pb" data-act="min" title="minimize">–</i><i class="pb" data-act="max" title="maximize">□</i><i class="pb" data-act="close" title="close">×</i></span>
+    </header>
+    <div class="panel-body" id="body-pnl">
+      <div class="chart-wrap"><canvas id="pnl-canvas"></canvas></div>
+      <div class="pnl-readout" id="pnl-readout"><div class="empty">NO DATA — 0 METRIC POINTS</div></div>
+    </div>
+    <div class="resize-handle" data-resize></div>
+  </section>
+
+  <section class="panel panel-card" id="panel-exec" data-panel data-group="bot">
+    <header class="panel-head" data-drag>
+      <span class="panel-title">01 EXECUTION FEED</span>
+      <span class="panel-age" id="age-heatmap">…</span>
+      <span class="panel-btns"><i class="pb" data-act="min" title="minimize">–</i><i class="pb" data-act="max" title="maximize">□</i><i class="pb" data-act="close" title="close">×</i></span>
+    </header>
+    <div class="panel-body card-body" id="body-exec">
+      <div class="card-sum" id="sum-exec"><span class="card-num">—</span><span class="card-label">fills / rejects</span></div>
+      <div class="card-detail" id="detail-exec"><div class="empty">NO DATA — 0 FILLS / REJECTS</div></div>
+    </div>
+    <div class="resize-handle" data-resize></div>
+  </section>
+
+  <section class="panel panel-card" id="panel-depth" data-panel data-group="bot">
+    <header class="panel-head" data-drag>
+      <span class="panel-title">03 DEPTH CAPTURE HEALTH</span>
+      <span class="panel-age" id="age-depth">…</span>
+      <span class="panel-btns"><i class="pb" data-act="min" title="minimize">–</i><i class="pb" data-act="max" title="maximize">□</i><i class="pb" data-act="close" title="close">×</i></span>
+    </header>
+    <div class="panel-body card-body" id="body-depth">
+      <div class="card-sum" id="sum-depth"><span class="card-num">—</span><span class="card-label">windows complete</span></div>
+      <div class="card-detail" id="detail-depth"><div class="empty">NO DATA — BACKEND UNREACHABLE</div></div>
+    </div>
+    <div class="resize-handle" data-resize></div>
+  </section>
+
+  <section class="panel panel-card" id="panel-alerts" data-panel data-group="bot">
+    <header class="panel-head" data-drag>
+      <span class="panel-title">04 ALERTS WIRE</span>
+      <span class="panel-age" id="age-alerts">…</span>
+      <span class="panel-btns"><i class="pb" data-act="min" title="minimize">–</i><i class="pb" data-act="max" title="maximize">□</i><i class="pb" data-act="close" title="close">×</i></span>
+    </header>
+    <div class="panel-body card-body" id="body-alerts">
+      <div class="card-sum" id="sum-alerts"><span class="card-num">—</span><span class="card-label">alerts</span></div>
+      <div class="card-detail" id="detail-alerts"><div class="empty">NO ALERTS RECORDED</div></div>
+    </div>
+    <div class="resize-handle" data-resize></div>
+  </section>
+
+  <section class="panel panel-card" id="panel-models" data-panel data-group="bot">
+    <header class="panel-head" data-drag>
+      <span class="panel-title">05 MODEL STATUS</span>
+      <span class="panel-age" id="age-models">…</span>
+      <span class="panel-btns"><i class="pb" data-act="min" title="minimize">–</i><i class="pb" data-act="max" title="maximize">□</i><i class="pb" data-act="close" title="close">×</i></span>
+    </header>
+    <div class="panel-body card-body" id="body-models">
+      <div class="card-sum" id="sum-models"><span class="card-num">—</span><span class="card-label">models</span></div>
+      <div class="card-detail" id="detail-models"><div class="empty">NO DATA — BACKEND UNREACHABLE</div></div>
+    </div>
+    <div class="resize-handle" data-resize></div>
+  </section>
+
+  <section class="panel panel-card" id="panel-latency" data-panel data-group="bot">
+    <header class="panel-head" data-drag>
+      <span class="panel-title">06 LATENCY — OPP→ORDER</span>
+      <span class="panel-age" id="age-latency">…</span>
+      <span class="panel-btns"><i class="pb" data-act="min" title="minimize">–</i><i class="pb" data-act="max" title="maximize">□</i><i class="pb" data-act="close" title="close">×</i></span>
+    </header>
+    <div class="panel-body card-body" id="body-latency">
+      <div class="card-sum" id="sum-latency"><span class="card-num">—</span><span class="card-label">opp→order p50</span></div>
+      <div class="card-detail" id="detail-latency"><div class="empty">NO DATA — n=0 FIRES</div></div>
+    </div>
+    <div class="resize-handle" data-resize></div>
+  </section>
+
+  <section class="panel panel-card" id="panel-gates" data-panel data-group="bot">
+    <header class="panel-head" data-drag>
+      <span class="panel-title">07 GO-LIVE GATES</span>
+      <span class="panel-age" id="age-checklist">…</span>
+      <span class="panel-btns"><i class="pb" data-act="min" title="minimize">–</i><i class="pb" data-act="max" title="maximize">□</i><i class="pb" data-act="close" title="close">×</i></span>
+    </header>
+    <div class="panel-body card-body" id="body-gates">
+      <div class="card-sum" id="sum-gates"><span class="card-num">—</span><span class="card-label">gates passed</span></div>
+      <div class="card-detail" id="detail-gates"><div class="empty">NO DATA — BACKEND UNREACHABLE</div></div>
+    </div>
+    <div class="resize-handle" data-resize></div>
+  </section>
+
+  <section class="panel panel-wide" id="panel-sentiment" data-panel data-group="bot">
+    <header class="panel-head" data-drag>
+      <span class="panel-title">08 BTC SENTIMENT — MARKET-DERIVED PROXY</span>
+      <span class="panel-age" id="age-btc_sentiment">…</span>
+      <span class="panel-btns"><i class="pb" data-act="min" title="minimize">–</i><i class="pb" data-act="max" title="maximize">□</i><i class="pb" data-act="close" title="close">×</i></span>
+    </header>
+    <div class="panel-body" id="body-sentiment"><div class="empty">NO DATA — BACKEND UNREACHABLE</div></div>
+    <div class="resize-handle" data-resize></div>
+  </section>
+
+  <!-- ============ LOOP BOT (isolated paper, all timeframes) ============ -->
+
+  <section class="panel" id="panel-loopctl" data-panel data-group="loop">
+    <header class="panel-head" data-drag>
+      <span class="panel-title">15 LOOP BOT — SEQUENTIAL PAPER (5m/15m/30m)</span>
+      <span class="panel-age" id="age-loopbot/status">…</span>
+      <span class="panel-btns"><i class="pb" data-act="min" title="minimize">–</i><i class="pb" data-act="max" title="maximize">□</i><i class="pb" data-act="close" title="close">×</i></span>
+    </header>
+    <div class="panel-body" id="body-loopctl"><div class="empty">NO DATA — BACKEND UNREACHABLE</div></div>
+    <div class="resize-handle" data-resize></div>
+  </section>
+
+  <section class="panel panel-wide" id="panel-loopchart" data-panel data-group="loop">
+    <header class="panel-head" data-drag>
+      <span class="panel-title">16 DECISION CHART — BTC + FIRST/PAIR/EXIT MARKERS</span>
+      <span class="panel-age" id="age-loopbot/chart">…</span>
+      <span class="panel-btns"><i class="pb" data-act="min" title="minimize">–</i><i class="pb" data-act="max" title="maximize">□</i><i class="pb" data-act="close" title="close">×</i></span>
+    </header>
+    <div class="panel-body" id="body-loopchart">
+      <div class="chart-wrap"><canvas id="loop-chart-canvas"></canvas></div>
+      <div class="heat-caption" id="loop-chart-caption"></div>
+    </div>
+    <div class="resize-handle" data-resize></div>
+  </section>
+
+  <section class="panel panel-wide" id="panel-loopevents" data-panel data-group="loop">
+    <header class="panel-head" data-drag>
+      <span class="panel-title">17 LOOP EVENTS WIRE</span>
+      <span class="panel-age" id="age-loopbot/events">…</span>
+      <span class="panel-btns"><i class="pb" data-act="min" title="minimize">–</i><i class="pb" data-act="max" title="maximize">□</i><i class="pb" data-act="close" title="close">×</i></span>
+    </header>
+    <div class="panel-body wire" id="body-loopevents"><div class="empty">NO EVENTS — START THE LOOP BOT</div></div>
+    <div class="resize-handle" data-resize></div>
+  </section>
+
+  <!-- ============ MARKETS ============ -->
+
+  <section class="panel" id="panel-cross" data-panel data-group="markets">
+    <header class="panel-head" data-drag>
+      <span class="panel-title">08 CROSS-ASSET REGIME — LSE</span>
+      <span class="panel-age" id="age-lse_cross_asset">…</span>
+      <span class="panel-btns"><i class="pb" data-act="min" title="minimize">–</i><i class="pb" data-act="max" title="maximize">□</i><i class="pb" data-act="close" title="close">×</i></span>
+    </header>
+    <div class="panel-body" id="body-cross"><div class="empty">NO DATA — BACKEND UNREACHABLE</div></div>
+    <div class="resize-handle" data-resize></div>
+  </section>
+
+  <section class="panel" id="panel-indices" data-panel data-group="markets">
+    <header class="panel-head" data-drag>
+      <span class="panel-title">09 GLOBAL INDICES — MASSIVE</span>
+      <span class="panel-age" id="age-indices">…</span>
+      <span class="panel-btns"><i class="pb" data-act="min" title="minimize">–</i><i class="pb" data-act="max" title="maximize">□</i><i class="pb" data-act="close" title="close">×</i></span>
+    </header>
+    <div class="panel-body" id="body-indices"><div class="empty">NO DATA — BACKEND UNREACHABLE</div></div>
+    <div class="resize-handle" data-resize></div>
+  </section>
+
+  <section class="panel panel-wide" id="panel-sectorheat" data-panel data-group="markets">
+    <header class="panel-head" data-drag>
+      <span class="panel-title">10 SECTOR HEATMAP — LSE</span>
+      <span class="panel-age" id="age-sector_heatmap">…</span>
+      <span class="panel-btns"><i class="pb" data-act="min" title="minimize">–</i><i class="pb" data-act="max" title="maximize">□</i><i class="pb" data-act="close" title="close">×</i></span>
+    </header>
+    <div class="panel-body" id="body-sectorheat"><div class="empty">NO DATA — BACKEND UNREACHABLE</div></div>
+    <div class="resize-handle" data-resize></div>
+  </section>
+
+  <!-- ============ NEWS ============ -->
+
+  <section class="panel panel-wide" id="panel-news" data-panel data-group="news">
+    <header class="panel-head" data-drag>
+      <span class="panel-title">11 HEADLINES WIRE — MASSIVE + FINNHUB + X</span>
+      <span class="panel-age" id="age-news_wire">…</span>
+      <span class="panel-btns"><i class="pb" data-act="min" title="minimize">–</i><i class="pb" data-act="max" title="maximize">□</i><i class="pb" data-act="close" title="close">×</i></span>
+    </header>
+    <div class="panel-body wire" id="body-news"><div class="empty">NO DATA — BACKEND UNREACHABLE</div></div>
+    <div class="resize-handle" data-resize></div>
+  </section>
+
+  <!-- ============ SOCIAL ============ -->
+
+  <section class="panel panel-wide" id="panel-social" data-panel data-group="social">
+    <header class="panel-head" data-drag>
+      <span class="panel-title">12 SOCIAL FEED</span>
+      <span class="panel-age" id="age-social">…</span>
+      <span class="panel-btns"><i class="pb" data-act="min" title="minimize">–</i><i class="pb" data-act="max" title="maximize">□</i><i class="pb" data-act="close" title="close">×</i></span>
+    </header>
+    <div class="social-toolbar">
+      <button class="src-btn active" id="social-src-reddit" type="button">REDDIT</button>
+      <button class="src-btn" id="social-src-x" type="button">X / DEITAONE</button>
+      <span class="src-fill"></span>
+      <span class="social-status" id="social-status">…</span>
+      <button class="src-btn refresh" id="social-refresh" type="button">REFRESH NOW</button>
+    </div>
+    <div class="panel-body wire" id="body-social"><div class="empty">NO DATA — BACKEND UNREACHABLE</div></div>
+    <div class="resize-handle" data-resize></div>
+  </section>
+
+  <!-- ============ CHARTS ============ -->
+
+  <section class="panel panel-wide" id="panel-chart" data-panel data-group="charts">
+    <header class="panel-head" data-drag>
+      <span class="panel-title" id="chart-title">13 CHART WORKSPACE — SEARCH ANY SYMBOL</span>
+      <span class="panel-age" id="age-stock_chart">…</span>
+      <span class="panel-btns"><i class="pb" data-act="min" title="minimize">–</i><i class="pb" data-act="max" title="maximize">□</i><i class="pb" data-act="close" title="close">×</i></span>
+    </header>
+    <div class="chart-toolbar">
+      <input id="chart-search" type="text" placeholder="symbol search — e.g. NVDA, AAPL, SPY…" autocomplete="off" spellcheck="false">
+      <button id="chart-go" class="src-btn go" type="button">GO</button>
+      <span class="tb-sep">|</span>
+      <div class="tf-btns" id="chart-tf-btns">
+        <button class="tf-btn" data-tf="1m" type="button">1m</button>
+        <button class="tf-btn" data-tf="5m" type="button">5m</button>
+        <button class="tf-btn active" data-tf="15m" type="button">15m</button>
+        <button class="tf-btn" data-tf="1h" type="button">1H</button>
+        <button class="tf-btn" data-tf="4h" type="button">4H</button>
+        <button class="tf-btn" data-tf="1d" type="button">1D</button>
+        <button class="tf-btn" data-tf="1w" type="button">1W</button>
+      </div>
+      <span class="tb-sep">|</span>
+      <div class="tf-btns" id="chart-type-btns">
+        <button class="tf-btn active" data-ctype="candles" type="button">CANDLES</button>
+        <button class="tf-btn" data-ctype="bars" type="button">BARS</button>
+        <button class="tf-btn" data-ctype="line" type="button">LINE</button>
+        <button class="tf-btn" data-ctype="area" type="button">AREA</button>
+      </div>
+      <span class="tb-sep">|</span>
+      <div class="tf-btns" id="chart-ind-btns">
+        <button class="tf-btn ind-btn" data-ind="sma" type="button">SMA</button>
+        <button class="tf-btn ind-btn active" data-ind="ema" type="button">EMA</button>
+        <button class="tf-btn ind-btn" data-ind="bb" type="button">BB</button>
+        <button class="tf-btn ind-btn" data-ind="vwap" type="button">VWAP</button>
+        <button class="tf-btn ind-btn active" data-ind="vol" type="button">VOL</button>
+        <button class="tf-btn ind-btn active" data-ind="rsi" type="button">RSI</button>
+        <button class="tf-btn ind-btn" data-ind="macd" type="button">MACD</button>
+      </div>
+      <span class="src-fill"></span>
+      <button class="tf-btn" id="chart-theme" type="button">LIGHT</button>
+      <button class="tf-btn" id="chart-reset" type="button">RESET VIEW</button>
+      <span class="heat-caption" id="chart-hint"></span>
+    </div>
+    <div class="suggest-box" id="chart-suggest" hidden></div>
+    <div class="panel-body" id="body-chart">
+      <div class="chart-quote" id="chart-quote"></div>
+      <div class="chart-workspace">
+        <div class="chart-main-wrap">
+          <canvas id="stock-canvas"></canvas>
+          <canvas id="chart-xhair" aria-hidden="true"></canvas>
+          <div class="xhair-readout" id="xhair-readout" hidden></div>
+        </div>
+        <div class="chart-sub-wrap">
+          <canvas id="chart-sub-canvas"></canvas>
+        </div>
+        <div class="watchlist-col">
+          <div class="wl-head">WATCHLIST</div>
+          <div class="wl-list" id="chart-watchlist"></div>
+          <div class="wl-foot" id="chart-wl-meta"></div>
+        </div>
+      </div>
+      <div class="news-caption" id="chart-news-head">COMPANY NEWS — loading…</div>
+      <div class="chart-news" id="chart-news"><div class="empty">loading news…</div></div>
+      <div class="heat-caption" id="chart-source"></div>
+    </div>
+    <div class="resize-handle" data-resize></div>
+  </section>
+
+</div>
+
+<div id="detail-modal" hidden>
+  <div class="modal-frame">
+    <div class="modal-head">
+      <span id="modal-title">…</span>
+      <button id="modal-close" type="button" title="close">×</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<footer id="statusline">
+  <span>PM CANVAS — polymarket_arb — all sessions PAPER_TRADE — real orders 0</span>
+  <span class="cmd-fill"></span>
+  <span id="footer-ts">…</span>
+</footer>
+
+<script src="landmask.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

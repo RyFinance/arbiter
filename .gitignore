@@ -1,0 +1,24 @@
+# Virtual environments and caches
+.venv/
+__pycache__/
+*.py[co]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+graphify-out/
+
+# Secrets: any .env except the checked-in templates
+.env
+.env.*
+!.env.example
+
+# Local data, models and runtime state
+*.parquet
+btc5m/edge_mining/out/
+btc5m/state/paper_session_archives/
+
+# AI agent config
+.claude/
+
+# OS
+.DS_Store

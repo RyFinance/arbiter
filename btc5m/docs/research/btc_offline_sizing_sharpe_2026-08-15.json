@@ -1,0 +1,2570 @@
+{
+  "aggregate": {
+    "gradient_boosted_trees": {
+      "accuracy": {
+        "mean": 0.8840031906652418,
+        "range": [
+          0.8090607096432526,
+          0.9301419292759201
+        ],
+        "sd": 0.05346280401429533
+      },
+      "auc": {
+        "mean": 0.6329452430835169,
+        "range": [
+          0.5927056955856251,
+          0.6971314136186679
+        ],
+        "sd": 0.04587129249574718
+      },
+      "pr_auc": {
+        "mean": 0.14978444819556425,
+        "range": [
+          0.0833777915922714,
+          0.19673121616198092
+        ],
+        "sd": 0.048278809462951225
+      },
+      "precision": {
+        "mean": 0.07869698435736171,
+        "range": [
+          0.0,
+          0.23609095307208514
+        ],
+        "sd": 0.11129434259604425
+      },
+      "recall": {
+        "mean": 0.05657971014492754,
+        "range": [
+          0.0,
+          0.16973913043478261
+        ],
+        "sd": 0.08001579344209511
+      }
+    },
+    "logistic_regression": {
+      "accuracy": {
+        "mean": 0.9014632703389275,
+        "range": [
+          0.860671128015021,
+          0.9308636035602598
+        ],
+        "sd": 0.029766601998037556
+      },
+      "auc": {
+        "mean": 0.6916641903727578,
+        "range": [
+          0.6827412549604224,
+          0.7083083607245262
+        ],
+        "sd": 0.011779426302687156
+      },
+      "pr_auc": {
+        "mean": 0.19011583954216918,
+        "range": [
+          0.13441956682250567,
+          0.2496513920139936
+        ],
+        "sd": 0.04712146316348792
+      },
+      "precision": {
+        "mean": 0.11794871794871796,
+        "range": [
+          0.0,
+          0.35384615384615387
+        ],
+        "sd": 0.16680467658759582
+      },
+      "recall": {
+        "mean": 0.0026666666666666666,
+        "range": [
+          0.0,
+          0.008
+        ],
+        "sd": 0.0037712361663282535
+      }
+    },
+    "majority_baseline": {
+      "accuracy": {
+        "mean": 0.901768182636522,
+        "range": [
+          0.8615858649078042,
+          0.9308636035602598
+        ],
+        "sd": 0.02934894352184524
+      },
+      "auc": {
+        "mean": 0.5,
+        "range": [
+          0.5,
+          0.5
+        ],
+        "sd": 0.0
+      },
+      "pr_auc": {
+        "mean": 0.09823181736347796,
+        "range": [
+          0.06913639643974019,
+          0.13841413509219586
+        ],
+        "sd": 0.029348943521845285
+      },
+      "precision": {
+        "mean": 0.0,
+        "range": [
+          0.0,
+          0.0
+        ],
+        "sd": 0.0
+      },
+      "recall": {
+        "mean": 0.0,
+        "range": [
+          0.0,
+          0.0
+        ],
+        "sd": 0.0
+      }
+    }
+  },
+  "feature_label_correlations": {
+    "method": "Pearson correlation over complete pairs",
+    "scope": "train only after embargo",
+    "values": {
+      "atr_14": {
+        "complete_pairs": 76197,
+        "pearson": 0.2553109637167797
+      },
+      "atr_14m_bps": {
+        "complete_pairs": 76197,
+        "pearson": 0.2503083371531896
+      },
+      "atr_60m_bps": {
+        "complete_pairs": 76197,
+        "pearson": 0.25593118404701176
+      },
+      "bb_lower": {
+        "complete_pairs": 76197,
+        "pearson": -0.13587823702827745
+      },
+      "bb_mid": {
+        "complete_pairs": 76197,
+        "pearson": -0.13384591074391677
+      },
+      "bb_upper": {
+        "complete_pairs": 76197,
+        "pearson": -0.13178602790503072
+      },
+      "bb_width": {
+        "complete_pairs": 76197,
+        "pearson": 0.2074337927014411
+      },
+      "close": {
+        "complete_pairs": 76197,
+        "pearson": -0.13435430223943853
+      },
+      "day_of_week": {
+        "complete_pairs": 76197,
+        "pearson": -0.060154948251879434
+      },
+      "half_life_60": {
+        "complete_pairs": 76197,
+        "pearson": 0.003997985682305383
+      },
+      "high": {
+        "complete_pairs": 76197,
+        "pearson": -0.1338956975690964
+      },
+      "hour_utc": {
+        "complete_pairs": 76197,
+        "pearson": 0.024809025806286363
+      },
+      "log_volume": {
+        "complete_pairs": 76197,
+        "pearson": 0.17135470363040986
+      },
+      "low": {
+        "complete_pairs": 76197,
+        "pearson": -0.134754842610669
+      },
+      "macd": {
+        "complete_pairs": 76197,
+        "pearson": -0.04552359338417098
+      },
+      "macd_hist": {
+        "complete_pairs": 76197,
+        "pearson": -0.021198676713381884
+      },
+      "macd_signal": {
+        "complete_pairs": 76197,
+        "pearson": -0.041379681305142094
+      },
+      "minutes_to_next_high_macro": {
+        "complete_pairs": 76197,
+        "pearson": -0.0781276520110796
+      },
+      "momentum_20": {
+        "complete_pairs": 76197,
+        "pearson": -0.03528111221531419
+      },
+      "momentum_60": {
+        "complete_pairs": 76197,
+        "pearson": -0.0527578184039565
+      },
+      "open": {
+        "complete_pairs": 76197,
+        "pearson": -0.1342878665711439
+      },
+      "realized_vol_30": {
+        "complete_pairs": 76197,
+        "pearson": 0.24430764313419503
+      },
+      "return_1m_bps": {
+        "complete_pairs": 76197,
+        "pearson": -0.012365051654781687
+      },
+      "rolling_vol_15m_bps": {
+        "complete_pairs": 76197,
+        "pearson": 0.22894814050026452
+      },
+      "rolling_vol_5m_bps": {
+        "complete_pairs": 76197,
+        "pearson": 0.20110306240465434
+      },
+      "rolling_vol_60m_bps": {
+        "complete_pairs": 76197,
+        "pearson": 0.2510843902686011
+      },
+      "rsi_14": {
+        "complete_pairs": 76197,
+        "pearson": -0.03875243994463005
+      },
+      "session_bucket": {
+        "complete_pairs": 76197,
+        "pearson": 0.03252278894773177
+      },
+      "sma_20": {
+        "complete_pairs": 76197,
+        "pearson": -0.13384591074391677
+      },
+      "sma_200": {
+        "complete_pairs": 76197,
+        "pearson": -0.13216918982635104
+      },
+      "sma_5": {
+        "complete_pairs": 76197,
+        "pearson": -0.1342307634687004
+      },
+      "sma_50": {
+        "complete_pairs": 76197,
+        "pearson": -0.13342956920828794
+      },
+      "vol_regime": {
+        "complete_pairs": 76197,
+        "pearson": 0.18479964635773194
+      },
+      "vol_squeeze": {
+        "complete_pairs": 76197,
+        "pearson": 0.02700952703020669
+      },
+      "volume": {
+        "complete_pairs": 76197,
+        "pearson": 0.12939151992992107
+      },
+      "vwap_distance": {
+        "complete_pairs": 76197,
+        "pearson": 0.03867364420407596
+      },
+      "zscore_20": {
+        "complete_pairs": 76197,
+        "pearson": -0.03302198879194262
+      },
+      "zscore_60": {
+        "complete_pairs": 76197,
+        "pearson": -0.035706064797326194
+      }
+    }
+  },
+  "holdouts": {
+    "holdout_a": {
+      "end": "2026-07-07T20:31:00+00:00",
+      "label_distribution": {
+        "0": 17896,
+        "1": 2875
+      },
+      "majority_baseline": {
+        "accuracy": 0.8615858649078042,
+        "auc": 0.5,
+        "calibrated": {
+          "accuracy": 0.8615858649078042,
+          "auc": 0.5,
+          "f1_threshold": 0.10243185427247792,
+          "pr_auc": 0.13841413509219586,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "f1_threshold": 0.10243185427247792,
+        "pr_auc": 0.13841413509219586,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "missing_classes": [],
+      "models": {
+        "gradient_boosted_trees": {
+          "accuracy": 0.8090607096432526,
+          "auc": 0.6089986200462576,
+          "calibrated": {
+            "accuracy": 0.658177266381012,
+            "auc": 0.6089986200462576,
+            "pr_auc": 0.19673121616198092,
+            "precision": 0.1921900043712662,
+            "recall": 0.4587826086956522
+          },
+          "pr_auc": 0.19673121616198092,
+          "precision": 0.23609095307208514,
+          "recall": 0.16973913043478261,
+          "sizing_policies": {
+            "binary_f1": {
+              "actual_entries": 591,
+              "candidate_rows": 20771,
+              "delta_vs_binary_net_pnl_bps": 0.0,
+              "exposure_sum": 591.0,
+              "max_drawdown": 0.6806061591073993,
+              "mean_trade_pnl_bps": -19.174028327267568,
+              "median_trade_pnl_bps": -20.23346417538761,
+              "negative_trades": 491,
+              "net_pnl_bps": -11331.850741415132,
+              "pnl_per_unit_exposure_bps": -19.174028327267568,
+              "positive_trades": 100,
+              "selection_rate": 0.028453131770256608,
+              "sequential_ending_equity": 0.322006008349437,
+              "sharpe_annualized": -112.94503843819572,
+              "sharpe_per_trade": -0.6033719393049102,
+              "signal_rows": 6863,
+              "zero_trades": 0
+            },
+            "confidence_weighted": {
+              "actual_entries": 591,
+              "candidate_rows": 20771,
+              "delta_vs_binary_net_pnl_bps": 8889.012091182238,
+              "exposure_sum": 129.69517113257737,
+              "max_drawdown": 0.21673473890920825,
+              "mean_trade_pnl_bps": -4.133398731358534,
+              "median_trade_pnl_bps": -2.0213207867253047,
+              "negative_trades": 491,
+              "net_pnl_bps": -2442.838650232894,
+              "pnl_per_unit_exposure_bps": -18.835232097699063,
+              "positive_trades": 100,
+              "selection_rate": 0.028453131770256608,
+              "sequential_ending_equity": 0.7832652610907916,
+              "sharpe_annualized": -67.38741941491787,
+              "sharpe_per_trade": -0.3599952552088562,
+              "signal_rows": 6863,
+              "zero_trades": 0
+            },
+            "probability_proportional": {
+              "actual_entries": 1392,
+              "candidate_rows": 20771,
+              "delta_vs_binary_net_pnl_bps": 5845.3509186690735,
+              "exposure_sum": 285.6549600639695,
+              "max_drawdown": 0.4227573247253653,
+              "mean_trade_pnl_bps": -3.9414510220876857,
+              "median_trade_pnl_bps": -1.617297266138565,
+              "negative_trades": 1191,
+              "net_pnl_bps": -5486.499822746058,
+              "pnl_per_unit_exposure_bps": -19.206737462277612,
+              "positive_trades": 201,
+              "selection_rate": 0.06701651340811708,
+              "sequential_ending_equity": 0.5777292288471586,
+              "sharpe_annualized": -73.2565283976462,
+              "sharpe_per_trade": -0.39134905098305894,
+              "signal_rows": 20771,
+              "zero_trades": 0
+            },
+            "top_decile": {
+              "actual_entries": 611,
+              "candidate_rows": 20771,
+              "delta_vs_binary_net_pnl_bps": -383.6178415775121,
+              "exposure_sum": 611.0,
+              "max_drawdown": 0.692418592909521,
+              "mean_trade_pnl_bps": -19.17425299998796,
+              "median_trade_pnl_bps": -20.23346417538761,
+              "negative_trades": 508,
+              "net_pnl_bps": -11715.468582992644,
+              "pnl_per_unit_exposure_bps": -19.17425299998796,
+              "positive_trades": 103,
+              "selection_rate": 0.029416012710028406,
+              "sequential_ending_equity": 0.30988721871363206,
+              "sharpe_annualized": -115.38081597119941,
+              "sharpe_per_trade": -0.6163842843722677,
+              "signal_rows": 7126,
+              "zero_trades": 0
+            }
+          },
+          "train_f1_threshold": 0.23461459380404626,
+          "train_probability_q90": 0.22576412402061702
+        },
+        "logistic_regression": {
+          "accuracy": 0.860671128015021,
+          "auc": 0.683942955433325,
+          "calibrated": {
+            "accuracy": 0.7159501227673198,
+            "auc": 0.683942955433325,
+            "pr_auc": 0.2496513920139936,
+            "precision": 0.24995867085468673,
+            "recall": 0.5259130434782608
+          },
+          "pr_auc": 0.2496513920139936,
+          "precision": 0.35384615384615387,
+          "recall": 0.008,
+          "sizing_policies": {
+            "binary_f1": {
+              "actual_entries": 574,
+              "candidate_rows": 20771,
+              "delta_vs_binary_net_pnl_bps": 0.0,
+              "exposure_sum": 574.0,
+              "max_drawdown": 0.6646265273293658,
+              "mean_trade_pnl_bps": -19.010105721872865,
+              "median_trade_pnl_bps": -21.118486413531627,
+              "negative_trades": 435,
+              "net_pnl_bps": -10911.800684355025,
+              "pnl_per_unit_exposure_bps": -19.010105721872865,
+              "positive_trades": 139,
+              "selection_rate": 0.02763468297145058,
+              "sequential_ending_equity": 0.3358199692440313,
+              "sharpe_annualized": -104.6636105276051,
+              "sharpe_per_trade": -0.5591311183912837,
+              "signal_rows": 6049,
+              "zero_trades": 0
+            },
+            "confidence_weighted": {
+              "actual_entries": 574,
+              "candidate_rows": 20771,
+              "delta_vs_binary_net_pnl_bps": 10433.778480452951,
+              "exposure_sum": 34.420017766014425,
+              "max_drawdown": 0.047708710092422835,
+              "mean_trade_pnl_bps": -0.8327912959966447,
+              "median_trade_pnl_bps": -0.26778183063885075,
+              "negative_trades": 435,
+              "net_pnl_bps": -478.02220390207407,
+              "pnl_per_unit_exposure_bps": -13.887912759128868,
+              "positive_trades": 139,
+              "selection_rate": 0.02763468297145058,
+              "sequential_ending_equity": 0.9533223161489817,
+              "sharpe_annualized": -26.249809886414074,
+              "sharpe_per_trade": -0.14023102667070886,
+              "signal_rows": 6049,
+              "zero_trades": 0
+            },
+            "probability_proportional": {
+              "actual_entries": 1392,
+              "candidate_rows": 20771,
+              "delta_vs_binary_net_pnl_bps": 8024.746415981563,
+              "exposure_sum": 154.5128980594476,
+              "max_drawdown": 0.2507671232027793,
+              "mean_trade_pnl_bps": -2.074033238774039,
+              "median_trade_pnl_bps": -1.5303575205601108,
+              "negative_trades": 1191,
+              "net_pnl_bps": -2887.054268373462,
+              "pnl_per_unit_exposure_bps": -18.68487553228528,
+              "positive_trades": 201,
+              "selection_rate": 0.06701651340811708,
+              "sequential_ending_equity": 0.7492328767972207,
+              "sharpe_annualized": -71.10048091006367,
+              "sharpe_per_trade": -0.3798310722227258,
+              "signal_rows": 20771,
+              "zero_trades": 0
+            },
+            "top_decile": {
+              "actual_entries": 196,
+              "candidate_rows": 20771,
+              "delta_vs_binary_net_pnl_bps": 7547.663397198858,
+              "exposure_sum": 196.0,
+              "max_drawdown": 0.29121272526250486,
+              "mean_trade_pnl_bps": -17.16396575079677,
+              "median_trade_pnl_bps": -20.556330755285828,
+              "negative_trades": 136,
+              "net_pnl_bps": -3364.137287156167,
+              "pnl_per_unit_exposure_bps": -17.16396575079677,
+              "positive_trades": 60,
+              "selection_rate": 0.009436233209763613,
+              "sequential_ending_equity": 0.7143275068694408,
+              "sharpe_annualized": -76.3389903996834,
+              "sharpe_per_trade": -0.40781609638603705,
+              "signal_rows": 1774,
+              "zero_trades": 0
+            }
+          },
+          "train_f1_threshold": 0.12795263383358718,
+          "train_probability_q90": 0.2108908741559322
+        }
+      },
+      "rows": 20771,
+      "start": "2026-06-23T08:13:00+00:00",
+      "valid": true
+    },
+    "holdout_b": {
+      "end": "2026-07-22T08:07:00+00:00",
+      "label_distribution": {
+        "0": 18960,
+        "1": 1810
+      },
+      "majority_baseline": {
+        "accuracy": 0.9128550794415021,
+        "auc": 0.5,
+        "calibrated": {
+          "accuracy": 0.9128550794415021,
+          "auc": 0.5,
+          "f1_threshold": 0.10243185427247792,
+          "pr_auc": 0.08714492055849783,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "f1_threshold": 0.10243185427247792,
+        "pr_auc": 0.08714492055849783,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "missing_classes": [],
+      "models": {
+        "gradient_boosted_trees": {
+          "accuracy": 0.9128069330765527,
+          "auc": 0.6971314136186679,
+          "calibrated": {
+            "accuracy": 0.9092922484352431,
+            "auc": 0.6971314136186679,
+            "pr_auc": 0.16924433683244045,
+            "precision": 0.22388059701492538,
+            "recall": 0.016574585635359115
+          },
+          "pr_auc": 0.16924433683244045,
+          "precision": 0.0,
+          "recall": 0.0,
+          "sizing_policies": {
+            "binary_f1": {
+              "actual_entries": 26,
+              "candidate_rows": 20770,
+              "delta_vs_binary_net_pnl_bps": 0.0,
+              "exposure_sum": 26.0,
+              "max_drawdown": 0.022355844326657826,
+              "mean_trade_pnl_bps": -5.637000219760477,
+              "median_trade_pnl_bps": -6.957011531387707,
+              "negative_trades": 15,
+              "net_pnl_bps": -146.5620057137724,
+              "pnl_per_unit_exposure_bps": -5.637000219760477,
+              "positive_trades": 11,
+              "selection_rate": 0.0012518054886856043,
+              "sequential_ending_equity": 0.9854506787508539,
+              "sharpe_annualized": -36.80925907886358,
+              "sharpe_per_trade": -0.19664143145999347,
+              "signal_rows": 134,
+              "zero_trades": 0
+            },
+            "confidence_weighted": {
+              "actual_entries": 26,
+              "candidate_rows": 20770,
+              "delta_vs_binary_net_pnl_bps": 115.36028835373143,
+              "exposure_sum": 2.0937966655202493,
+              "max_drawdown": 0.003384900568287219,
+              "mean_trade_pnl_bps": -1.200066052309268,
+              "median_trade_pnl_bps": -0.315969978971397,
+              "negative_trades": 15,
+              "net_pnl_bps": -31.20171736004097,
+              "pnl_per_unit_exposure_bps": -14.90198063348631,
+              "positive_trades": 11,
+              "selection_rate": 0.0012518054886856043,
+              "sequential_ending_equity": 0.9968846909410497,
+              "sharpe_annualized": -100.58410908203943,
+              "sharpe_per_trade": -0.5373377157536364,
+              "signal_rows": 134,
+              "zero_trades": 0
+            },
+            "probability_proportional": {
+              "actual_entries": 1389,
+              "candidate_rows": 20770,
+              "delta_vs_binary_net_pnl_bps": -957.634822854518,
+              "exposure_sum": 59.03409944838505,
+              "max_drawdown": 0.10458146222416553,
+              "mean_trade_pnl_bps": -0.7949581199195755,
+              "median_trade_pnl_bps": -0.4412200457281449,
+              "negative_trades": 1269,
+              "net_pnl_bps": -1104.1968285682904,
+              "pnl_per_unit_exposure_bps": -18.704390155620423,
+              "positive_trades": 120,
+              "selection_rate": 0.06687530091478093,
+              "sequential_ending_equity": 0.895458247949637,
+              "sharpe_annualized": -98.28047138408095,
+              "sharpe_per_trade": -0.5250312845505191,
+              "signal_rows": 20770,
+              "zero_trades": 0
+            },
+            "top_decile": {
+              "actual_entries": 30,
+              "candidate_rows": 20770,
+              "delta_vs_binary_net_pnl_bps": -19.95121507408541,
+              "exposure_sum": 30.0,
+              "max_drawdown": 0.021924280426361742,
+              "mean_trade_pnl_bps": -5.550440692928594,
+              "median_trade_pnl_bps": -4.716331339420492,
+              "negative_trades": 18,
+              "net_pnl_bps": -166.51322078785782,
+              "pnl_per_unit_exposure_bps": -5.550440692928594,
+              "positive_trades": 12,
+              "selection_rate": 0.0014443909484833895,
+              "sequential_ending_equity": 0.9834865449015519,
+              "sharpe_annualized": -37.91949127749075,
+              "sharpe_per_trade": -0.20257248397923264,
+              "signal_rows": 156,
+              "zero_trades": 0
+            }
+          },
+          "train_f1_threshold": 0.23461459380404626,
+          "train_probability_q90": 0.22576412402061702
+        },
+        "logistic_regression": {
+          "accuracy": 0.9128550794415021,
+          "auc": 0.7083083607245262,
+          "calibrated": {
+            "accuracy": 0.8901781415503129,
+            "auc": 0.7083083607245262,
+            "pr_auc": 0.1862765597900083,
+            "precision": 0.24374319912948858,
+            "recall": 0.12375690607734807
+          },
+          "pr_auc": 0.1862765597900083,
+          "precision": 0.0,
+          "recall": 0.0,
+          "sizing_policies": {
+            "binary_f1": {
+              "actual_entries": 136,
+              "candidate_rows": 20770,
+              "delta_vs_binary_net_pnl_bps": 0.0,
+              "exposure_sum": 136.0,
+              "max_drawdown": 0.22600686745391874,
+              "mean_trade_pnl_bps": -18.78872553540289,
+              "median_trade_pnl_bps": -18.046550972716773,
+              "negative_trades": 109,
+              "net_pnl_bps": -2555.266672814793,
+              "pnl_per_unit_exposure_bps": -18.78872553540289,
+              "positive_trades": 27,
+              "selection_rate": 0.006547905633124699,
+              "sequential_ending_equity": 0.7745084822494204,
+              "sharpe_annualized": -141.71246647472117,
+              "sharpe_per_trade": -0.7570525177812362,
+              "signal_rows": 919,
+              "zero_trades": 0
+            },
+            "confidence_weighted": {
+              "actual_entries": 136,
+              "candidate_rows": 20770,
+              "delta_vs_binary_net_pnl_bps": 2502.5840046048493,
+              "exposure_sum": 3.264386818882498,
+              "max_drawdown": 0.005397633271959967,
+              "mean_trade_pnl_bps": -0.38737256036723217,
+              "median_trade_pnl_bps": -0.15686595740309084,
+              "negative_trades": 109,
+              "net_pnl_bps": -52.68266820994357,
+              "pnl_per_unit_exposure_bps": -16.13861075078673,
+              "positive_trades": 27,
+              "selection_rate": 0.006547905633124699,
+              "sequential_ending_equity": 0.9947455861589131,
+              "sharpe_annualized": -92.77146480566671,
+              "sharpe_per_trade": -0.4956012181321503,
+              "signal_rows": 919,
+              "zero_trades": 0
+            },
+            "probability_proportional": {
+              "actual_entries": 1389,
+              "candidate_rows": 20770,
+              "delta_vs_binary_net_pnl_bps": 1050.3555350550814,
+              "exposure_sum": 78.83964554642714,
+              "max_drawdown": 0.1397608636790154,
+              "mean_trade_pnl_bps": -1.0834493432395331,
+              "median_trade_pnl_bps": -0.7592175104203487,
+              "negative_trades": 1269,
+              "net_pnl_bps": -1504.9111377597114,
+              "pnl_per_unit_exposure_bps": -19.088253471072477,
+              "positive_trades": 120,
+              "selection_rate": 0.06687530091478093,
+              "sequential_ending_equity": 0.860285374662015,
+              "sharpe_annualized": -126.61173125698487,
+              "sharpe_per_trade": -0.6763817772223997,
+              "signal_rows": 20770,
+              "zero_trades": 0
+            },
+            "top_decile": {
+              "actual_entries": 12,
+              "candidate_rows": 20770,
+              "delta_vs_binary_net_pnl_bps": 2471.705889679174,
+              "exposure_sum": 12.0,
+              "max_drawdown": 0.013714476360424777,
+              "mean_trade_pnl_bps": -6.963398594634889,
+              "median_trade_pnl_bps": -6.119484311739569,
+              "negative_trades": 8,
+              "net_pnl_bps": -83.56078313561866,
+              "pnl_per_unit_exposure_bps": -6.963398594634889,
+              "positive_trades": 4,
+              "selection_rate": 0.0005777563793933558,
+              "sequential_ending_equity": 0.9916787366691008,
+              "sharpe_annualized": -41.747240122778656,
+              "sharpe_per_trade": -0.22302098066301837,
+              "signal_rows": 43,
+              "zero_trades": 0
+            }
+          },
+          "train_f1_threshold": 0.12795263383358718,
+          "train_probability_q90": 0.2108908741559322
+        }
+      },
+      "rows": 20770,
+      "start": "2026-07-07T20:47:00+00:00",
+      "valid": true
+    },
+    "holdout_c": {
+      "end": "2026-08-05T21:08:00+00:00",
+      "label_distribution": {
+        "0": 19348,
+        "1": 1437
+      },
+      "majority_baseline": {
+        "accuracy": 0.9308636035602598,
+        "auc": 0.5,
+        "calibrated": {
+          "accuracy": 0.9308636035602598,
+          "auc": 0.5,
+          "f1_threshold": 0.10243185427247792,
+          "pr_auc": 0.06913639643974019,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "f1_threshold": 0.10243185427247792,
+        "pr_auc": 0.06913639643974019,
+        "precision": 0.0,
+        "recall": 0.0
+      },
+      "missing_classes": [],
+      "models": {
+        "gradient_boosted_trees": {
+          "accuracy": 0.9301419292759201,
+          "auc": 0.5927056955856251,
+          "calibrated": {
+            "accuracy": 0.9208082751984604,
+            "auc": 0.5927056955856251,
+            "pr_auc": 0.0833777915922714,
+            "precision": 0.10861423220973783,
+            "recall": 0.020180932498260265
+          },
+          "pr_auc": 0.0833777915922714,
+          "precision": 0.0,
+          "recall": 0.0,
+          "sizing_policies": {
+            "binary_f1": {
+              "actual_entries": 52,
+              "candidate_rows": 20785,
+              "delta_vs_binary_net_pnl_bps": 0.0,
+              "exposure_sum": 52.0,
+              "max_drawdown": 0.0971702704672176,
+              "mean_trade_pnl_bps": -19.65794311860928,
+              "median_trade_pnl_bps": -20.962108043172094,
+              "negative_trades": 48,
+              "net_pnl_bps": -1022.2130421676825,
+              "pnl_per_unit_exposure_bps": -19.65794311860928,
+              "positive_trades": 4,
+              "selection_rate": 0.0025018041857108493,
+              "sequential_ending_equity": 0.9028297295327824,
+              "sharpe_annualized": -211.94807682441905,
+              "sharpe_per_trade": -1.132263301813603,
+              "signal_rows": 267,
+              "zero_trades": 0
+            },
+            "confidence_weighted": {
+              "actual_entries": 52,
+              "candidate_rows": 20785,
+              "delta_vs_binary_net_pnl_bps": 923.2631067103955,
+              "exposure_sum": 5.237165836036688,
+              "max_drawdown": 0.009846199169726289,
+              "mean_trade_pnl_bps": -1.9028833741785964,
+              "median_trade_pnl_bps": -1.3427699789089218,
+              "negative_trades": 48,
+              "net_pnl_bps": -98.94993545728701,
+              "pnl_per_unit_exposure_bps": -18.89379457423655,
+              "positive_trades": 4,
+              "selection_rate": 0.0025018041857108493,
+              "sequential_ending_equity": 0.9901538008302737,
+              "sharpe_annualized": -138.67704094937483,
+              "sharpe_per_trade": -0.7408367493759154,
+              "signal_rows": 267,
+              "zero_trades": 0
+            },
+            "probability_proportional": {
+              "actual_entries": 1394,
+              "candidate_rows": 20785,
+              "delta_vs_binary_net_pnl_bps": -239.787707123882,
+              "exposure_sum": 61.79035567365612,
+              "max_drawdown": 0.11856152460026292,
+              "mean_trade_pnl_bps": -0.9053090023612371,
+              "median_trade_pnl_bps": -0.48321968037889607,
+              "negative_trades": 1297,
+              "net_pnl_bps": -1262.0007492915645,
+              "pnl_per_unit_exposure_bps": -20.42391139414673,
+              "positive_trades": 97,
+              "selection_rate": 0.06706759682463315,
+              "sequential_ending_equity": 0.881438475399737,
+              "sharpe_annualized": -109.21601384831074,
+              "sharpe_per_trade": -0.5834508446766958,
+              "signal_rows": 20785,
+              "zero_trades": 0
+            },
+            "top_decile": {
+              "actual_entries": 57,
+              "candidate_rows": 20785,
+              "delta_vs_binary_net_pnl_bps": -100.08791150856177,
+              "exposure_sum": 57.0,
+              "max_drawdown": 0.10645147164887647,
+              "mean_trade_pnl_bps": -19.689490415372706,
+              "median_trade_pnl_bps": -21.106592438375742,
+              "negative_trades": 52,
+              "net_pnl_bps": -1122.3009536762443,
+              "pnl_per_unit_exposure_bps": -19.689490415372706,
+              "positive_trades": 5,
+              "selection_rate": 0.0027423622804907386,
+              "sequential_ending_equity": 0.8938385657235252,
+              "sharpe_annualized": -215.4108808977698,
+              "sharpe_per_trade": -1.150762200375791,
+              "signal_rows": 291,
+              "zero_trades": 0
+            }
+          },
+          "train_f1_threshold": 0.23461459380404626,
+          "train_probability_q90": 0.22576412402061702
+        },
+        "logistic_regression": {
+          "accuracy": 0.9308636035602598,
+          "auc": 0.6827412549604224,
+          "calibrated": {
+            "accuracy": 0.9231176329083474,
+            "auc": 0.6827412549604224,
+            "pr_auc": 0.13441956682250567,
+            "precision": 0.1891891891891892,
+            "recall": 0.03409881697981907
+          },
+          "pr_auc": 0.13441956682250567,
+          "precision": 0.0,
+          "recall": 0.0,
+          "sizing_policies": {
+            "binary_f1": {
+              "actual_entries": 37,
+              "candidate_rows": 20785,
+              "delta_vs_binary_net_pnl_bps": 0.0,
+              "exposure_sum": 37.0,
+              "max_drawdown": 0.09172548026486482,
+              "mean_trade_pnl_bps": -25.08367934672568,
+              "median_trade_pnl_bps": -17.64293494955325,
+              "negative_trades": 31,
+              "net_pnl_bps": -928.0961358288502,
+              "pnl_per_unit_exposure_bps": -25.08367934672568,
+              "positive_trades": 6,
+              "selection_rate": 0.0017801299013711811,
+              "sequential_ending_equity": 0.9113669956770183,
+              "sharpe_annualized": -149.65718946474306,
+              "sharpe_per_trade": -0.7994946027458885,
+              "signal_rows": 259,
+              "zero_trades": 0
+            },
+            "confidence_weighted": {
+              "actual_entries": 37,
+              "candidate_rows": 20785,
+              "delta_vs_binary_net_pnl_bps": 912.4238611305268,
+              "exposure_sum": 0.7430059579532569,
+              "max_drawdown": 0.0016126027776112162,
+              "mean_trade_pnl_bps": -0.4235749918465777,
+              "median_trade_pnl_bps": -0.15773803312557622,
+              "negative_trades": 31,
+              "net_pnl_bps": -15.672274698323376,
+              "pnl_per_unit_exposure_bps": -21.093067330840075,
+              "positive_trades": 6,
+              "selection_rate": 0.0017801299013711811,
+              "sequential_ending_equity": 0.9984339999898189,
+              "sharpe_annualized": -105.0143129854062,
+              "sharpe_per_trade": -0.561004631606282,
+              "signal_rows": 259,
+              "zero_trades": 0
+            },
+            "probability_proportional": {
+              "actual_entries": 1394,
+              "candidate_rows": 20785,
+              "delta_vs_binary_net_pnl_bps": -168.46073258578224,
+              "exposure_sum": 52.954134466501586,
+              "max_drawdown": 0.10385736411546465,
+              "mean_trade_pnl_bps": -0.7866261609861065,
+              "median_trade_pnl_bps": -0.5495187455114416,
+              "negative_trades": 1297,
+              "net_pnl_bps": -1096.5568684146324,
+              "pnl_per_unit_exposure_bps": -20.70767239351833,
+              "positive_trades": 97,
+              "selection_rate": 0.06706759682463315,
+              "sequential_ending_equity": 0.8961426358845355,
+              "sharpe_annualized": -123.40408211204607,
+              "sharpe_per_trade": -0.6592459604397038,
+              "signal_rows": 20785,
+              "zero_trades": 0
+            },
+            "top_decile": {
+              "actual_entries": 4,
+              "candidate_rows": 20785,
+              "delta_vs_binary_net_pnl_bps": 837.8998820032917,
+              "exposure_sum": 4.0,
+              "max_drawdown": 0.008979070582826876,
+              "mean_trade_pnl_bps": -22.54906345638961,
+              "median_trade_pnl_bps": -21.25444243598949,
+              "negative_trades": 4,
+              "net_pnl_bps": -90.19625382555844,
+              "pnl_per_unit_exposure_bps": -22.54906345638961,
+              "positive_trades": 0,
+              "selection_rate": 0.00019244647582391147,
+              "sequential_ending_equity": 0.9910209294171731,
+              "sharpe_annualized": -223.47781535892824,
+              "sharpe_per_trade": -1.1938571601666828,
+              "signal_rows": 13,
+              "zero_trades": 0
+            }
+          },
+          "train_f1_threshold": 0.12795263383358718,
+          "train_probability_q90": 0.2108908741559322
+        }
+      },
+      "rows": 20785,
+      "start": "2026-07-22T08:23:00+00:00",
+      "valid": true
+    }
+  },
+  "input": {
+    "candles_path": "~/polymarket_arb/state/btc_1m_candles_lse_v3.parquet",
+    "candles_rows": 139523,
+    "high_event_count": 23,
+    "horizon_minutes": 15,
+    "input_unchanged_during_read": true,
+    "macro_calendar": {
+      "event_count": 205,
+      "event_range_utc": {
+        "end": "2026-08-19T09:00:00+00:00",
+        "start": "2026-08-14T10:00:00+00:00"
+      },
+      "high_event_count": 23,
+      "impact_counts": {
+        "HIGH": 48,
+        "LOW": 138,
+        "MED": 19
+      },
+      "path": "state/macro_events_snapshot_2026-08-15T093742Z.json",
+      "uses_event_descriptions": false,
+      "uses_event_titles": false
+    },
+    "macro_input_mode": "immutable_snapshot",
+    "macro_path": "~/polymarket_arb/state/macro_events_snapshot_2026-08-15T093742Z.json",
+    "output_overwrite_allowed": false,
+    "output_path": "~/polymarket_arb/docs/research/btc_offline_sizing_sharpe_2026-08-15.json",
+    "proxy_labelled_rows": 139374,
+    "round_trip_cost_bps": 20.0,
+    "sha256": {
+      "candles": "e40835922f491e0d7c97b05f6f5967a92d903aa856e9044dae03a2442d6b7ec1",
+      "macro": "48a2a0bb5dba6d46af54ee20d4f525ef59bff9abd45f747cd2fbd883e60b1d33"
+    }
+  },
+  "partitions": {
+    "holdout_a": {
+      "end": "2026-07-07T20:31:00+00:00",
+      "label_distribution": {
+        "0": 17896,
+        "1": 2875
+      },
+      "rows": 20771,
+      "start": "2026-06-23T08:13:00+00:00"
+    },
+    "holdout_b": {
+      "end": "2026-07-22T08:07:00+00:00",
+      "label_distribution": {
+        "0": 18960,
+        "1": 1810
+      },
+      "rows": 20770,
+      "start": "2026-07-07T20:47:00+00:00"
+    },
+    "holdout_c": {
+      "end": "2026-08-05T21:08:00+00:00",
+      "label_distribution": {
+        "0": 19348,
+        "1": 1437
+      },
+      "rows": 20785,
+      "start": "2026-07-22T08:23:00+00:00"
+    },
+    "train": {
+      "end": "2026-06-23T07:57:00+00:00",
+      "label_distribution": {
+        "0": 68392,
+        "1": 7805
+      },
+      "rows": 76197,
+      "start": "2026-05-01T03:24:00+00:00"
+    }
+  },
+  "pnl": {
+    "aggregate": {
+      "all_three_holdouts_valid": true,
+      "invalid_holdouts_excluded": [],
+      "models": {
+        "gradient_boosted_trees": {
+          "binary_f1": {
+            "actual_entries": {
+              "holdouts_with_value": 3,
+              "mean": 223.0,
+              "range": [
+                26.0,
+                591.0
+              ],
+              "sd": 260.431692899821,
+              "valid_holdouts": 3
+            },
+            "candidate_rows": {
+              "holdouts_with_value": 3,
+              "mean": 20775.333333333332,
+              "range": [
+                20770.0,
+                20785.0
+              ],
+              "sd": 6.847546194724712,
+              "valid_holdouts": 3
+            },
+            "delta_vs_binary_net_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": 0.0,
+              "range": [
+                0.0,
+                0.0
+              ],
+              "sd": 0.0,
+              "valid_holdouts": 3
+            },
+            "exposure_sum": {
+              "holdouts_with_value": 3,
+              "mean": 223.0,
+              "range": [
+                26.0,
+                591.0
+              ],
+              "sd": 260.431692899821,
+              "valid_holdouts": 3
+            },
+            "max_drawdown": {
+              "holdouts_with_value": 3,
+              "mean": 0.2667107579670916,
+              "range": [
+                0.022355844326657826,
+                0.6806061591073993
+              ],
+              "sd": 0.2942576556959422,
+              "valid_holdouts": 3
+            },
+            "mean_trade_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": -14.822990555212442,
+              "range": [
+                -19.65794311860928,
+                -5.637000219760477
+              ],
+              "sd": 6.4984796793087165,
+              "valid_holdouts": 3
+            },
+            "median_trade_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": -16.05086124998247,
+              "range": [
+                -20.962108043172094,
+                -6.957011531387707
+              ],
+              "sd": 6.437199572267666,
+              "valid_holdouts": 3
+            },
+            "negative_trades": {
+              "holdouts_with_value": 3,
+              "mean": 184.66666666666666,
+              "range": [
+                15.0,
+                491.0
+              ],
+              "sd": 217.02892792334288,
+              "valid_holdouts": 3
+            },
+            "net_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": -4166.875263098863,
+              "range": [
+                -11331.850741415132,
+                -146.5620057137724
+              ],
+              "sd": 5078.999008207936,
+              "valid_holdouts": 3
+            },
+            "pnl_per_unit_exposure_bps": {
+              "holdouts_with_value": 3,
+              "mean": -14.822990555212442,
+              "range": [
+                -19.65794311860928,
+                -5.637000219760477
+              ],
+              "sd": 6.4984796793087165,
+              "valid_holdouts": 3
+            },
+            "positive_trades": {
+              "holdouts_with_value": 3,
+              "mean": 38.333333333333336,
+              "range": [
+                4.0,
+                100.0
+              ],
+              "sd": 43.69846170697036,
+              "valid_holdouts": 3
+            },
+            "selection_rate": {
+              "holdouts_with_value": 3,
+              "mean": 0.010735580481551021,
+              "range": [
+                0.0012518054886856043,
+                0.028453131770256608
+              ],
+              "sd": 0.012538589552167233,
+              "valid_holdouts": 3
+            },
+            "sequential_ending_equity": {
+              "holdouts_with_value": 3,
+              "mean": 0.7367621388776912,
+              "range": [
+                0.322006008349437,
+                0.9854506787508539
+              ],
+              "sd": 0.29521014116557875,
+              "valid_holdouts": 3
+            },
+            "sharpe_annualized": {
+              "holdouts_with_value": 3,
+              "mean": -120.56745811382613,
+              "range": [
+                -211.94807682441905,
+                -36.80925907886358
+              ],
+              "sd": 71.70298613777673,
+              "valid_holdouts": 3
+            },
+            "sharpe_per_trade": {
+              "holdouts_with_value": 3,
+              "mean": -0.6440922241928355,
+              "range": [
+                -1.132263301813603,
+                -0.19664143145999347
+              ],
+              "sd": 0.38304975940645275,
+              "valid_holdouts": 3
+            },
+            "signal_rows": {
+              "holdouts_with_value": 3,
+              "mean": 2421.3333333333335,
+              "range": [
+                134.0,
+                6863.0
+              ],
+              "sd": 3141.201928490996,
+              "valid_holdouts": 3
+            },
+            "stability": {
+              "all_three_holdouts_valid": true,
+              "delta_vs_binary_positive_on_all_three_holdouts": false,
+              "delta_vs_binary_positive_on_all_valid_holdouts": false,
+              "delta_vs_binary_same_sign_on_all_valid_holdouts": true,
+              "net_pnl_positive_on_all_valid_holdouts": false
+            },
+            "zero_trades": {
+              "holdouts_with_value": 3,
+              "mean": 0.0,
+              "range": [
+                0.0,
+                0.0
+              ],
+              "sd": 0.0,
+              "valid_holdouts": 3
+            }
+          },
+          "confidence_weighted": {
+            "actual_entries": {
+              "holdouts_with_value": 3,
+              "mean": 223.0,
+              "range": [
+                26.0,
+                591.0
+              ],
+              "sd": 260.431692899821,
+              "valid_holdouts": 3
+            },
+            "candidate_rows": {
+              "holdouts_with_value": 3,
+              "mean": 20775.333333333332,
+              "range": [
+                20770.0,
+                20785.0
+              ],
+              "sd": 6.847546194724712,
+              "valid_holdouts": 3
+            },
+            "delta_vs_binary_net_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": 3309.2118287487883,
+              "range": [
+                115.36028835373143,
+                8889.012091182238
+              ],
+              "sd": 3959.276446310736,
+              "valid_holdouts": 3
+            },
+            "exposure_sum": {
+              "holdouts_with_value": 3,
+              "mean": 45.67537787804477,
+              "range": [
+                2.0937966655202493,
+                129.69517113257737
+              ],
+              "sd": 59.42482329989906,
+              "valid_holdouts": 3
+            },
+            "max_drawdown": {
+              "holdouts_with_value": 3,
+              "mean": 0.07665527954907392,
+              "range": [
+                0.003384900568287219,
+                0.21673473890920825
+              ],
+              "sd": 0.09908625298487805,
+              "valid_holdouts": 3
+            },
+            "mean_trade_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": -2.4121160526154664,
+              "range": [
+                -4.133398731358534,
+                -1.200066052309268
+              ],
+              "sd": 1.2504928607248096,
+              "valid_holdouts": 3
+            },
+            "median_trade_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": -1.226686914868541,
+              "range": [
+                -2.0213207867253047,
+                -0.315969978971397
+              ],
+              "sd": 0.7010286740186304,
+              "valid_holdouts": 3
+            },
+            "negative_trades": {
+              "holdouts_with_value": 3,
+              "mean": 184.66666666666666,
+              "range": [
+                15.0,
+                491.0
+              ],
+              "sd": 217.02892792334288,
+              "valid_holdouts": 3
+            },
+            "net_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": -857.6634343500741,
+              "range": [
+                -2442.838650232894,
+                -31.20171736004097
+              ],
+              "sd": 1121.2293265431763,
+              "valid_holdouts": 3
+            },
+            "pnl_per_unit_exposure_bps": {
+              "holdouts_with_value": 3,
+              "mean": -17.543669101807307,
+              "range": [
+                -18.89379457423655,
+                -14.90198063348631
+              ],
+              "sd": 1.8681088233218919,
+              "valid_holdouts": 3
+            },
+            "positive_trades": {
+              "holdouts_with_value": 3,
+              "mean": 38.333333333333336,
+              "range": [
+                4.0,
+                100.0
+              ],
+              "sd": 43.69846170697036,
+              "valid_holdouts": 3
+            },
+            "selection_rate": {
+              "holdouts_with_value": 3,
+              "mean": 0.010735580481551021,
+              "range": [
+                0.0012518054886856043,
+                0.028453131770256608
+              ],
+              "sd": 0.012538589552167233,
+              "valid_holdouts": 3
+            },
+            "sequential_ending_equity": {
+              "holdouts_with_value": 3,
+              "mean": 0.9234345842873717,
+              "range": [
+                0.7832652610907916,
+                0.9968846909410497
+              ],
+              "sd": 0.09915276292825907,
+              "valid_holdouts": 3
+            },
+            "sharpe_annualized": {
+              "holdouts_with_value": 3,
+              "mean": -102.21618981544405,
+              "range": [
+                -138.67704094937483,
+                -67.38741941491787
+              ],
+              "sd": 29.126738005617106,
+              "valid_holdouts": 3
+            },
+            "sharpe_per_trade": {
+              "holdouts_with_value": 3,
+              "mean": -0.546056573446136,
+              "range": [
+                -0.7408367493759154,
+                -0.3599952552088562
+              ],
+              "sd": 0.15560007450607916,
+              "valid_holdouts": 3
+            },
+            "signal_rows": {
+              "holdouts_with_value": 3,
+              "mean": 2421.3333333333335,
+              "range": [
+                134.0,
+                6863.0
+              ],
+              "sd": 3141.201928490996,
+              "valid_holdouts": 3
+            },
+            "stability": {
+              "all_three_holdouts_valid": true,
+              "delta_vs_binary_positive_on_all_three_holdouts": true,
+              "delta_vs_binary_positive_on_all_valid_holdouts": true,
+              "delta_vs_binary_same_sign_on_all_valid_holdouts": true,
+              "net_pnl_positive_on_all_valid_holdouts": false
+            },
+            "zero_trades": {
+              "holdouts_with_value": 3,
+              "mean": 0.0,
+              "range": [
+                0.0,
+                0.0
+              ],
+              "sd": 0.0,
+              "valid_holdouts": 3
+            }
+          },
+          "probability_proportional": {
+            "actual_entries": {
+              "holdouts_with_value": 3,
+              "mean": 1391.6666666666667,
+              "range": [
+                1389.0,
+                1394.0
+              ],
+              "sd": 2.0548046676563256,
+              "valid_holdouts": 3
+            },
+            "candidate_rows": {
+              "holdouts_with_value": 3,
+              "mean": 20775.333333333332,
+              "range": [
+                20770.0,
+                20785.0
+              ],
+              "sd": 6.847546194724712,
+              "valid_holdouts": 3
+            },
+            "delta_vs_binary_net_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": 1549.3094628968913,
+              "range": [
+                -957.634822854518,
+                5845.3509186690735
+              ],
+              "sd": 3051.863393914782,
+              "valid_holdouts": 3
+            },
+            "exposure_sum": {
+              "holdouts_with_value": 3,
+              "mean": 135.4931383953369,
+              "range": [
+                59.03409944838505,
+                285.6549600639695
+              ],
+              "sd": 106.18640450398692,
+              "valid_holdouts": 3
+            },
+            "max_drawdown": {
+              "holdouts_with_value": 3,
+              "mean": 0.21530010384993126,
+              "range": [
+                0.10458146222416553,
+                0.4227573247253653
+              ],
+              "sd": 0.14680539137699467,
+              "valid_holdouts": 3
+            },
+            "mean_trade_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": -1.8805727147894995,
+              "range": [
+                -3.9414510220876857,
+                -0.7949581199195755
+              ],
+              "sd": 1.4579572187214758,
+              "valid_holdouts": 3
+            },
+            "median_trade_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": -0.8472456640818686,
+              "range": [
+                -1.617297266138565,
+                -0.4412200457281449
+              ],
+              "sd": 0.5447786062247443,
+              "valid_holdouts": 3
+            },
+            "negative_trades": {
+              "holdouts_with_value": 3,
+              "mean": 1252.3333333333333,
+              "range": [
+                1191.0,
+                1297.0
+              ],
+              "sd": 44.850368510811094,
+              "valid_holdouts": 3
+            },
+            "net_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": -2617.5658002019713,
+              "range": [
+                -5486.499822746058,
+                -1104.1968285682904
+              ],
+              "sd": 2029.665381063614,
+              "valid_holdouts": 3
+            },
+            "pnl_per_unit_exposure_bps": {
+              "holdouts_with_value": 3,
+              "mean": -19.44501300401492,
+              "range": [
+                -20.42391139414673,
+                -18.704390155620423
+              ],
+              "sd": 0.7219278577893218,
+              "valid_holdouts": 3
+            },
+            "positive_trades": {
+              "holdouts_with_value": 3,
+              "mean": 139.33333333333334,
+              "range": [
+                97.0,
+                201.0
+              ],
+              "sd": 44.60443425888906,
+              "valid_holdouts": 3
+            },
+            "selection_rate": {
+              "holdouts_with_value": 3,
+              "mean": 0.06698647038251039,
+              "range": [
+                0.06687530091478093,
+                0.06706759682463315
+              ],
+              "sd": 8.132800574290243e-05,
+              "valid_holdouts": 3
+            },
+            "sequential_ending_equity": {
+              "holdouts_with_value": 3,
+              "mean": 0.7848753173988442,
+              "range": [
+                0.5777292288471586,
+                0.895458247949637
+              ],
+              "sd": 0.14658618626888598,
+              "valid_holdouts": 3
+            },
+            "sharpe_annualized": {
+              "holdouts_with_value": 3,
+              "mean": -93.5843378766793,
+              "range": [
+                -109.21601384831074,
+                -73.2565283976462
+              ],
+              "sd": 15.051276820891175,
+              "valid_holdouts": 3
+            },
+            "sharpe_per_trade": {
+              "holdouts_with_value": 3,
+              "mean": -0.4999437267367579,
+              "range": [
+                -0.5834508446766958,
+                -0.39134905098305894
+              ],
+              "sd": 0.08040652524462702,
+              "valid_holdouts": 3
+            },
+            "signal_rows": {
+              "holdouts_with_value": 3,
+              "mean": 20775.333333333332,
+              "range": [
+                20770.0,
+                20785.0
+              ],
+              "sd": 6.847546194724712,
+              "valid_holdouts": 3
+            },
+            "stability": {
+              "all_three_holdouts_valid": true,
+              "delta_vs_binary_positive_on_all_three_holdouts": false,
+              "delta_vs_binary_positive_on_all_valid_holdouts": false,
+              "delta_vs_binary_same_sign_on_all_valid_holdouts": false,
+              "net_pnl_positive_on_all_valid_holdouts": false
+            },
+            "zero_trades": {
+              "holdouts_with_value": 3,
+              "mean": 0.0,
+              "range": [
+                0.0,
+                0.0
+              ],
+              "sd": 0.0,
+              "valid_holdouts": 3
+            }
+          },
+          "top_decile": {
+            "actual_entries": {
+              "holdouts_with_value": 3,
+              "mean": 232.66666666666666,
+              "range": [
+                30.0,
+                611.0
+              ],
+              "sd": 267.74905332336016,
+              "valid_holdouts": 3
+            },
+            "candidate_rows": {
+              "holdouts_with_value": 3,
+              "mean": 20775.333333333332,
+              "range": [
+                20770.0,
+                20785.0
+              ],
+              "sd": 6.847546194724712,
+              "valid_holdouts": 3
+            },
+            "delta_vs_binary_net_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": -167.88565605338644,
+              "range": [
+                -383.6178415775121,
+                -19.95121507408541
+              ],
+              "sd": 156.0144318797029,
+              "valid_holdouts": 3
+            },
+            "exposure_sum": {
+              "holdouts_with_value": 3,
+              "mean": 232.66666666666666,
+              "range": [
+                30.0,
+                611.0
+              ],
+              "sd": 267.74905332336016,
+              "valid_holdouts": 3
+            },
+            "max_drawdown": {
+              "holdouts_with_value": 3,
+              "mean": 0.27359811499491976,
+              "range": [
+                0.021924280426361742,
+                0.692418592909521
+              ],
+              "sd": 0.2981544969245007,
+              "valid_holdouts": 3
+            },
+            "mean_trade_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": -14.80472803609642,
+              "range": [
+                -19.689490415372706,
+                -5.550440692928594
+              ],
+              "sd": 6.547149154198859,
+              "valid_holdouts": 3
+            },
+            "median_trade_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": -15.352129317727949,
+              "range": [
+                -21.106592438375742,
+                -4.716331339420492
+              ],
+              "sd": 7.529087470932711,
+              "valid_holdouts": 3
+            },
+            "negative_trades": {
+              "holdouts_with_value": 3,
+              "mean": 192.66666666666666,
+              "range": [
+                18.0,
+                508.0
+              ],
+              "sd": 223.40595834091405,
+              "valid_holdouts": 3
+            },
+            "net_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": -4334.760919152249,
+              "range": [
+                -11715.468582992644,
+                -166.51322078785782
+              ],
+              "sd": 5233.514864912442,
+              "valid_holdouts": 3
+            },
+            "pnl_per_unit_exposure_bps": {
+              "holdouts_with_value": 3,
+              "mean": -14.80472803609642,
+              "range": [
+                -19.689490415372706,
+                -5.550440692928594
+              ],
+              "sd": 6.547149154198859,
+              "valid_holdouts": 3
+            },
+            "positive_trades": {
+              "holdouts_with_value": 3,
+              "mean": 40.0,
+              "range": [
+                5.0,
+                103.0
+              ],
+              "sd": 44.63929509598765,
+              "valid_holdouts": 3
+            },
+            "selection_rate": {
+              "holdouts_with_value": 3,
+              "mean": 0.011200921979667511,
+              "range": [
+                0.0014443909484833895,
+                0.029416012710028406
+              ],
+              "sd": 0.01289090972044869,
+              "valid_holdouts": 3
+            },
+            "sequential_ending_equity": {
+              "holdouts_with_value": 3,
+              "mean": 0.7290707764462363,
+              "range": [
+                0.30988721871363206,
+                0.9834865449015519
+              ],
+              "sd": 0.29865847981454074,
+              "valid_holdouts": 3
+            },
+            "sharpe_annualized": {
+              "holdouts_with_value": 3,
+              "mean": -122.90372938215332,
+              "range": [
+                -215.4108808977698,
+                -37.91949127749075
+              ],
+              "sd": 72.65555274478778,
+              "valid_holdouts": 3
+            },
+            "sharpe_per_trade": {
+              "holdouts_with_value": 3,
+              "mean": -0.6565729895757637,
+              "range": [
+                -1.150762200375791,
+                -0.20257248397923264
+              ],
+              "sd": 0.3881385350528825,
+              "valid_holdouts": 3
+            },
+            "signal_rows": {
+              "holdouts_with_value": 3,
+              "mean": 2524.3333333333335,
+              "range": [
+                156.0,
+                7126.0
+              ],
+              "sd": 3254.3364232290974,
+              "valid_holdouts": 3
+            },
+            "stability": {
+              "all_three_holdouts_valid": true,
+              "delta_vs_binary_positive_on_all_three_holdouts": false,
+              "delta_vs_binary_positive_on_all_valid_holdouts": false,
+              "delta_vs_binary_same_sign_on_all_valid_holdouts": true,
+              "net_pnl_positive_on_all_valid_holdouts": false
+            },
+            "zero_trades": {
+              "holdouts_with_value": 3,
+              "mean": 0.0,
+              "range": [
+                0.0,
+                0.0
+              ],
+              "sd": 0.0,
+              "valid_holdouts": 3
+            }
+          }
+        },
+        "logistic_regression": {
+          "binary_f1": {
+            "actual_entries": {
+              "holdouts_with_value": 3,
+              "mean": 249.0,
+              "range": [
+                37.0,
+                574.0
+              ],
+              "sd": 233.3366666428575,
+              "valid_holdouts": 3
+            },
+            "candidate_rows": {
+              "holdouts_with_value": 3,
+              "mean": 20775.333333333332,
+              "range": [
+                20770.0,
+                20785.0
+              ],
+              "sd": 6.847546194724712,
+              "valid_holdouts": 3
+            },
+            "delta_vs_binary_net_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": 0.0,
+              "range": [
+                0.0,
+                0.0
+              ],
+              "sd": 0.0,
+              "valid_holdouts": 3
+            },
+            "exposure_sum": {
+              "holdouts_with_value": 3,
+              "mean": 249.0,
+              "range": [
+                37.0,
+                574.0
+              ],
+              "sd": 233.3366666428575,
+              "valid_holdouts": 3
+            },
+            "max_drawdown": {
+              "holdouts_with_value": 3,
+              "mean": 0.3274529583493831,
+              "range": [
+                0.09172548026486482,
+                0.6646265273293658
+              ],
+              "sd": 0.24463903265883868,
+              "valid_holdouts": 3
+            },
+            "mean_trade_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": -20.960836868000477,
+              "range": [
+                -25.08367934672568,
+                -18.78872553540289
+              ],
+              "sd": 2.9166904618106804,
+              "valid_holdouts": 3
+            },
+            "median_trade_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": -18.93599077860055,
+              "range": [
+                -21.118486413531627,
+                -17.64293494955325
+              ],
+              "sd": 1.552029181621808,
+              "valid_holdouts": 3
+            },
+            "negative_trades": {
+              "holdouts_with_value": 3,
+              "mean": 191.66666666666666,
+              "range": [
+                31.0,
+                435.0
+              ],
+              "sd": 174.98444375302495,
+              "valid_holdouts": 3
+            },
+            "net_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": -4798.387830999555,
+              "range": [
+                -10911.800684355025,
+                -928.0961358288502
+              ],
+              "sd": 4373.5785138936035,
+              "valid_holdouts": 3
+            },
+            "pnl_per_unit_exposure_bps": {
+              "holdouts_with_value": 3,
+              "mean": -20.960836868000477,
+              "range": [
+                -25.08367934672568,
+                -18.78872553540289
+              ],
+              "sd": 2.9166904618106804,
+              "valid_holdouts": 3
+            },
+            "positive_trades": {
+              "holdouts_with_value": 3,
+              "mean": 57.333333333333336,
+              "range": [
+                6.0,
+                139.0
+              ],
+              "sd": 58.37998134825174,
+              "valid_holdouts": 3
+            },
+            "selection_rate": {
+              "holdouts_with_value": 3,
+              "mean": 0.011987572835315487,
+              "range": [
+                0.0017801299013711811,
+                0.02763468297145058
+              ],
+              "sd": 0.011234083943260368,
+              "valid_holdouts": 3
+            },
+            "sequential_ending_equity": {
+              "holdouts_with_value": 3,
+              "mean": 0.6738984823901566,
+              "range": [
+                0.3358199692440313,
+                0.9113669956770183
+              ],
+              "sd": 0.2454999985916146,
+              "valid_holdouts": 3
+            },
+            "sharpe_annualized": {
+              "holdouts_with_value": 3,
+              "mean": -132.01108882235644,
+              "range": [
+                -149.65718946474306,
+                -104.6636105276051
+              ],
+              "sd": 19.607703973327546,
+              "valid_holdouts": 3
+            },
+            "sharpe_per_trade": {
+              "holdouts_with_value": 3,
+              "mean": -0.7052260796394695,
+              "range": [
+                -0.7994946027458885,
+                -0.5591311183912837
+              ],
+              "sd": 0.1047477475354271,
+              "valid_holdouts": 3
+            },
+            "signal_rows": {
+              "holdouts_with_value": 3,
+              "mean": 2409.0,
+              "range": [
+                259.0,
+                6049.0
+              ],
+              "sd": 2587.9335385592885,
+              "valid_holdouts": 3
+            },
+            "stability": {
+              "all_three_holdouts_valid": true,
+              "delta_vs_binary_positive_on_all_three_holdouts": false,
+              "delta_vs_binary_positive_on_all_valid_holdouts": false,
+              "delta_vs_binary_same_sign_on_all_valid_holdouts": true,
+              "net_pnl_positive_on_all_valid_holdouts": false
+            },
+            "zero_trades": {
+              "holdouts_with_value": 3,
+              "mean": 0.0,
+              "range": [
+                0.0,
+                0.0
+              ],
+              "sd": 0.0,
+              "valid_holdouts": 3
+            }
+          },
+          "confidence_weighted": {
+            "actual_entries": {
+              "holdouts_with_value": 3,
+              "mean": 249.0,
+              "range": [
+                37.0,
+                574.0
+              ],
+              "sd": 233.3366666428575,
+              "valid_holdouts": 3
+            },
+            "candidate_rows": {
+              "holdouts_with_value": 3,
+              "mean": 20775.333333333332,
+              "range": [
+                20770.0,
+                20785.0
+              ],
+              "sd": 6.847546194724712,
+              "valid_holdouts": 3
+            },
+            "delta_vs_binary_net_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": 4616.262115396109,
+              "range": [
+                912.4238611305268,
+                10433.778480452951
+              ],
+              "sd": 4164.514762750613,
+              "valid_holdouts": 3
+            },
+            "exposure_sum": {
+              "holdouts_with_value": 3,
+              "mean": 12.809136847616728,
+              "range": [
+                0.7430059579532569,
+                34.420017766014425
+              ],
+              "sd": 15.315829957124738,
+              "valid_holdouts": 3
+            },
+            "max_drawdown": {
+              "holdouts_with_value": 3,
+              "mean": 0.018239648713998007,
+              "range": [
+                0.0016126027776112162,
+                0.047708710092422835
+              ],
+              "sd": 0.020894988200599922,
+              "valid_holdouts": 3
+            },
+            "mean_trade_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": -0.5479129494034848,
+              "range": [
+                -0.8327912959966447,
+                -0.38737256036723217
+              ],
+              "sd": 0.2019808708425851,
+              "valid_holdouts": 3
+            },
+            "median_trade_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": -0.19412860705583926,
+              "range": [
+                -0.26778183063885075,
+                -0.15686595740309084
+              ],
+              "sd": 0.05208191072495482,
+              "valid_holdouts": 3
+            },
+            "negative_trades": {
+              "holdouts_with_value": 3,
+              "mean": 191.66666666666666,
+              "range": [
+                31.0,
+                435.0
+              ],
+              "sd": 174.98444375302495,
+              "valid_holdouts": 3
+            },
+            "net_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": -182.125715603447,
+              "range": [
+                -478.02220390207407,
+                -15.672274698323376
+              ],
+              "sd": 209.77526251930644,
+              "valid_holdouts": 3
+            },
+            "pnl_per_unit_exposure_bps": {
+              "holdouts_with_value": 3,
+              "mean": -17.039863613585226,
+              "range": [
+                -21.093067330840075,
+                -13.887912759128868
+              ],
+              "sd": 3.0097348324605595,
+              "valid_holdouts": 3
+            },
+            "positive_trades": {
+              "holdouts_with_value": 3,
+              "mean": 57.333333333333336,
+              "range": [
+                6.0,
+                139.0
+              ],
+              "sd": 58.37998134825174,
+              "valid_holdouts": 3
+            },
+            "selection_rate": {
+              "holdouts_with_value": 3,
+              "mean": 0.011987572835315487,
+              "range": [
+                0.0017801299013711811,
+                0.02763468297145058
+              ],
+              "sd": 0.011234083943260368,
+              "valid_holdouts": 3
+            },
+            "sequential_ending_equity": {
+              "holdouts_with_value": 3,
+              "mean": 0.9821673007659045,
+              "range": [
+                0.9533223161489817,
+                0.9984339999898189
+              ],
+              "sd": 0.020451991790693506,
+              "valid_holdouts": 3
+            },
+            "sharpe_annualized": {
+              "holdouts_with_value": 3,
+              "mean": -74.678529225829,
+              "range": [
+                -105.0143129854062,
+                -26.249809886414074
+              ],
+              "sd": 34.60710404459277,
+              "valid_holdouts": 3
+            },
+            "sharpe_per_trade": {
+              "holdouts_with_value": 3,
+              "mean": -0.3989456254697137,
+              "range": [
+                -0.561004631606282,
+                -0.14023102667070886
+              ],
+              "sd": 0.18487713820681848,
+              "valid_holdouts": 3
+            },
+            "signal_rows": {
+              "holdouts_with_value": 3,
+              "mean": 2409.0,
+              "range": [
+                259.0,
+                6049.0
+              ],
+              "sd": 2587.9335385592885,
+              "valid_holdouts": 3
+            },
+            "stability": {
+              "all_three_holdouts_valid": true,
+              "delta_vs_binary_positive_on_all_three_holdouts": true,
+              "delta_vs_binary_positive_on_all_valid_holdouts": true,
+              "delta_vs_binary_same_sign_on_all_valid_holdouts": true,
+              "net_pnl_positive_on_all_valid_holdouts": false
+            },
+            "zero_trades": {
+              "holdouts_with_value": 3,
+              "mean": 0.0,
+              "range": [
+                0.0,
+                0.0
+              ],
+              "sd": 0.0,
+              "valid_holdouts": 3
+            }
+          },
+          "probability_proportional": {
+            "actual_entries": {
+              "holdouts_with_value": 3,
+              "mean": 1391.6666666666667,
+              "range": [
+                1389.0,
+                1394.0
+              ],
+              "sd": 2.0548046676563256,
+              "valid_holdouts": 3
+            },
+            "candidate_rows": {
+              "holdouts_with_value": 3,
+              "mean": 20775.333333333332,
+              "range": [
+                20770.0,
+                20785.0
+              ],
+              "sd": 6.847546194724712,
+              "valid_holdouts": 3
+            },
+            "delta_vs_binary_net_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": 2968.8804061502874,
+              "range": [
+                -168.46073258578224,
+                8024.746415981563
+              ],
+              "sd": 3609.498035793151,
+              "valid_holdouts": 3
+            },
+            "exposure_sum": {
+              "holdouts_with_value": 3,
+              "mean": 95.43555935745877,
+              "range": [
+                52.954134466501586,
+                154.5128980594476
+              ],
+              "sd": 43.089936041179165,
+              "valid_holdouts": 3
+            },
+            "max_drawdown": {
+              "holdouts_with_value": 3,
+              "mean": 0.16479511699908644,
+              "range": [
+                0.10385736411546465,
+                0.2507671232027793
+              ],
+              "sd": 0.06253348280851,
+              "valid_holdouts": 3
+            },
+            "mean_trade_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": -1.3147029143332263,
+              "range": [
+                -2.074033238774039,
+                -0.7866261609861065
+              ],
+              "sd": 0.5504318950256577,
+              "valid_holdouts": 3
+            },
+            "median_trade_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": -0.9463645921639671,
+              "range": [
+                -1.5303575205601108,
+                -0.5495187455114416
+              ],
+              "sd": 0.4217259760504901,
+              "valid_holdouts": 3
+            },
+            "negative_trades": {
+              "holdouts_with_value": 3,
+              "mean": 1252.3333333333333,
+              "range": [
+                1191.0,
+                1297.0
+              ],
+              "sd": 44.850368510811094,
+              "valid_holdouts": 3
+            },
+            "net_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": -1829.5074248492685,
+              "range": [
+                -2887.054268373462,
+                -1096.5568684146324
+              ],
+              "sd": 766.1559010232304,
+              "valid_holdouts": 3
+            },
+            "pnl_per_unit_exposure_bps": {
+              "holdouts_with_value": 3,
+              "mean": -19.49360046562536,
+              "range": [
+                -20.70767239351833,
+                -18.68487553228528
+              ],
+              "sd": 0.8741305870972074,
+              "valid_holdouts": 3
+            },
+            "positive_trades": {
+              "holdouts_with_value": 3,
+              "mean": 139.33333333333334,
+              "range": [
+                97.0,
+                201.0
+              ],
+              "sd": 44.60443425888906,
+              "valid_holdouts": 3
+            },
+            "selection_rate": {
+              "holdouts_with_value": 3,
+              "mean": 0.06698647038251039,
+              "range": [
+                0.06687530091478093,
+                0.06706759682463315
+              ],
+              "sd": 8.132800574290243e-05,
+              "valid_holdouts": 3
+            },
+            "sequential_ending_equity": {
+              "holdouts_with_value": 3,
+              "mean": 0.835220295781257,
+              "range": [
+                0.7492328767972207,
+                0.8961426358845355
+              ],
+              "sd": 0.0625396565561787,
+              "valid_holdouts": 3
+            },
+            "sharpe_annualized": {
+              "holdouts_with_value": 3,
+              "mean": -107.03876475969821,
+              "range": [
+                -126.61173125698487,
+                -71.10048091006367
+              ],
+              "sd": 25.445922237848293,
+              "valid_holdouts": 3
+            },
+            "sharpe_per_trade": {
+              "holdouts_with_value": 3,
+              "mean": -0.5718196032949431,
+              "range": [
+                -0.6763817772223997,
+                -0.3798310722227258
+              ],
+              "sd": 0.13593651974764628,
+              "valid_holdouts": 3
+            },
+            "signal_rows": {
+              "holdouts_with_value": 3,
+              "mean": 20775.333333333332,
+              "range": [
+                20770.0,
+                20785.0
+              ],
+              "sd": 6.847546194724712,
+              "valid_holdouts": 3
+            },
+            "stability": {
+              "all_three_holdouts_valid": true,
+              "delta_vs_binary_positive_on_all_three_holdouts": false,
+              "delta_vs_binary_positive_on_all_valid_holdouts": false,
+              "delta_vs_binary_same_sign_on_all_valid_holdouts": false,
+              "net_pnl_positive_on_all_valid_holdouts": false
+            },
+            "zero_trades": {
+              "holdouts_with_value": 3,
+              "mean": 0.0,
+              "range": [
+                0.0,
+                0.0
+              ],
+              "sd": 0.0,
+              "valid_holdouts": 3
+            }
+          },
+          "top_decile": {
+            "actual_entries": {
+              "holdouts_with_value": 3,
+              "mean": 70.66666666666667,
+              "range": [
+                4.0,
+                196.0
+              ],
+              "sd": 88.68420879101808,
+              "valid_holdouts": 3
+            },
+            "candidate_rows": {
+              "holdouts_with_value": 3,
+              "mean": 20775.333333333332,
+              "range": [
+                20770.0,
+                20785.0
+              ],
+              "sd": 6.847546194724712,
+              "valid_holdouts": 3
+            },
+            "delta_vs_binary_net_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": 3619.089722960441,
+              "range": [
+                837.8998820032917,
+                7547.663397198858
+              ],
+              "sd": 2856.87461551008,
+              "valid_holdouts": 3
+            },
+            "exposure_sum": {
+              "holdouts_with_value": 3,
+              "mean": 70.66666666666667,
+              "range": [
+                4.0,
+                196.0
+              ],
+              "sd": 88.68420879101808,
+              "valid_holdouts": 3
+            },
+            "max_drawdown": {
+              "holdouts_with_value": 3,
+              "mean": 0.1046354240685855,
+              "range": [
+                0.008979070582826876,
+                0.29121272526250486
+              ],
+              "sd": 0.1319442382411967,
+              "valid_holdouts": 3
+            },
+            "mean_trade_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": -15.558809267273757,
+              "range": [
+                -22.54906345638961,
+                -6.963398594634889
+              ],
+              "sd": 6.463261962723412,
+              "valid_holdouts": 3
+            },
+            "median_trade_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": -15.976752501004961,
+              "range": [
+                -21.25444243598949,
+                -6.119484311739569
+              ],
+              "sd": 6.975965505266938,
+              "valid_holdouts": 3
+            },
+            "negative_trades": {
+              "holdouts_with_value": 3,
+              "mean": 49.333333333333336,
+              "range": [
+                4.0,
+                136.0
+              ],
+              "sd": 61.30434097372079,
+              "valid_holdouts": 3
+            },
+            "net_pnl_bps": {
+              "holdouts_with_value": 3,
+              "mean": -1179.2981080391148,
+              "range": [
+                -3364.137287156167,
+                -83.56078313561866
+              ],
+              "sd": 1544.9169743218083,
+              "valid_holdouts": 3
+            },
+            "pnl_per_unit_exposure_bps": {
+              "holdouts_with_value": 3,
+              "mean": -15.558809267273757,
+              "range": [
+                -22.54906345638961,
+                -6.963398594634889
+              ],
+              "sd": 6.463261962723412,
+              "valid_holdouts": 3
+            },
+            "positive_trades": {
+              "holdouts_with_value": 3,
+              "mean": 21.333333333333332,
+              "range": [
+                0.0,
+                60.0
+              ],
+              "sd": 27.39018477889885,
+              "valid_holdouts": 3
+            },
+            "selection_rate": {
+              "holdouts_with_value": 3,
+              "mean": 0.003402145354993627,
+              "range": [
+                0.00019244647582391147,
+                0.009436233209763613
+              ],
+              "sd": 0.00426964308498647,
+              "valid_holdouts": 3
+            },
+            "sequential_ending_equity": {
+              "holdouts_with_value": 3,
+              "mean": 0.899009057651905,
+              "range": [
+                0.7143275068694408,
+                0.9916787366691008
+              ],
+              "sd": 0.13058985304419604,
+              "valid_holdouts": 3
+            },
+            "sharpe_annualized": {
+              "holdouts_with_value": 3,
+              "mean": -113.85468196046342,
+              "range": [
+                -223.47781535892824,
+                -41.747240122778656
+              ],
+              "sd": 78.79116206308989,
+              "valid_holdouts": 3
+            },
+            "sharpe_per_trade": {
+              "holdouts_with_value": 3,
+              "mean": -0.608231412405246,
+              "range": [
+                -1.1938571601666828,
+                -0.22302098066301837
+              ],
+              "sd": 0.4209160217348408,
+              "valid_holdouts": 3
+            },
+            "signal_rows": {
+              "holdouts_with_value": 3,
+              "mean": 610.0,
+              "range": [
+                13.0,
+                1774.0
+              ],
+              "sd": 823.1634102655438,
+              "valid_holdouts": 3
+            },
+            "stability": {
+              "all_three_holdouts_valid": true,
+              "delta_vs_binary_positive_on_all_three_holdouts": true,
+              "delta_vs_binary_positive_on_all_valid_holdouts": true,
+              "delta_vs_binary_same_sign_on_all_valid_holdouts": true,
+              "net_pnl_positive_on_all_valid_holdouts": false
+            },
+            "zero_trades": {
+              "holdouts_with_value": 3,
+              "mean": 0.0,
+              "range": [
+                0.0,
+                0.0
+              ],
+              "sd": 0.0,
+              "valid_holdouts": 3
+            }
+          }
+        }
+      },
+      "valid_holdout_count": 3,
+      "valid_holdouts": [
+        "holdout_a",
+        "holdout_b",
+        "holdout_c"
+      ]
+    },
+    "executable_polymarket_pnl": {
+      "reason": "the proxy frame has no executable Polymarket quotes, depth, fees, fills, or strict-gate outcomes required by the arbitrage backtest",
+      "status": "unavailable"
+    },
+    "return_column": "forward_net_return_bps",
+    "status": "available_btc_proxy_only",
+    "warning": "This is BTC-proxy strategy PnL, not executable Polymarket PnL."
+  },
+  "protocol": {
+    "classes": [
+      0,
+      1
+    ],
+    "embargo": {
+      "minutes": 15,
+      "rows": 15,
+      "rule": "the preceding block ends before its forward-label window can reach the next block"
+    },
+    "feature_columns": [
+      "open",
+      "high",
+      "low",
+      "close",
+      "volume",
+      "log_volume",
+      "return_1m_bps",
+      "rolling_vol_5m_bps",
+      "rolling_vol_15m_bps",
+      "rolling_vol_60m_bps",
+      "atr_14m_bps",
+      "atr_60m_bps",
+      "minutes_to_next_high_macro",
+      "session_bucket",
+      "sma_5",
+      "sma_20",
+      "sma_50",
+      "sma_200",
+      "bb_mid",
+      "bb_upper",
+      "bb_lower",
+      "bb_width",
+      "rsi_14",
+      "macd",
+      "macd_signal",
+      "macd_hist",
+      "atr_14",
+      "realized_vol_30",
+      "vol_squeeze",
+      "vwap_distance",
+      "zscore_20",
+      "momentum_20",
+      "zscore_60",
+      "momentum_60",
+      "half_life_60",
+      "hour_utc",
+      "day_of_week",
+      "vol_regime"
+    ],
+    "forward_return_column": "forward_net_return_bps",
+    "label_column": "profitability_target",
+    "majority_label_from_train": 0,
+    "offline_only": true,
+    "positive_label": 1,
+    "random_seed": 20260811,
+    "sizing": {
+      "calibration_scope": "fitted train predictions only; frozen before all holdouts",
+      "cost_handling": "forward_net_return_bps already includes the configured round-trip cost; no additional cost is deducted",
+      "overlap_rule": "enter only while flat; equality at the prior exit timestamp is eligible; reset flat at each holdout boundary",
+      "policies": {
+        "binary_f1": "unit size when probability >= train F1-maximizing threshold",
+        "confidence_weighted": "clip((probability - train F1 threshold) / (1 - train F1 threshold), 0, 1)",
+        "probability_proportional": "size equals the predicted positive-class probability, clipped to [0, 1]",
+        "top_decile": "unit size when probability >= train probability q90 (higher order statistic)"
+      },
+      "position_horizon_minutes": 15,
+      "sharpe": {
+        "sharpe_annualized": "sharpe_per_trade * sqrt((365*24*60) / position_horizon_minutes); equals the equity-curve Sharpe because equity returns are proportional to trade PnL in bps",
+        "sharpe_per_trade": "mean(trade_pnl_bps) / std(trade_pnl_bps, ddof=1); undefined (None) with fewer than two trades or zero standard deviation"
+      }
+    },
+    "standard_deviation": "population (ddof=0) across valid holdouts",
+    "train_fraction": 0.55
+  },
+  "sample_accounting": {
+    "feature_complete_labelled_rows": 138568,
+    "input_rows": 139374,
+    "retained_rows_after_embargo": 138523,
+    "rows_removed_by_embargo": 45,
+    "rows_removed_for_missing_features": 806
+  },
+  "sequence_model": {
+    "qualifying_baselines": [],
+    "reason": "no baseline beat the majority PR-AUC and train-calibrated accuracy on every valid holdout",
+    "status": "skipped"
+  },
+  "train_calibration": {
+    "gradient_boosted_trees": {
+      "source": "fitted train predictions only",
+      "train_f1_threshold": 0.23461459380404626,
+      "train_probability_q90": 0.22576412402061702,
+      "train_rows": 76197
+    },
+    "logistic_regression": {
+      "source": "fitted train predictions only",
+      "train_f1_threshold": 0.12795263383358718,
+      "train_probability_q90": 0.2108908741559322,
+      "train_rows": 76197
+    }
+  }
+}

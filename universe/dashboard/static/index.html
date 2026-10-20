@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#000000">
+  <title>POLYUNI — Sequential Loop Control</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body><div class="app-shell">
+  <header id="banner" class="topbar banner--paper">
+    <div class="brand"><span class="brand__mark">◆</span><div><div class="brand__name">POLYUNI</div><div class="brand__product">LOOP CONTROL <span>/ OPERATOR CONSOLE</span></div></div></div>
+    <div class="topbar__telemetry">
+      <div class="top-stat"><span class="top-stat__label">SYSTEM TIME</span><span id="system-clock" class="top-stat__value">--:--:-- UTC</span></div>
+      <div class="top-stat"><span class="top-stat__label">DATA LINK</span><span id="connection-state" class="top-stat__value status-text status-text--warn">CONNECTING</span></div>
+      <div class="top-stat"><span class="top-stat__label">PROCESS OWNER</span><span id="owner-state" class="top-stat__value status-text status-text--off">NO PROCESS</span></div>
+      <div class="top-stat"><span class="top-stat__label">RUNTIME</span><span id="uptime" class="top-stat__value">OFFLINE</span></div>
+    </div>
+    <div class="topbar__actions"><button id="btn-start" class="btn btn--primary"><span>▶</span> START LOOP</button><button id="btn-stop" class="btn btn--danger"><span>■</span> STOP</button></div>
+  </header>
+
+  <main>
+    <section class="hero-grid">
+      <article class="panel engine-panel">
+        <div class="panel__head"><div><span class="eyebrow">SEQUENTIAL EXECUTION CORE</span><h1>Staggered hedge engine</h1></div><span id="mode-label" class="mode-badge">PAPER ONLY</span></div>
+        <div class="engine-body">
+          <div class="loop-graphic" aria-hidden="true"><div class="orbit orbit--outer"></div><div class="orbit orbit--inner"></div><div class="loop-sweep"></div><div class="loop-core"><span id="run-state-dot" class="dot dot--stopped"></span><strong id="run-state-label">STOPPED</strong><small id="strategy-phase-core">WAITING_FIRST</small></div><span id="loop-node-1" class="loop-node n1">V</span><span id="loop-node-2" class="loop-node n2">L1</span><span id="loop-node-3" class="loop-node n3">L2</span><span id="loop-node-4" class="loop-node n4">✓</span></div>
+          <div class="sequence-list">
+            <div id="strategy-step-1" class="sequence-step"><span>01</span><div><strong>VOLATILITY GATE</strong><small>local motion + BTC regime</small></div><i></i></div>
+            <div id="strategy-step-2" class="sequence-step"><span>02</span><div><strong>FIRST LEG</strong><small>near-even depth-aware fill</small></div><i></i></div>
+            <div id="strategy-step-3" class="sequence-step"><span>03</span><div><strong>SEEK OPPOSITE</strong><small>fee-aware hedge window</small></div><i></i></div>
+            <div id="strategy-step-4" class="sequence-step"><span>04</span><div><strong>LOCK / EXIT</strong><small>pair or protective unwind</small></div><i></i></div>
+          </div>
+        </div>
+      </article>
+      <section class="metric-grid" aria-label="Session metrics">
+        <article class="metric-card metric-card--hero"><div class="metric-card__label">SESSION P&amp;L <span>PAPER</span></div><div id="pnl-session" class="metric-card__value">--</div><div class="metric-card__meta">realized result after modeled fees</div></article>
+        <article class="metric-card"><div class="metric-card__label">LOCKED NET</div><div id="pnl-locked" class="metric-card__value">--</div><div class="metric-card__meta">paired after fees + depth</div></article>
+        <article class="metric-card"><div class="metric-card__label">FIRST-LEG EXPOSURE</div><div id="strategy-exposure" class="metric-card__value">--</div><div class="metric-card__meta">capital awaiting opposite leg</div></article>
+        <article class="metric-card"><div class="metric-card__label">DEPLOYED</div><div id="pnl-deployed" class="metric-card__value">--</div><div class="metric-card__meta">active allocation</div></article>
+        <article class="metric-card"><div class="metric-card__label">PAIRED CYCLES</div><div id="strategy-pairs" class="metric-card__value metric-card__value--count">--</div><div class="metric-card__meta">completed sequential hedges</div></article>
+      </section>
+    </section>
+
+    <section class="strategy-grid" aria-label="Sequential strategy telemetry">
+      <article class="panel exposure-panel">
+        <div class="panel__head"><div><span class="eyebrow">ACTIVE SEQUENCE</span><h2>First leg → opposite leg</h2></div><span id="strategy-phase" class="phase-badge phase--waiting">WAITING_FIRST</span></div>
+        <div id="exposure-route" class="exposure-route is-idle">
+          <div class="route-leg route-leg--first"><span>FIRST LEG</span><strong id="first-leg-price">NO OPEN LEG</strong><small id="first-leg-meta">waiting for qualified volatility</small></div>
+          <div class="route-bridge"><div class="hedge-track"><i id="hedge-progress"></i></div><strong id="hedge-timer">--</strong><small>HEDGE WINDOW</small></div>
+          <div class="route-leg route-leg--second"><span>OPPOSITE LEG</span><strong id="second-leg-price">AWAITING</strong><small id="second-leg-meta">fee-adjusted cap --</small></div>
+        </div>
+        <div class="sequence-readouts">
+          <div><span>EXPECTED NET</span><strong id="expected-net">--</strong></div>
+          <div><span>BOOK DEPTH</span><strong id="depth-state">IDLE</strong></div>
+          <div><span>SEQUENCE</span><strong id="sequence-id">NONE</strong></div>
+          <div><span>OPEN SLOTS</span><strong id="open-sequence-count">0</strong></div>
+        </div>
+        <p class="panel-note">The opposite leg is evaluated later and only paired when full-size depth and modeled taker fees preserve the configured net edge.</p>
+      </article>
+
+      <article class="panel model-panel">
+        <div class="panel__head"><div><span class="eyebrow">ENTRY CALIBRATION</span><h2>LightGBM regime</h2></div><span class="model-scope">BTC ONLY</span></div>
+        <div class="model-regime"><span id="model-regime">--</span><small id="model-status">UNAVAILABLE</small></div>
+        <div class="confidence-row"><span>CONFIDENCE</span><strong id="model-confidence">--</strong></div>
+        <div class="confidence-track"><i id="model-confidence-bar"></i></div>
+        <dl class="model-meta"><div><dt>SOURCE</dt><dd id="model-source">--</dd></div><div><dt>SIGNAL AGE</dt><dd id="model-age">--</dd></div></dl>
+        <div class="model-guard"><span>ENTRY ONLY</span><p>The model adjusts the first-leg volatility threshold. It never blocks a hedge or protective exit.</p></div>
+      </article>
+    </section>
+
+    <section class="content-grid">
+      <article class="panel chart-panel">
+        <div class="panel__head"><div><span class="eyebrow">REAL-TIME TELEMETRY</span><h2>Performance trace</h2></div><div class="chart-legend"><span></span> SESSION P&amp;L</div></div>
+        <div class="chart-wrap"><div class="chart-axis"><span>HIGH</span><span>MID</span><span>BASE</span></div>
+          <svg id="pnl-chart" viewBox="0 0 800 240" preserveAspectRatio="none" role="img" aria-label="Live session performance chart"><defs><linearGradient id="chart-fill" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#ffb900" stop-opacity=".28"/><stop offset="100%" stop-color="#ffb900" stop-opacity="0"/></linearGradient></defs><g class="chart-grid-lines"><line x1="0" y1="20" x2="800" y2="20"/><line x1="0" y1="80" x2="800" y2="80"/><line x1="0" y1="140" x2="800" y2="140"/><line x1="0" y1="200" x2="800" y2="200"/></g><path id="pnl-area" class="chart-area" d="M0 200 L800 200 L800 220 L0 220 Z"/><path id="pnl-line" class="chart-line" d="M0 200 L800 200"/><circle id="pnl-point" class="chart-point" cx="800" cy="200" r="4"/></svg>
+          <div id="chart-empty" class="chart-empty">AWAITING FIRST TELEMETRY FRAME</div>
+        </div><div class="chart-footer"><span>SESSION START</span><span id="sample-count">0 SAMPLES</span><span>NOW</span></div>
+      </article>
+      <article class="panel diagnostics-panel">
+        <div class="panel__head"><div><span class="eyebrow">DECISION ACCOUNTING</span><h2>Cycle diagnostics</h2></div><span class="live-chip"><span></span> STREAM</span></div>
+        <div class="diagnostic-stats"><div><strong id="diag-paired">0</strong><span>PAIRED</span></div><div><strong id="diag-timeouts">0</strong><span>TIMEOUTS</span></div><div><strong id="diag-exits">0</strong><span>PROTECTIVE EXITS</span></div></div>
+        <div class="phase-counts" aria-label="Strategy phase counts"><div data-phase-count="WAITING_FIRST"><span>WAITING</span><strong id="phase-waiting">0</strong></div><div data-phase-count="SEEKING_OPPOSITE"><span>SEEKING</span><strong id="phase-seeking">0</strong></div><div data-phase-count="PAIRED"><span>PAIRED</span><strong id="phase-paired">0</strong></div><div data-phase-count="ABORTED"><span>RISK / EXIT</span><strong id="phase-aborted">0</strong></div><div data-phase-count="TERMINAL"><span>CONSUMED</span><strong id="phase-terminal">0</strong></div></div>
+        <div class="rejection-head"><span>TOP REJECTION REASONS</span><strong id="rejection-total">0 TOTAL</strong></div>
+        <div id="rejection-list" class="rejection-list"><div class="rejection-empty">No rejected entry frames yet</div></div>
+      </article>
+    </section>
+
+    <section class="bottom-grid">
+      <article class="panel control-panel"><div class="panel__head"><div><span class="eyebrow">SAFETY BOUNDARY</span><h2>Control plane</h2></div><span id="control-revision" class="revision">REV --</span></div>
+        <label class="control-toggle"><input type="checkbox" id="live-toggle-checkbox"><span class="toggle-track"><i></i></span><span class="toggle-copy"><strong>ARM OPERATOR INTENT</strong><small id="control-detail">Live submission remains hard-blocked</small></span></label>
+        <div class="safety-callout"><span>!</span><p><strong>PAPER-ONLY SAFETY BOUNDARY</strong>This interface records audited operator intent. No exchange order-submission route exists in this build.</p></div>
+      </article>
+      <article class="panel log-panel"><div class="panel__head"><div><span class="eyebrow">SYSTEM EVENTS</span><h2>Session log</h2></div><button id="btn-clear-log" class="text-button">CLEAR VIEW</button></div><pre id="log-tail"><span class="log-placeholder">Waiting for runtime events…</span></pre></article>
+    </section>
+  </main>
+  <footer><span>POLYUNI CONTROL SYSTEM</span><span class="footer-center"><i></i> LOCAL OPERATOR INTERFACE</span><span>BUILD 01 / SECURE MODE</span></footer>
+</div><div id="toast" class="toast" role="status" aria-live="polite"></div><script src="/static/app.js"></script></body></html>

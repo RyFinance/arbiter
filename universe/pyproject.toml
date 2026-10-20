@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "polyuni"
+version = "0.1.0"
+description = "Universe-wide paper-trading arb bot for Polymarket binary markets"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "httpx>=0.27",
+  "eth-account>=0.13",
+  "py-clob-client-v2>=1.1.0",
+  "websockets>=12",
+  "python-dotenv>=1.0",
+  "fastapi>=0.110",
+  "uvicorn>=0.29",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pytest-asyncio>=0.23", "httpx"]
+
+[project.scripts]
+polyuni = "polyuni.main:main"
+
+[tool.setuptools.packages.find]
+include = ["polyuni*", "dashboard*"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+pythonpath = ["."]

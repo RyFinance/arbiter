@@ -1,0 +1,17 @@
+{
+  "historical_samples": {
+    "15m": {"sampled": 40, "terminal_winner_checked": 40, "mismatches": 0, "errors": 0},
+    "1h": {"sampled": 40, "terminal_winner_checked": 40, "mismatches": 0, "errors": 0},
+    "4h": {"sampled": 40, "terminal_winner_checked": 40, "mismatches": 0, "errors": 0},
+    "5m": {"sampled": 40, "terminal_winner_checked": 32, "mismatches": 0, "errors": 8, "error_codes": {"404": 8}}
+  },
+  "current_5m_oos": {
+    "label_rows": 479,
+    "terminal_winner_checked": 479,
+    "mismatches": 0,
+    "errors": 0,
+    "period_start_utc": "2026-08-25T09:00:00Z",
+    "period_end_utc": "2026-08-27T01:00:00Z"
+  },
+  "method": "GET https://clob.polymarket.com/markets/{condition_id}; compare exactly one token with winner=true and outcome Up/Down to the Gamma terminal label"
+}

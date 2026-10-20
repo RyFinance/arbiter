@@ -1,0 +1,24 @@
+# Runtime deps. `eth-account` is imported lazily inside trading_client only when a
+# real private key is configured, so the bot imports and runs in DRY_RUN without it.
+httpx>=0.27
+eth-account>=0.13
+py-clob-client-v2>=1.1.0
+streamlit>=1.60
+websockets>=12
+python-dotenv>=1.0
+
+# Kronos cold-path volatility regime forecasting (Kronos-small, CPU inference)
+# Repo: https://github.com/shiyu-coder/Kronos  |  Model: NeoQuasar/Kronos-small
+torch>=2.0.0
+einops==0.8.1
+numpy
+pandas
+safetensors
+huggingface_hub>=0.33.1
+tqdm
+
+# Dev / test
+pytest>=8
+pytest-asyncio>=0.23
+lightgbm==4.7.0
+scikit-learn

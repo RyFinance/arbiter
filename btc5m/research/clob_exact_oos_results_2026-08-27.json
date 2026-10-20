@@ -1,0 +1,78 @@
+{
+  "execution_assumption": "captured best ask, immediate fill, 75-share cap; optimistic quote backtest, not confirmed fills",
+  "fee_formula": "0.07 * p * (1-p)",
+  "period_end_utc": "2026-08-27 00:05:00+00:00",
+  "period_start_utc": "2026-08-25 09:05:00+00:00",
+  "scored_rows": 16464,
+  "snapshot_windows": 200,
+  "terminal_label_matches": 200,
+  "terminal_label_rows_available": 4620,
+  "thresholds": [
+    {
+      "average_ask": 0.4046774193548387,
+      "days": 3,
+      "hit_rate": 0.4032258064516129,
+      "net_ev_per_share": -0.015333120967741929,
+      "net_pnl_at_75_share_cap": -165.66535989999988,
+      "positive_days": 1,
+      "theta": 0.01,
+      "trades": 248,
+      "windows": 168
+    },
+    {
+      "average_ask": 0.39427385892116185,
+      "days": 3,
+      "hit_rate": 0.3941908713692946,
+      "net_ev_per_share": -0.014059751037344395,
+      "net_pnl_at_75_share_cap": -200.58328607999982,
+      "positive_days": 1,
+      "theta": 0.02,
+      "trades": 241,
+      "windows": 166
+    },
+    {
+      "average_ask": 0.3953164556962025,
+      "days": 3,
+      "hit_rate": 0.39662447257383965,
+      "net_ev_per_share": -0.012809919831223628,
+      "net_pnl_at_75_share_cap": -66.3321309099997,
+      "positive_days": 1,
+      "theta": 0.03,
+      "trades": 237,
+      "windows": 163
+    },
+    {
+      "average_ask": 0.386431718061674,
+      "days": 3,
+      "hit_rate": 0.3788546255506608,
+      "net_ev_per_share": -0.0217677885462555,
+      "net_pnl_at_75_share_cap": -200.7356821999999,
+      "positive_days": 1,
+      "theta": 0.05,
+      "trades": 227,
+      "windows": 161
+    },
+    {
+      "average_ask": 0.38009302325581396,
+      "days": 3,
+      "hit_rate": 0.3767441860465116,
+      "net_ev_per_share": -0.017552130232558135,
+      "net_pnl_at_75_share_cap": -317.24365591,
+      "positive_days": 1,
+      "theta": 0.08,
+      "trades": 215,
+      "windows": 157
+    },
+    {
+      "average_ask": 0.36384210526315797,
+      "days": 3,
+      "hit_rate": 0.3631578947368421,
+      "net_ev_per_share": -0.014794478947368427,
+      "net_pnl_at_75_share_cap": -191.6685745700001,
+      "positive_days": 2,
+      "theta": 0.12,
+      "trades": 190,
+      "windows": 144
+    }
+  ]
+}

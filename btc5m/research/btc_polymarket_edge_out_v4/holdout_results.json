@@ -1,0 +1,602 @@
+{
+  "created_at_utc": "2026-08-27T07:56:02.073906+00:00",
+  "dataset_sha256": "e484eb9965e74dcaf2f0e59a5b992a07f9ab7e5f66d0c834d69b7849941b3833",
+  "economic_scope": "Hypothetical fills at stated executable asks. No historical CLOB order books were supplied, so this is not a fill backtest.",
+  "event_label_audits": {
+    "15": {
+      "complete_featured_events": 29287,
+      "complete_featured_events_before_outcome_join": 56366,
+      "horizon_minutes": 15,
+      "incomplete_aligned_windows_dropped": 1,
+      "outcome_label_disagreement_vs_binance_primary_proxy": 0.03841294772424625,
+      "outcome_rows_joined": 29287,
+      "primary_vs_close_proxy_disagreement": 0.0375251818212859,
+      "primary_vs_hlc3_proxy_disagreement": 0.012360432956601905,
+      "primary_vs_symmetric_proxy_disagreement": 0.036295967494110015,
+      "resolution_label": "terminal_polymarket_outcome",
+      "within_1bp_of_proxy_boundary": 0.057363335268207735,
+      "within_2bp_of_proxy_boundary": 0.11540956738484652,
+      "within_5bp_of_proxy_boundary": 0.26926622733636085
+    },
+    "240": {
+      "holdout_labels_evaluated": false
+    },
+    "5": {
+      "complete_featured_events": 63345,
+      "complete_featured_events_before_outcome_join": 169101,
+      "horizon_minutes": 5,
+      "incomplete_aligned_windows_dropped": 1,
+      "outcome_label_disagreement_vs_binance_primary_proxy": 0.0950193385429,
+      "outcome_rows_joined": 63345,
+      "primary_vs_close_proxy_disagreement": 0.0899044912779225,
+      "primary_vs_hlc3_proxy_disagreement": 0.029536664298681823,
+      "primary_vs_symmetric_proxy_disagreement": 0.08639987370747494,
+      "resolution_label": "terminal_polymarket_outcome",
+      "within_1bp_of_proxy_boundary": 0.13832188807324966,
+      "within_2bp_of_proxy_boundary": 0.25378482911042705,
+      "within_5bp_of_proxy_boundary": 0.5075854447864867
+    },
+    "60": {
+      "complete_featured_events": 10501,
+      "complete_featured_events_before_outcome_join": 14090,
+      "horizon_minutes": 60,
+      "incomplete_aligned_windows_dropped": 1,
+      "outcome_label_disagreement_vs_binance_primary_proxy": 0.000285687077421198,
+      "outcome_rows_joined": 10501,
+      "primary_vs_close_proxy_disagreement": 0.0,
+      "primary_vs_hlc3_proxy_disagreement": 0.0,
+      "primary_vs_symmetric_proxy_disagreement": 0.0,
+      "resolution_label": "terminal_polymarket_outcome",
+      "within_1bp_of_proxy_boundary": 0.032663555851823636,
+      "within_2bp_of_proxy_boundary": 0.0666603180649462,
+      "within_5bp_of_proxy_boundary": 0.15389010570421865
+    }
+  },
+  "fee_formula": "fee_per_share = 0.07 * p * (1-p)",
+  "holdout": {
+    "15": {
+      "accuracy": 0.5301327885597549,
+      "coverage": 0.19934840154754632,
+      "day_cluster_accuracy_interval": {
+        "clusters_days": 103,
+        "lower_one_sided_95": 0.510846623987298,
+        "lower_two_sided_95": 0.5070773213004338,
+        "point": 0.5301327885597549,
+        "upper_two_sided_95": 0.5536177296035832
+      },
+      "holdout_end": "2026-08-11T08:00:00+00:00",
+      "holdout_start": "2026-05-01T00:00:00+00:00",
+      "horizon_minutes": 15,
+      "hypothetical_entry_price_frontier": [
+        {
+          "ask": 0.35,
+          "break_even_probability": 0.365925,
+          "ev_per_dollar_total_cash_paid": 0.4487471163756368,
+          "ev_per_share": 0.1642077885597549,
+          "fee_per_share": 0.015925,
+          "one_sided_95_lower_ev_per_dollar": 0.39604187739918834,
+          "one_sided_95_lower_ev_per_share": 0.144921623987298
+        },
+        {
+          "ask": 0.4,
+          "break_even_probability": 0.4168,
+          "ev_per_dollar_total_cash_paid": 0.27191168080555383,
+          "ev_per_share": 0.11333278855975484,
+          "fee_per_share": 0.016800000000000002,
+          "one_sided_95_lower_ev_per_dollar": 0.22563969286779734,
+          "one_sided_95_lower_ev_per_share": 0.09404662398729793
+        },
+        {
+          "ask": 0.45,
+          "break_even_probability": 0.467325,
+          "ev_per_dollar_total_cash_paid": 0.13439852042958297,
+          "ev_per_share": 0.06280778855975486,
+          "fee_per_share": 0.017325000000000007,
+          "one_sided_95_lower_ev_per_dollar": 0.09312924407488996,
+          "one_sided_95_lower_ev_per_share": 0.04352162398729795
+        },
+        {
+          "ask": 0.475,
+          "break_even_probability": 0.49245625,
+          "ev_per_dollar_total_cash_paid": 0.07650738224919451,
+          "ev_per_share": 0.03767653855975489,
+          "fee_per_share": 0.017456250000000003,
+          "one_sided_95_lower_ev_per_dollar": 0.03734417826415643,
+          "one_sided_95_lower_ev_per_share": 0.018390373987297984
+        },
+        {
+          "ask": 0.5,
+          "break_even_probability": 0.5175,
+          "ev_per_dollar_total_cash_paid": 0.024411185622714732,
+          "ev_per_share": 0.012632788559754873,
+          "fee_per_share": 0.0175,
+          "one_sided_95_lower_ev_per_dollar": -0.012856765241936303,
+          "one_sided_95_lower_ev_per_share": -0.006653376012702036
+        },
+        {
+          "ask": 0.525,
+          "break_even_probability": 0.54245625,
+          "ev_per_dollar_total_cash_paid": -0.022717890042275576,
+          "ev_per_share": -0.01232346144024515,
+          "fee_per_share": 0.017456250000000003,
+          "one_sided_95_lower_ev_per_dollar": -0.05827129102614647,
+          "one_sided_95_lower_ev_per_share": -0.03160962601270206
+        },
+        {
+          "ask": 0.55,
+          "break_even_probability": 0.5673250000000001,
+          "ev_per_dollar_total_cash_paid": -0.06555715232053085,
+          "ev_per_share": -0.03719221144024517,
+          "fee_per_share": 0.017325,
+          "one_sided_95_lower_ev_per_dollar": -0.09955206629833353,
+          "one_sided_95_lower_ev_per_share": -0.05647837601270208
+        },
+        {
+          "ask": 0.6,
+          "break_even_probability": 0.6168,
+          "ev_per_dollar_total_cash_paid": -0.14051104319105887,
+          "ev_per_share": -0.08666721144024511,
+          "fee_per_share": 0.016800000000000002,
+          "one_sided_95_lower_ev_per_dollar": -0.171779143989465,
+          "one_sided_95_lower_ev_per_share": -0.10595337601270202
+        },
+        {
+          "ask": 0.65,
+          "break_even_probability": 0.665925,
+          "ev_per_dollar_total_cash_paid": -0.2039151727900967,
+          "ev_per_share": -0.13579221144024514,
+          "fee_per_share": 0.015925,
+          "one_sided_95_lower_ev_per_dollar": -0.23287663928025237,
+          "one_sided_95_lower_ev_per_share": -0.15507837601270205
+        }
+      ],
+      "label_proxy_sensitivity": {
+        "conservative_all_proxy_disagreements_counted_wrong": {
+          "accuracy": 0.4882533197139939,
+          "ev_per_trade_at_50c": -0.029246680286006077
+        },
+        "y": {
+          "accuracy": 0.5301327885597549,
+          "ev_per_trade_at_50c": 0.012632788559754915
+        },
+        "y_close_proxy": {
+          "accuracy": 0.533197139938713,
+          "ev_per_trade_at_50c": 0.015697139938713023
+        },
+        "y_hlc3_proxy": {
+          "accuracy": 0.5337078651685393,
+          "ev_per_trade_at_50c": 0.016207865168539337
+        },
+        "y_symmetric_proxy": {
+          "accuracy": 0.5045965270684372,
+          "ev_per_trade_at_50c": -0.012903472931562798
+        }
+      },
+      "locked_candidate": {
+        "family": "candle_shape_breakout",
+        "kind": "score",
+        "name": "shape_breakout:price_z_60:reversal:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "price_z_60",
+          "sign": -1
+        }
+      },
+      "maximum_fee_only_ask_from_one_sided_95_lower_q": 0.49334971982314874,
+      "maximum_fee_only_ask_from_point_q": 0.5126439794749431,
+      "monthly": [
+        {
+          "accuracy": 0.5367521367521367,
+          "ev_per_trade_at_50c": 0.019252136752136773,
+          "month": "2026-05",
+          "opportunities": 2976,
+          "trades": 585
+        },
+        {
+          "accuracy": 0.5320945945945946,
+          "ev_per_trade_at_50c": 0.014594594594594668,
+          "month": "2026-06",
+          "opportunities": 2878,
+          "trades": 592
+        },
+        {
+          "accuracy": 0.5181347150259067,
+          "ev_per_trade_at_50c": 0.0006347150259067291,
+          "month": "2026-07",
+          "opportunities": 2976,
+          "trades": 579
+        },
+        {
+          "accuracy": 0.5396039603960396,
+          "ev_per_trade_at_50c": 0.02210396039603968,
+          "month": "2026-08",
+          "opportunities": 992,
+          "trades": 202
+        }
+      ],
+      "opportunities": 9822,
+      "permutation_test": {
+        "block_count": 15,
+        "block_days": 7,
+        "holm_adjusted_p_across_four_horizons": 0.011398860113988602,
+        "method": "fixed-strategy permutation of contiguous 7-day outcome blocks",
+        "null_mean": -0.0030537975972307037,
+        "null_std": 0.002158112750715173,
+        "observed_ev_per_opportunity_at_50c": 0.0025183262064752627,
+        "permutations": 10000,
+        "raw_one_sided_p": 0.005699430056994301,
+        "z_score": 2.58194285811037
+      },
+      "settlement_validity": "terminal Polymarket outcome label; Binance proxy disagreement is reported separately",
+      "trades": 1958
+    },
+    "240": {
+      "holdout_labels_evaluated": false,
+      "horizon_minutes": 240,
+      "locked_candidate": {
+        "family": "risk_gate",
+        "kind": "no_trade",
+        "name": "baseline:no_trade",
+        "params": {}
+      },
+      "reason": "No active rule had a positive development day-cluster lower-confidence bound.",
+      "status": "no_trade_locked_from_development"
+    },
+    "5": {
+      "accuracy": 0.5288840262582057,
+      "coverage": 0.15512032856997388,
+      "day_cluster_accuracy_interval": {
+        "clusters_days": 103,
+        "lower_one_sided_95": 0.5166484175335457,
+        "lower_two_sided_95": 0.5144664734597146,
+        "point": 0.5288840262582057,
+        "upper_two_sided_95": 0.5436025333089194
+      },
+      "holdout_end": "2026-08-11T08:00:00+00:00",
+      "holdout_start": "2026-05-01T00:00:00+00:00",
+      "horizon_minutes": 5,
+      "hypothetical_entry_price_frontier": [
+        {
+          "ask": 0.35,
+          "break_even_probability": 0.365925,
+          "ev_per_dollar_total_cash_paid": 0.44533449821194443,
+          "ev_per_share": 0.16295902625820577,
+          "fee_per_share": 0.015925,
+          "one_sided_95_lower_ev_per_dollar": 0.41189702133919726,
+          "one_sided_95_lower_ev_per_share": 0.15072341753354576
+        },
+        {
+          "ask": 0.4,
+          "break_even_probability": 0.4168,
+          "ev_per_dollar_total_cash_paid": 0.2689156100244859,
+          "ev_per_share": 0.11208402625820571,
+          "fee_per_share": 0.016800000000000002,
+          "one_sided_95_lower_ev_per_dollar": 0.23955954302674112,
+          "one_sided_95_lower_ev_per_share": 0.0998484175335457
+        },
+        {
+          "ask": 0.45,
+          "break_even_probability": 0.467325,
+          "ev_per_dollar_total_cash_paid": 0.13172637085156097,
+          "ev_per_share": 0.061559026258205723,
+          "fee_per_share": 0.017325000000000007,
+          "one_sided_95_lower_ev_per_dollar": 0.10554414493884495,
+          "one_sided_95_lower_ev_per_share": 0.049323417533545716
+        },
+        {
+          "ask": 0.475,
+          "break_even_probability": 0.49245625,
+          "ev_per_dollar_total_cash_paid": 0.07397159901657407,
+          "ev_per_share": 0.03642777625820576,
+          "fee_per_share": 0.017456250000000003,
+          "one_sided_95_lower_ev_per_dollar": 0.049125516294179945,
+          "one_sided_95_lower_ev_per_share": 0.024192167533545753
+        },
+        {
+          "ask": 0.5,
+          "break_even_probability": 0.5175,
+          "ev_per_dollar_total_cash_paid": 0.021998118373344425,
+          "ev_per_share": 0.01138402625820574,
+          "fee_per_share": 0.0175,
+          "one_sided_95_lower_ev_per_dollar": -0.0016455699834865077,
+          "one_sided_95_lower_ev_per_share": -0.0008515824664542676
+        },
+        {
+          "ask": 0.525,
+          "break_even_probability": 0.54245625,
+          "ev_per_dollar_total_cash_paid": -0.025019941685240576,
+          "ev_per_share": -0.013572223741794284,
+          "fee_per_share": 0.017456250000000003,
+          "one_sided_95_lower_ev_per_dollar": -0.0475758781771881,
+          "one_sided_95_lower_ev_per_share": -0.02580783246645429
+        },
+        {
+          "ask": 0.55,
+          "break_even_probability": 0.5673250000000001,
+          "ev_per_dollar_total_cash_paid": -0.06775829329184206,
+          "ev_per_share": -0.0384409737417943,
+          "fee_per_share": 0.017325,
+          "one_sided_95_lower_ev_per_dollar": -0.08932548797682863,
+          "one_sided_95_lower_ev_per_share": -0.05067658246645431
+        },
+        {
+          "ask": 0.6,
+          "break_even_probability": 0.6168,
+          "ev_per_dollar_total_cash_paid": -0.142535625392014,
+          "ev_per_share": -0.08791597374179425,
+          "fee_per_share": 0.016800000000000002,
+          "one_sided_95_lower_ev_per_dollar": -0.16237286392096992,
+          "one_sided_95_lower_ev_per_share": -0.10015158246645425
+        },
+        {
+          "ask": 0.65,
+          "break_even_probability": 0.665925,
+          "ev_per_dollar_total_cash_paid": -0.2057904024354008,
+          "ev_per_share": -0.13704097374179428,
+          "fee_per_share": 0.015925,
+          "one_sided_95_lower_ev_per_dollar": -0.22416425643496532,
+          "one_sided_95_lower_ev_per_share": -0.14927658246645428
+        }
+      ],
+      "label_proxy_sensitivity": {
+        "conservative_all_proxy_disagreements_counted_wrong": {
+          "accuracy": 0.4258205689277899,
+          "ev_per_trade_at_50c": -0.09167943107221005
+        },
+        "y": {
+          "accuracy": 0.5288840262582057,
+          "ev_per_trade_at_50c": 0.011384026258205782
+        },
+        "y_close_proxy": {
+          "accuracy": 0.537636761487965,
+          "ev_per_trade_at_50c": 0.02013676148796506
+        },
+        "y_hlc3_proxy": {
+          "accuracy": 0.5404814004376368,
+          "ev_per_trade_at_50c": 0.022981400437636856
+        },
+        "y_symmetric_proxy": {
+          "accuracy": 0.4509846827133479,
+          "ev_per_trade_at_50c": -0.06651531728665205
+        }
+      },
+      "locked_candidate": {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:mom_3:reversal:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "mom_3",
+          "sign": -1
+        }
+      },
+      "maximum_fee_only_ask_from_one_sided_95_lower_q": 0.49914846829098375,
+      "maximum_fee_only_ask_from_point_q": 0.5113931124690274,
+      "monthly": [
+        {
+          "accuracy": 0.5246073298429319,
+          "ev_per_trade_at_50c": 0.007107329842931942,
+          "month": "2026-05",
+          "opportunities": 8927,
+          "trades": 955
+        },
+        {
+          "accuracy": 0.5302961275626423,
+          "ev_per_trade_at_50c": 0.012796127562642368,
+          "month": "2026-06",
+          "opportunities": 8632,
+          "trades": 2195
+        },
+        {
+          "accuracy": 0.5397215397215397,
+          "ev_per_trade_at_50c": 0.02222153972153973,
+          "month": "2026-07",
+          "opportunities": 8927,
+          "trades": 1221
+        },
+        {
+          "accuracy": 0.46733668341708545,
+          "ev_per_trade_at_50c": -0.05016331658291451,
+          "month": "2026-08",
+          "opportunities": 2975,
+          "trades": 199
+        }
+      ],
+      "opportunities": 29461,
+      "permutation_test": {
+        "block_count": 15,
+        "block_days": 7,
+        "holm_adjusted_p_across_four_horizons": 0.0008999100089991002,
+        "method": "fixed-strategy permutation of contiguous 7-day outcome blocks",
+        "null_mean": -0.0022579987101591916,
+        "null_std": 0.0011157121165103062,
+        "observed_ev_per_opportunity_at_50c": 0.001765893893622078,
+        "permutations": 10000,
+        "raw_one_sided_p": 0.00029997000299970003,
+        "z_score": 3.606568884782833
+      },
+      "settlement_validity": "terminal Polymarket outcome label; Binance proxy disagreement is reported separately",
+      "trades": 4570
+    },
+    "60": {
+      "accuracy": 0.5221932114882507,
+      "coverage": 0.1563903634136382,
+      "day_cluster_accuracy_interval": {
+        "clusters_days": 103,
+        "lower_one_sided_95": 0.47688332438327463,
+        "lower_two_sided_95": 0.46865527435287335,
+        "point": 0.5221932114882507,
+        "upper_two_sided_95": 0.573816999062502
+      },
+      "holdout_end": "2026-08-11T08:00:00+00:00",
+      "holdout_start": "2026-05-01T00:00:00+00:00",
+      "horizon_minutes": 60,
+      "hypothetical_entry_price_frontier": [
+        {
+          "ask": 0.35,
+          "break_even_probability": 0.365925,
+          "ev_per_dollar_total_cash_paid": 0.42704983668306545,
+          "ev_per_share": 0.15626821148825074,
+          "fee_per_share": 0.015925,
+          "one_sided_95_lower_ev_per_dollar": 0.30322695739092614,
+          "one_sided_95_lower_ev_per_share": 0.11095832438327466
+        },
+        {
+          "ask": 0.4,
+          "break_even_probability": 0.4168,
+          "ev_per_dollar_total_cash_paid": 0.25286279147852847,
+          "ev_per_share": 0.10539321148825068,
+          "fee_per_share": 0.016800000000000002,
+          "one_sided_95_lower_ev_per_dollar": 0.14415384928808686,
+          "one_sided_95_lower_ev_per_share": 0.06008332438327461
+        },
+        {
+          "ask": 0.45,
+          "break_even_probability": 0.467325,
+          "ev_per_dollar_total_cash_paid": 0.1174091081971876,
+          "ev_per_share": 0.05486821148825069,
+          "fee_per_share": 0.017325000000000007,
+          "one_sided_95_lower_ev_per_dollar": 0.02045326995832582,
+          "one_sided_95_lower_ev_per_share": 0.009558324383274613
+        },
+        {
+          "ask": 0.475,
+          "break_even_probability": 0.49245625,
+          "ev_per_dollar_total_cash_paid": 0.06038498138311927,
+          "ev_per_share": 0.029736961488250727,
+          "fee_per_share": 0.017456250000000003,
+          "one_sided_95_lower_ev_per_dollar": -0.0316229626829294,
+          "one_sided_95_lower_ev_per_share": -0.01557292561672535
+        },
+        {
+          "ask": 0.5,
+          "break_even_probability": 0.5175,
+          "ev_per_dollar_total_cash_paid": 0.00906900770676465,
+          "ev_per_share": 0.0046932114882507064,
+          "fee_per_share": 0.0175,
+          "one_sided_95_lower_ev_per_dollar": -0.07848632969415531,
+          "one_sided_95_lower_ev_per_share": -0.04061667561672537
+        },
+        {
+          "ask": 0.525,
+          "break_even_probability": 0.54245625,
+          "ev_per_dollar_total_cash_paid": -0.037354235501479274,
+          "ev_per_share": -0.020263038511749317,
+          "fee_per_share": 0.017456250000000003,
+          "one_sided_95_lower_ev_per_dollar": -0.12088150079702353,
+          "one_sided_95_lower_ev_per_share": -0.0655729256167254
+        },
+        {
+          "ask": 0.55,
+          "break_even_probability": 0.5673250000000001,
+          "ev_per_dollar_total_cash_paid": -0.07955191206407144,
+          "ev_per_share": -0.045131788511749336,
+          "fee_per_share": 0.017325,
+          "one_sided_95_lower_ev_per_dollar": -0.1594177510540262,
+          "one_sided_95_lower_ev_per_share": -0.09044167561672542
+        },
+        {
+          "ask": 0.6,
+          "break_even_probability": 0.6168,
+          "ev_per_dollar_total_cash_paid": -0.15338324985692164,
+          "ev_per_share": -0.09460678851174928,
+          "fee_per_share": 0.016800000000000002,
+          "one_sided_95_lower_ev_per_dollar": -0.22684285930078688,
+          "one_sided_95_lower_ev_per_share": -0.13991667561672536
+        },
+        {
+          "ask": 0.65,
+          "break_even_probability": 0.665925,
+          "ev_per_dollar_total_cash_paid": -0.21583780232270797,
+          "ev_per_share": -0.1437317885117493,
+          "fee_per_share": 0.015925,
+          "one_sided_95_lower_ev_per_dollar": -0.28387832806506047,
+          "one_sided_95_lower_ev_per_share": -0.18904167561672539
+        }
+      ],
+      "label_proxy_sensitivity": {
+        "y": {
+          "accuracy": 0.5221932114882507,
+          "ev_per_trade_at_50c": 0.004693211488250748
+        },
+        "y_close_proxy": {
+          "accuracy": 0.5221932114882507,
+          "ev_per_trade_at_50c": 0.004693211488250748
+        },
+        "y_hlc3_proxy": {
+          "accuracy": 0.5221932114882507,
+          "ev_per_trade_at_50c": 0.004693211488250748
+        },
+        "y_symmetric_proxy": {
+          "accuracy": 0.5221932114882507,
+          "ev_per_trade_at_50c": 0.004693211488250748
+        }
+      },
+      "locked_candidate": {
+        "family": "return_autocorrelation",
+        "kind": "score",
+        "name": "autocorr:ewm_5:reversal:q0.80",
+        "params": {
+          "abs_quantile": 0.8,
+          "modifier": "all",
+          "regime": "all",
+          "score": "ewm_5",
+          "sign": -1
+        }
+      },
+      "maximum_fee_only_ask_from_one_sided_95_lower_q": 0.4594981523596338,
+      "maximum_fee_only_ask_from_point_q": 0.5046947543385321,
+      "monthly": [
+        {
+          "accuracy": 0.5428571428571428,
+          "ev_per_trade_at_50c": 0.025357142857142856,
+          "month": "2026-05",
+          "opportunities": 739,
+          "trades": 70
+        },
+        {
+          "accuracy": 0.532608695652174,
+          "ev_per_trade_at_50c": 0.015108695652173987,
+          "month": "2026-06",
+          "opportunities": 718,
+          "trades": 184
+        },
+        {
+          "accuracy": 0.5094339622641509,
+          "ev_per_trade_at_50c": -0.008066037735849019,
+          "month": "2026-07",
+          "opportunities": 744,
+          "trades": 106
+        },
+        {
+          "accuracy": 0.43478260869565216,
+          "ev_per_trade_at_50c": -0.0827173913043478,
+          "month": "2026-08",
+          "opportunities": 248,
+          "trades": 23
+        }
+      ],
+      "opportunities": 2449,
+      "permutation_test": {
+        "block_count": 15,
+        "block_days": 7,
+        "holm_adjusted_p_across_four_horizons": 0.19198080191980801,
+        "method": "fixed-strategy permutation of contiguous 7-day outcome blocks",
+        "null_mean": -0.0029443446304614107,
+        "null_std": 0.004037082417113353,
+        "observed_ev_per_opportunity_at_50c": 0.0007339730502245828,
+        "permutations": 10000,
+        "raw_one_sided_p": 0.19198080191980801,
+        "z_score": 0.9111326697452244
+      },
+      "settlement_validity": "terminal Polymarket outcome label; Binance proxy disagreement is reported separately",
+      "trades": 383
+    }
+  },
+  "lock_id": "09a49e5195b4e3fa7accb6c96ff6683fd5a03741ca120ddfdb8b4557065b06a8",
+  "outcome_cache_sha256": "8bf88f6beadd260440c52be7959f293eb4c6596e6e5a5cc49a3ff1b45480c78a"
+}

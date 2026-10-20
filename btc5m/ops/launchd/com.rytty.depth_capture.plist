@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.rytty.depth_capture</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>~/polymarket_arb/.venv/bin/python3</string>
+        <string>~/polymarket_arb/scripts/capture_depth_ws.py</string>
+        <string>--lock-file</string>
+        <string>~/polymarket_arb/state/cache/capture_depth_ws.lock</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>~/polymarket_arb</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PYTHONPATH</key>
+        <string>~/polymarket_arb:~/polymarket_arb/scripts</string>
+        <key>DEPTH_CAPTURE_LOCK_FILE</key>
+        <string>~/polymarket_arb/state/cache/capture_depth_ws.lock</string>
+    </dict>
+
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>ThrottleInterval</key>
+    <integer>5</integer>
+
+    <key>StandardOutPath</key>
+    <string>~/polymarket_arb/state/cache/depth_capture_stdout.log</string>
+    <key>StandardErrorPath</key>
+    <string>~/polymarket_arb/state/cache/depth_capture_stderr.log</string>
+</dict>
+</plist>
