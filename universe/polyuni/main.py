@@ -44,6 +44,21 @@ from .sequential_engine import SequentialPairEngine
 def validate_startup_configuration(settings=SETTINGS) -> list[str]:
     """Return actionable errors that must be fixed before the bot starts."""
     errors: list[str] = []
+    if getattr(settings, "live_execution", False):
+        from .live_control import live_endpoint_enabled
+        if settings.dry_run or settings.paper_trade:
+            errors.append("LIVE_EXECUTION=true requires DRY_RUN=false and PAPER_TRADE=false")
+        if not live_endpoint_enabled():
+            errors.append("live trading is not enabled: set ARBITER_LIVE_TRADING=enabled in .env")
+        if not settings.live:
+            errors.append("live trading requires PRIVATE_KEY and LIVE_SIGNING_VERIFIED=true")
+        try:
+            Account.from_key(str(getattr(settings, "private_key", "") or ""))
+        except Exception as exc:
+            errors.append(f"PRIVATE_KEY must be a valid signer: {exc}")
+        if getattr(settings, "polymarket_signature_type", "eoa") not in {"eoa", "proxy", "safe"}:
+            errors.append("POLYMARKET_SIGNATURE_TYPE must be eoa, proxy or safe")
+        return errors
     if bool(settings.dry_run) == bool(settings.paper_trade):
         errors.append(
             "select exactly one supported mode: DRY_RUN=true/PAPER_TRADE=false "

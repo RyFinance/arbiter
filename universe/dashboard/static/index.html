@@ -1,98 +1,259 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#000000">
-  <title>POLYUNI — Sequential Loop Control</title>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#15120f">
+  <title>Arbiter · polyuni</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css?v=13">
 </head>
-<body><div class="app-shell">
-  <header id="banner" class="topbar banner--paper">
-    <div class="brand"><span class="brand__mark">◆</span><div><div class="brand__name">POLYUNI</div><div class="brand__product">LOOP CONTROL <span>/ OPERATOR CONSOLE</span></div></div></div>
-    <div class="topbar__telemetry">
-      <div class="top-stat"><span class="top-stat__label">SYSTEM TIME</span><span id="system-clock" class="top-stat__value">--:--:-- UTC</span></div>
-      <div class="top-stat"><span class="top-stat__label">DATA LINK</span><span id="connection-state" class="top-stat__value status-text status-text--warn">CONNECTING</span></div>
-      <div class="top-stat"><span class="top-stat__label">PROCESS OWNER</span><span id="owner-state" class="top-stat__value status-text status-text--off">NO PROCESS</span></div>
-      <div class="top-stat"><span class="top-stat__label">RUNTIME</span><span id="uptime" class="top-stat__value">OFFLINE</span></div>
+<body>
+<canvas id="ascii" aria-hidden="true"></canvas>
+
+<div class="app">
+  <!-- header -->
+  <header id="banner" class="head banner--paper">
+    <div class="head__id">
+      <span class="tile-icon" aria-hidden="true">◆</span>
+      <div>
+        <p class="head__hello" id="greeting">Good evening</p>
+        <h1>Arbiter</h1>
+        <p class="head__meta mono"><span id="system-clock">--:--:-- UTC</span> · <span id="mode-label">PAPER</span> · <span id="run-config">idle</span></p>
+      </div>
     </div>
-    <div class="topbar__actions"><button id="btn-start" class="btn btn--primary"><span>▶</span> START LOOP</button><button id="btn-stop" class="btn btn--danger"><span>■</span> STOP</button></div>
+    <div class="head__actions">
+      <div class="pills" role="radiogroup" aria-label="Market scope">
+        <button type="button" class="pill seg__opt is-on" data-scope="universe" role="radio" aria-checked="true">◎ Universe</button>
+        <button type="button" class="pill seg__opt" data-scope="btc" role="radio" aria-checked="false">₿ BTC only</button>
+      </div>
+      <button id="btn-start" class="pill pill--go">▶ Start</button>
+      <button id="btn-stop" class="pill">■ Stop</button>
+    </div>
   </header>
 
-  <main>
-    <section class="hero-grid">
-      <article class="panel engine-panel">
-        <div class="panel__head"><div><span class="eyebrow">SEQUENTIAL EXECUTION CORE</span><h1>Staggered hedge engine</h1></div><span id="mode-label" class="mode-badge">PAPER ONLY</span></div>
-        <div class="engine-body">
-          <div class="loop-graphic" aria-hidden="true"><div class="orbit orbit--outer"></div><div class="orbit orbit--inner"></div><div class="loop-sweep"></div><div class="loop-core"><span id="run-state-dot" class="dot dot--stopped"></span><strong id="run-state-label">STOPPED</strong><small id="strategy-phase-core">WAITING_FIRST</small></div><span id="loop-node-1" class="loop-node n1">V</span><span id="loop-node-2" class="loop-node n2">L1</span><span id="loop-node-3" class="loop-node n3">L2</span><span id="loop-node-4" class="loop-node n4">✓</span></div>
-          <div class="sequence-list">
-            <div id="strategy-step-1" class="sequence-step"><span>01</span><div><strong>VOLATILITY GATE</strong><small>local motion + BTC regime</small></div><i></i></div>
-            <div id="strategy-step-2" class="sequence-step"><span>02</span><div><strong>FIRST LEG</strong><small>near-even depth-aware fill</small></div><i></i></div>
-            <div id="strategy-step-3" class="sequence-step"><span>03</span><div><strong>SEEK OPPOSITE</strong><small>fee-aware hedge window</small></div><i></i></div>
-            <div id="strategy-step-4" class="sequence-step"><span>04</span><div><strong>LOCK / EXIT</strong><small>pair or protective unwind</small></div><i></i></div>
+  <!-- sheet tabs -->
+  <nav class="tabs" aria-label="Sheets">
+    <button class="tab is-active" data-tab="desk"><span aria-hidden="true">▦</span> Desk</button>
+    <button class="tab" data-tab="venues"><span aria-hidden="true">⇄</span> Venues <i class="tab__dot" id="venues-dot" hidden></i></button>
+    <button class="tab" data-tab="engine"><span aria-hidden="true">⚙</span> Engine</button>
+    <button class="tab" data-tab="log"><span aria-hidden="true">☰</span> Log</button>
+  </nav>
+
+  <!-- live-trading setup reminder -->
+  <div class="reminder" id="live-reminder" hidden>
+    <span class="reminder__icon" aria-hidden="true">🔑</span>
+    <div class="reminder__text"><b>Paper mode. Add your keys to trade live.</b> <span id="reminder-next">Next step: link your Polymarket wallet.</span></div>
+    <button class="pill pill--go" type="button" id="reminder-open">Set up live trading</button>
+    <button class="reminder__close" type="button" id="reminder-close" aria-label="Hide for now">✕</button>
+  </div>
+
+  <!-- formula bar -->
+  <div class="fbar">
+    <span class="fbar__name mono" id="fbar-name">A1</span>
+    <span class="fbar__fx">fx</span>
+    <span class="fbar__value mono" id="fbar-value">=ARBITER("universe engine · polyuni")</span>
+  </div>
+
+  <!-- sheets -->
+  <main class="sheets">
+    <!-- DESK -->
+    <section class="sheet-page is-active" data-sheet="desk">
+      <div class="desk">
+        <div class="desk__main">
+          <div class="cap"><h2>Now</h2><span class="cap__meta" id="now-summary">waiting for an active market</span></div>
+          <article class="card card--wide">
+            <div class="card__head"><span class="card__title">Live markets</span><span class="chip" id="now-count">0</span></div>
+            <div class="grid-wrap"><table class="sheet" id="live-markets"></table></div>
+          </article>
+
+          <div class="tiles">
+            <article class="card tile">
+              <div class="card__head"><span class="card__title">Paper equity</span><span class="tile-icon tile-icon--amber">$</span></div>
+              <div class="tile__value mono" id="paper-equity">--</div>
+              <p class="tile__sub">bankroll <span id="paper-bankroll" class="mono">--</span></p>
+            </article>
+            <article class="card tile">
+              <div class="card__head"><span class="card__title">Session P&amp;L</span><span class="tile-icon tile-icon--green">↗</span></div>
+              <div class="tile__value mono" id="pnl-session">--</div>
+              <div class="bar"><i id="headroom-bar"></i></div>
+              <p class="tile__sub">kill-switch headroom <span id="headroom-text" class="mono">--</span></p>
+            </article>
+            <article class="card tile">
+              <div class="card__head"><span class="card__title">Volume</span><span class="tile-icon tile-icon--blue">≡</span></div>
+              <div class="tile__value mono" id="paper-volume">--</div>
+              <p class="tile__sub">today <span id="paper-volume-today" class="mono">--</span> · fills <span id="paper-fills" class="mono">--</span></p>
+            </article>
+            <article class="card tile">
+              <div class="card__head"><span class="card__title">Fees paid</span><span class="tile-icon">%</span></div>
+              <div class="tile__value mono" id="paper-fees">--</div>
+              <p class="tile__sub">orders <span id="paper-orders" class="mono">--</span> · opps <span id="paper-opps" class="mono">--</span></p>
+            </article>
           </div>
+
+          <div class="cap"><h2>Open sequence</h2><span class="cap__meta">phase <b id="strategy-phase">WAITING_FIRST</b></span></div>
+          <article class="card">
+            <dl class="kv">
+              <div><dt>First leg</dt><dd id="first-leg-price">none</dd><dd id="first-leg-meta" class="dim">waiting for qualified volatility</dd></div>
+              <div><dt>Opposite leg</dt><dd id="second-leg-price">awaiting</dd><dd id="second-leg-meta" class="dim">fee-adjusted cap --</dd></div>
+              <div><dt>Hedge window</dt><dd id="hedge-timer">--</dd></div>
+              <div><dt>Expected net</dt><dd id="expected-net">--</dd></div>
+              <div><dt>Book depth</dt><dd id="depth-state">idle</dd></div>
+              <div><dt>Sequence</dt><dd id="sequence-id" class="mono">none</dd></div>
+              <div><dt>Open slots</dt><dd id="open-sequence-count">0</dd></div>
+            </dl>
+          </article>
         </div>
-      </article>
-      <section class="metric-grid" aria-label="Session metrics">
-        <article class="metric-card metric-card--hero"><div class="metric-card__label">SESSION P&amp;L <span>PAPER</span></div><div id="pnl-session" class="metric-card__value">--</div><div class="metric-card__meta">realized result after modeled fees</div></article>
-        <article class="metric-card"><div class="metric-card__label">LOCKED NET</div><div id="pnl-locked" class="metric-card__value">--</div><div class="metric-card__meta">paired after fees + depth</div></article>
-        <article class="metric-card"><div class="metric-card__label">FIRST-LEG EXPOSURE</div><div id="strategy-exposure" class="metric-card__value">--</div><div class="metric-card__meta">capital awaiting opposite leg</div></article>
-        <article class="metric-card"><div class="metric-card__label">DEPLOYED</div><div id="pnl-deployed" class="metric-card__value">--</div><div class="metric-card__meta">active allocation</div></article>
-        <article class="metric-card"><div class="metric-card__label">PAIRED CYCLES</div><div id="strategy-pairs" class="metric-card__value metric-card__value--count">--</div><div class="metric-card__meta">completed sequential hedges</div></article>
-      </section>
+
+        <aside class="desk__side">
+          <article class="card">
+            <div class="card__head"><span class="card__title">Capital</span></div>
+            <div class="gauges">
+              <figure class="gauge" data-gauge="deployed" data-color="amber"><svg viewBox="0 0 64 64"><circle class="gauge__track" cx="32" cy="32" r="26"/><circle class="gauge__arc" cx="32" cy="32" r="26"/></svg><b class="mono">--</b><small>%</small><figcaption>Deployed</figcaption></figure>
+              <figure class="gauge" data-gauge="headroom" data-color="green"><svg viewBox="0 0 64 64"><circle class="gauge__track" cx="32" cy="32" r="26"/><circle class="gauge__arc" cx="32" cy="32" r="26"/></svg><b class="mono">--</b><small>%</small><figcaption>Headroom</figcaption></figure>
+              <figure class="gauge" data-gauge="up" data-color="blue"><svg viewBox="0 0 64 64"><circle class="gauge__track" cx="32" cy="32" r="26"/><circle class="gauge__arc" cx="32" cy="32" r="26"/></svg><b class="mono">--</b><small>¢</small><figcaption id="gauge-up-label">Up</figcaption></figure>
+              <figure class="gauge" data-gauge="down" data-color="green"><svg viewBox="0 0 64 64"><circle class="gauge__track" cx="32" cy="32" r="26"/><circle class="gauge__arc" cx="32" cy="32" r="26"/></svg><b class="mono">--</b><small>¢</small><figcaption id="gauge-down-label">Down</figcaption></figure>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card__head"><span class="card__title">Safety</span><span class="chip chip--green" id="safety-chip">PAPER</span></div>
+            <ul class="checks">
+              <li><span class="tile-icon tile-icon--sm" id="run-state-dot">●</span><div><b>Engine</b><small><span id="run-state-label">stopped</span> <span id="uptime"></span></small></div><i class="ok" id="check-engine">–</i></li>
+              <li><span class="tile-icon tile-icon--sm tile-icon--blue">⇄</span><div><b>Data link</b><small id="connection-state">connecting</small></div><i class="ok" id="link-dot">–</i></li>
+              <li><span class="tile-icon tile-icon--sm tile-icon--amber">!</span><div><b>Live orders</b><small id="live-check-text">off · paper only</small></div><i class="ok" id="check-live">✓</i></li>
+              <li><span class="tile-icon tile-icon--sm">⌁</span><div><b>Process</b><small id="owner-state">no process</small></div><i class="ok" id="check-owner">–</i></li>
+            </ul>
+            <p class="fine">PAPER-ONLY SAFETY BOUNDARY unless LIVE is opted into three times. <span id="control-revision" class="mono">rev --</span></p>
+          </article>
+        </aside>
+      </div>
     </section>
 
-    <section class="strategy-grid" aria-label="Sequential strategy telemetry">
-      <article class="panel exposure-panel">
-        <div class="panel__head"><div><span class="eyebrow">ACTIVE SEQUENCE</span><h2>First leg → opposite leg</h2></div><span id="strategy-phase" class="phase-badge phase--waiting">WAITING_FIRST</span></div>
-        <div id="exposure-route" class="exposure-route is-idle">
-          <div class="route-leg route-leg--first"><span>FIRST LEG</span><strong id="first-leg-price">NO OPEN LEG</strong><small id="first-leg-meta">waiting for qualified volatility</small></div>
-          <div class="route-bridge"><div class="hedge-track"><i id="hedge-progress"></i></div><strong id="hedge-timer">--</strong><small>HEDGE WINDOW</small></div>
-          <div class="route-leg route-leg--second"><span>OPPOSITE LEG</span><strong id="second-leg-price">AWAITING</strong><small id="second-leg-meta">fee-adjusted cap --</small></div>
-        </div>
-        <div class="sequence-readouts">
-          <div><span>EXPECTED NET</span><strong id="expected-net">--</strong></div>
-          <div><span>BOOK DEPTH</span><strong id="depth-state">IDLE</strong></div>
-          <div><span>SEQUENCE</span><strong id="sequence-id">NONE</strong></div>
-          <div><span>OPEN SLOTS</span><strong id="open-sequence-count">0</strong></div>
-        </div>
-        <p class="panel-note">The opposite leg is evaluated later and only paired when full-size depth and modeled taker fees preserve the configured net edge.</p>
+    <!-- VENUES -->
+    <section class="sheet-page" data-sheet="venues">
+      <div class="cap"><h2>Linked accounts</h2><span class="cap__meta"><button id="btn-refresh-venues" class="link-btn" type="button">refresh</button></span></div>
+      <div class="tiles tiles--3">
+        <article class="card tile"><span class="card__title">Account value</span><div class="tile__value mono" id="total-value">--</div><p class="tile__sub" id="total-note">No venue linked yet.</p></article>
+        <article class="card tile"><span class="card__title">Cash / positions</span><div class="tile__value tile__value--sm mono"><span id="total-cash">--</span> / <span id="total-positions">--</span></div><p class="tile__sub">open <span id="total-open" class="mono">--</span> · volume <span id="total-volume" class="mono">--</span></p></article>
+        <article class="card tile"><span class="card__title">Unrealized / realized</span><div class="tile__value tile__value--sm mono"><span id="total-unrealized">--</span> / <span id="total-realized">--</span></div><p class="tile__sub">total <span id="account-total-short" class="mono">--</span></p></article>
+      </div>
+
+      <article class="card setup" id="live-setup">
+        <div class="card__head"><span class="card__title card__title--lg">Live trading setup</span><span class="chip" id="setup-chip">0 / 4</span></div>
+        <ol class="steps" id="setup-steps"></ol>
+        <p class="hint">Keys live only in <span class="mono">universe/.env</span> on this machine (git-ignored). Orders stay capped: $5 per order, $25 open, stop at −$25 by default.</p>
       </article>
 
-      <article class="panel model-panel">
-        <div class="panel__head"><div><span class="eyebrow">ENTRY CALIBRATION</span><h2>LightGBM regime</h2></div><span class="model-scope">BTC ONLY</span></div>
-        <div class="model-regime"><span id="model-regime">--</span><small id="model-status">UNAVAILABLE</small></div>
-        <div class="confidence-row"><span>CONFIDENCE</span><strong id="model-confidence">--</strong></div>
-        <div class="confidence-track"><i id="model-confidence-bar"></i></div>
-        <dl class="model-meta"><div><dt>SOURCE</dt><dd id="model-source">--</dd></div><div><dt>SIGNAL AGE</dt><dd id="model-age">--</dd></div></dl>
-        <div class="model-guard"><span>ENTRY ONLY</span><p>The model adjusts the first-leg volatility threshold. It never blocks a hedge or protective exit.</p></div>
-      </article>
+      <div class="venues">
+        <article class="card venue" data-venue="polymarket">
+          <div class="card__head"><span class="card__title card__title--lg">Polymarket</span><span class="chip venue__state" data-field="state">not linked</span></div>
+          <div class="venue__mode" data-mode-for="polymarket">
+            <div class="pills pills--sm" role="radiogroup">
+              <button type="button" class="pill seg__opt" data-mode="read_only">Read-only</button>
+              <button type="button" class="pill seg__opt" data-mode="paper">Paper</button>
+              <button type="button" class="pill seg__opt" data-mode="live">Live</button>
+            </div>
+            <p class="hint" data-field="mode_note"></p>
+          </div>
+          <dl class="venue__stats">
+            <div><dt>Account value</dt><dd data-field="account_value_usd">--</dd></div>
+            <div><dt>Cash (pUSD)</dt><dd data-field="cash_usd">--</dd></div>
+            <div><dt>Positions</dt><dd data-field="positions_value_usd">--</dd></div>
+            <div><dt>Cost basis</dt><dd data-field="cost_basis_usd">--</dd></div>
+            <div><dt>Unrealized</dt><dd data-field="unrealized_pnl">--</dd></div>
+            <div><dt>Realized</dt><dd data-field="realized_pnl">--</dd></div>
+            <div><dt>Volume</dt><dd data-field="volume_usd">--</dd></div>
+            <div><dt>Open</dt><dd data-field="open_positions">--</dd></div>
+          </dl>
+          <form class="venue__form" data-form="polymarket">
+            <label>Wallet address<input name="address" autocomplete="off" spellcheck="false" placeholder="0x… from your Polymarket profile"></label>
+            <p class="hint">Public address for balances and positions. Live trading also needs PRIVATE_KEY in .env.</p>
+            <button class="pill pill--go" type="submit">Link Polymarket</button>
+          </form>
+          <footer class="venue__foot"><span data-field="meta" class="dim mono"></span><span data-field="error" class="error"></span><button class="link-btn" data-action="unlink" hidden>unlink</button></footer>
+        </article>
+
+        <article class="card venue" data-venue="kalshi">
+          <div class="card__head"><span class="card__title card__title--lg">Kalshi</span><span class="chip venue__state" data-field="state">not linked</span></div>
+          <div class="venue__mode" data-mode-for="kalshi">
+            <div class="pills pills--sm" role="radiogroup">
+              <button type="button" class="pill seg__opt" data-mode="read_only">Read-only</button>
+              <button type="button" class="pill seg__opt" data-mode="paper">Paper</button>
+              <button type="button" class="pill seg__opt" data-mode="live">Live</button>
+            </div>
+            <p class="hint" data-field="mode_note"></p>
+          </div>
+          <dl class="venue__stats">
+            <div><dt>Account value</dt><dd data-field="account_value_usd">--</dd></div>
+            <div><dt>Cash</dt><dd data-field="cash_usd">--</dd></div>
+            <div><dt>Positions</dt><dd data-field="positions_value_usd">--</dd></div>
+            <div><dt>Cost basis</dt><dd data-field="cost_basis_usd">--</dd></div>
+            <div><dt>Unrealized</dt><dd data-field="unrealized_pnl">--</dd></div>
+            <div><dt>Realized</dt><dd data-field="realized_pnl">--</dd></div>
+            <div><dt>Volume</dt><dd data-field="volume_usd">--</dd></div>
+            <div><dt>Open</dt><dd data-field="open_positions">--</dd></div>
+          </dl>
+          <form class="venue__form" data-form="kalshi">
+            <label>API key ID<input name="key_id" autocomplete="off" spellcheck="false" placeholder="Kalshi → Account → API keys"></label>
+            <label>Private key<textarea name="private_key" rows="3" spellcheck="false" placeholder="-----BEGIN RSA PRIVATE KEY-----"></textarea></label>
+            <label class="inline">Environment<select name="environment"><option value="prod">Production</option><option value="demo">Demo</option></select></label>
+            <p class="hint">Stored in state/ (mode 600, git-ignored).</p>
+            <button class="pill pill--go" type="submit">Link Kalshi</button>
+          </form>
+          <footer class="venue__foot"><span data-field="meta" class="dim mono"></span><span data-field="error" class="error"></span><button class="link-btn" data-action="unlink" hidden>unlink</button></footer>
+        </article>
+      </div>
+
+      <div class="cap"><h2>Positions</h2><span class="cap__meta"><span id="positions-count">0</span> open</span></div>
+      <article class="card"><div class="grid-wrap"><table class="sheet" id="positions-body"></table></div></article>
     </section>
 
-    <section class="content-grid">
-      <article class="panel chart-panel">
-        <div class="panel__head"><div><span class="eyebrow">REAL-TIME TELEMETRY</span><h2>Performance trace</h2></div><div class="chart-legend"><span></span> SESSION P&amp;L</div></div>
-        <div class="chart-wrap"><div class="chart-axis"><span>HIGH</span><span>MID</span><span>BASE</span></div>
-          <svg id="pnl-chart" viewBox="0 0 800 240" preserveAspectRatio="none" role="img" aria-label="Live session performance chart"><defs><linearGradient id="chart-fill" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#ffb900" stop-opacity=".28"/><stop offset="100%" stop-color="#ffb900" stop-opacity="0"/></linearGradient></defs><g class="chart-grid-lines"><line x1="0" y1="20" x2="800" y2="20"/><line x1="0" y1="80" x2="800" y2="80"/><line x1="0" y1="140" x2="800" y2="140"/><line x1="0" y1="200" x2="800" y2="200"/></g><path id="pnl-area" class="chart-area" d="M0 200 L800 200 L800 220 L0 220 Z"/><path id="pnl-line" class="chart-line" d="M0 200 L800 200"/><circle id="pnl-point" class="chart-point" cx="800" cy="200" r="4"/></svg>
-          <div id="chart-empty" class="chart-empty">AWAITING FIRST TELEMETRY FRAME</div>
-        </div><div class="chart-footer"><span>SESSION START</span><span id="sample-count">0 SAMPLES</span><span>NOW</span></div>
-      </article>
-      <article class="panel diagnostics-panel">
-        <div class="panel__head"><div><span class="eyebrow">DECISION ACCOUNTING</span><h2>Cycle diagnostics</h2></div><span class="live-chip"><span></span> STREAM</span></div>
-        <div class="diagnostic-stats"><div><strong id="diag-paired">0</strong><span>PAIRED</span></div><div><strong id="diag-timeouts">0</strong><span>TIMEOUTS</span></div><div><strong id="diag-exits">0</strong><span>PROTECTIVE EXITS</span></div></div>
-        <div class="phase-counts" aria-label="Strategy phase counts"><div data-phase-count="WAITING_FIRST"><span>WAITING</span><strong id="phase-waiting">0</strong></div><div data-phase-count="SEEKING_OPPOSITE"><span>SEEKING</span><strong id="phase-seeking">0</strong></div><div data-phase-count="PAIRED"><span>PAIRED</span><strong id="phase-paired">0</strong></div><div data-phase-count="ABORTED"><span>RISK / EXIT</span><strong id="phase-aborted">0</strong></div><div data-phase-count="TERMINAL"><span>CONSUMED</span><strong id="phase-terminal">0</strong></div></div>
-        <div class="rejection-head"><span>TOP REJECTION REASONS</span><strong id="rejection-total">0 TOTAL</strong></div>
-        <div id="rejection-list" class="rejection-list"><div class="rejection-empty">No rejected entry frames yet</div></div>
-      </article>
+    <!-- ENGINE -->
+    <section class="sheet-page" data-sheet="engine">
+      <div class="tiles">
+        <article class="card tile"><span class="card__title">Locked net</span><div class="tile__value mono" id="pnl-locked">--</div><p class="tile__sub">deployed <span id="pnl-deployed" class="mono">--</span></p></article>
+        <article class="card tile"><span class="card__title">FIRST-LEG EXPOSURE</span><div class="tile__value mono" id="strategy-exposure">--</div><p class="tile__sub">awaiting opposite leg</p></article>
+        <article class="card tile"><span class="card__title">Paired cycles</span><div class="tile__value mono" id="strategy-pairs">--</div><p class="tile__sub">timeouts <span id="diag-timeouts" class="mono">0</span> · exits <span id="diag-exits" class="mono">0</span></p></article>
+        <article class="card tile"><span class="card__title">LightGBM regime</span><div class="tile__value mono" id="model-regime">--</div><p class="tile__sub"><span id="model-confidence"></span> <span id="model-status">unavailable</span> <span id="model-age"></span></p></article>
+      </div>
+      <div class="engine-split">
+        <article class="card">
+          <div class="card__head"><span class="card__title">Session P&amp;L</span><span class="chip" id="sample-count">0 samples</span></div>
+          <div class="trace">
+            <svg id="pnl-chart" viewBox="0 0 800 200" preserveAspectRatio="none" role="img" aria-label="Session P&amp;L">
+              <line class="zero" id="pnl-zero" x1="0" x2="800" y1="100" y2="100"/>
+              <path id="pnl-line" class="trace__line" d=""/>
+            </svg>
+            <div id="chart-empty" class="trace__empty">Waiting for the first P&amp;L frame</div>
+          </div>
+          <div class="phases">
+            <span>waiting <b id="phase-waiting">0</b></span><span>seeking <b id="phase-seeking">0</b></span><span>paired <b id="phase-paired">0</b></span><span>risk/exit <b id="phase-aborted">0</b></span><span>consumed <b id="phase-terminal">0</b></span>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card__head"><span class="card__title">Rejections</span><span class="chip" id="rejection-total">0 total</span></div>
+          <div class="grid-wrap"><table class="sheet" id="rejection-list"></table></div>
+        </article>
+      </div>
     </section>
 
-    <section class="bottom-grid">
-      <article class="panel control-panel"><div class="panel__head"><div><span class="eyebrow">SAFETY BOUNDARY</span><h2>Control plane</h2></div><span id="control-revision" class="revision">REV --</span></div>
-        <label class="control-toggle"><input type="checkbox" id="live-toggle-checkbox"><span class="toggle-track"><i></i></span><span class="toggle-copy"><strong>ARM OPERATOR INTENT</strong><small id="control-detail">Live submission remains hard-blocked</small></span></label>
-        <div class="safety-callout"><span>!</span><p><strong>PAPER-ONLY SAFETY BOUNDARY</strong>This interface records audited operator intent. No exchange order-submission route exists in this build.</p></div>
+    <!-- LOG -->
+    <section class="sheet-page" data-sheet="log">
+      <article class="card">
+        <div class="card__head"><span class="card__title">Session log</span><button id="btn-clear-log" class="link-btn" type="button">clear view</button></div>
+        <div class="grid-wrap grid-wrap--tall"><table class="sheet sheet--log" id="log-tail"></table></div>
       </article>
-      <article class="panel log-panel"><div class="panel__head"><div><span class="eyebrow">SYSTEM EVENTS</span><h2>Session log</h2></div><button id="btn-clear-log" class="text-button">CLEAR VIEW</button></div><pre id="log-tail"><span class="log-placeholder">Waiting for runtime events…</span></pre></article>
     </section>
   </main>
-  <footer><span>POLYUNI CONTROL SYSTEM</span><span class="footer-center"><i></i> LOCAL OPERATOR INTERFACE</span><span>BUILD 01 / SECURE MODE</span></footer>
-</div><div id="toast" class="toast" role="status" aria-live="polite"></div><script src="/static/app.js"></script></body></html>
+
+  <!-- sheet tabs + status bar -->
+  <footer class="xl-foot">
+    <div class="status mono"><span id="status-ready">Ready</span><span id="status-calc"></span><span>P&amp;L <b id="ticker-pnl">--</b></span></div>
+  </footer>
+</div>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script src="/static/ascii.js?v=11"></script>
+<script src="/static/app.js?v=13"></script>
+</body>
+</html>

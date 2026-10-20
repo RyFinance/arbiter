@@ -82,6 +82,18 @@ class Settings:
     include_btc_short_windows: bool = field(
         default_factory=lambda: _bool("INCLUDE_BTC_SHORT_WINDOWS", True)
     )
+    # BTC-only scope: track just the rotating BTC up/down windows (the btc5m
+    # lineage) and skip the rest of the universe.
+    btc_only: bool = field(default_factory=lambda: _bool("BTC_ONLY", False))
+
+    # ---- Live execution (opt-in; see live_control.py) ----
+    live_execution: bool = field(default_factory=lambda: _bool("LIVE_EXECUTION", False))
+    live_max_order_usd: float = field(default_factory=lambda: _float("LIVE_MAX_ORDER_USD", 5.0))
+    live_max_open_usd: float = field(default_factory=lambda: _float("LIVE_MAX_OPEN_USD", 25.0))
+    live_max_session_loss_usd: float = field(default_factory=lambda: _float("LIVE_MAX_SESSION_LOSS_USD", 25.0))
+    live_exit_slippage: float = field(default_factory=lambda: _float("LIVE_EXIT_SLIPPAGE", 0.02))
+    # eoa | proxy | safe -- how the Polymarket account signs (proxy = email/Magic wallets)
+    polymarket_signature_type: str = os.getenv("POLYMARKET_SIGNATURE_TYPE", "eoa").strip().lower()
 
     # strategy
     # ``sequential`` is the practical default: acquire one discounted outcome

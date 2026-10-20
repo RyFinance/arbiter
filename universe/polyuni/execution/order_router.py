@@ -124,6 +124,11 @@ class OrderRouter:
                 return await protective_paper_exit(token_id, size)
             if price is None:
                 return None
+            if getattr(self.client, "mode", "") == "live":
+                # A protective exit must actually execute; FOK at the stale WS bid
+                # is killed by one tick of movement and leaves the leg open.
+                slippage = float(getattr(getattr(self.client, "s", None), "live_exit_slippage", 0.02))
+                price = max(0.01, float(price) - slippage)
             return await self.client.submit_order(token_id, float(price), size, side="SELL")
         except Exception as e:
             log.error(f"exit submit failed for {token_id[-8:]}: {e!r}")

@@ -149,7 +149,9 @@ class Execution:
         """
         mode = getattr(self.client, "mode", "live")
         if mode == "live":
-            return {"ok": False, "reason": "paper_only"}
+            from ..live_control import live_endpoint_enabled
+            if not (live_endpoint_enabled() and getattr(SETTINGS, "live_execution", False)):
+                return {"ok": False, "reason": "paper_only"}
         tpl = self.order_router.templates.get(st.market_id)
         if tpl is None:
             return {"ok": False, "reason": "template_unavailable"}

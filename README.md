@@ -4,8 +4,8 @@
 
 <p align="center">
   <img alt="python" src="https://img.shields.io/badge/python-3.11%2B-0a0a0a?style=flat-square&labelColor=0a0a0a&color=96aaff">
-  <img alt="tests" src="https://img.shields.io/badge/tests-965%20passing-0a0a0a?style=flat-square&labelColor=0a0a0a&color=9be7c4">
-  <img alt="mode" src="https://img.shields.io/badge/mode-paper%20only-0a0a0a?style=flat-square&labelColor=0a0a0a&color=e9e9e9">
+  <img alt="tests" src="https://img.shields.io/badge/tests-978%20passing-0a0a0a?style=flat-square&labelColor=0a0a0a&color=9be7c4">
+  <img alt="mode" src="https://img.shields.io/badge/mode-paper%20by%20default-0a0a0a?style=flat-square&labelColor=0a0a0a&color=e9e9e9">
   <img alt="venue" src="https://img.shields.io/badge/venue-Polymarket-0a0a0a?style=flat-square&labelColor=0a0a0a&color=8a8a8a">
 </p>
 
@@ -67,15 +67,15 @@ Validated against live Polymarket data, not just unit tests:
 | Trading loop | 50 markets subscribed, **100/100** YES/NO updates paired correctly |
 | Stability | **2+ hours** on live data, **0** errors, ~67 MB memory, two real WebSocket drops recovered on their own |
 | Dashboard | Start/stop through a real state machine; stop returns in ~0.03 s mid-run |
-| Tests | **965 passing** (806 `btc5m` · 159 `universe`) |
+| Tests | **978 passing** (806 `btc5m` · 172 `universe`) |
 
 And the honest part: in the validation window **the edge gate found no arbitrage**. That's the correct answer for an efficient book, not a bug. A detector that never cries wolf is the point.
 
 ## Safety by design
 
-Arbiter is a research and paper-trading system. Real money can't move:
+Arbiter paper-trades by default. Real money moves only when you opt in three times:
 
-- **No live order path in `universe/`.** Submission isn't gated or flagged off, it simply isn't implemented.
+- **Live in `universe/` is opt-in.** `ARBITER_LIVE_TRADING=enabled` in your own `.env`, a valid signer key, and LIVE picked per venue with a typed confirmation. Orders are fill-or-kill and capped per order, open exposure and session loss.
 - **A hard block in `btc5m/`.** The dashboard has an audited operator flag, but a separate code-level block keeps live submission off even when the flag is armed. Every submission boundary logs that state.
 - **Read-only wallet checks.** Only `eth_getBalance` and `eth_call` are allowed. The checker has no way to send a transaction.
 - **Jurisdiction respected.** A blocked region stays blocked; nothing tries to route around it.

@@ -1,9 +1,13 @@
 """Fail-closed live-trading control state and append-only audit trail.
 
-The operator flag can be changed and demonstrated in the dashboard, but this
-release intentionally has no route from that flag to a live exchange POST.  A
-second, code-level hard block (``LIVE_ORDER_ENDPOINT_BUILT = False``) keeps the
-effective live permission false even while the operator flag is enabled.
+Live submission needs three independent switches, all fail-closed:
+  1. ``ARBITER_LIVE_TRADING=enabled`` in the operator's own environment/.env
+     (never settable from the dashboard),
+  2. ``LIVE_EXECUTION=true`` for this bot process (set by the dashboard only
+     when the operator picked LIVE for the venue with a typed confirmation),
+  3. the audited operator flag in this module's state file.
+Without all three, ``live_endpoint_enabled()`` is False and every live check
+is denied with ``live_exchange_order_endpoint_unbuilt``.
 
 Paper and dry-run submissions are allowed because they cannot place exchange
 orders; every check is still recorded so the audit trail covers every call.
@@ -22,7 +26,12 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_STATE_PATH = ROOT / "state" / "live_control.json"
 DEFAULT_AUDIT_PATH = ROOT / "state" / "live_control_audit.jsonl"
-LIVE_ORDER_ENDPOINT_BUILT = False
+def live_endpoint_enabled() -> bool:
+    """Env-level opt-in for real orders; read at call time, fail-closed."""
+    return (
+        os.getenv("ARBITER_LIVE_TRADING", "").strip().lower() == "enabled"
+        and os.getenv("LIVE_EXECUTION", "").strip().lower() == "true"
+    )
 SCHEMA_VERSION = 1
 
 
@@ -94,10 +103,10 @@ class LiveTradingControl:
                     schema_version=SCHEMA_VERSION,
                     operator_enabled=operator_enabled,
                     effective_live_submission_enabled=(
-                        operator_enabled and LIVE_ORDER_ENDPOINT_BUILT
+                        operator_enabled and live_endpoint_enabled()
                     ),
                     hard_block_reason=(
-                        "" if LIVE_ORDER_ENDPOINT_BUILT
+                        "" if live_endpoint_enabled()
                         else "live_exchange_order_endpoint_unbuilt"
                     ),
                     revision=max(0, int(payload.get("revision", 0))),
@@ -138,9 +147,9 @@ class LiveTradingControl:
             after = ControlState(
                 schema_version=SCHEMA_VERSION,
                 operator_enabled=enabled,
-                effective_live_submission_enabled=(enabled and LIVE_ORDER_ENDPOINT_BUILT),
+                effective_live_submission_enabled=(enabled and live_endpoint_enabled()),
                 hard_block_reason=(
-                    "" if LIVE_ORDER_ENDPOINT_BUILT
+                    "" if live_endpoint_enabled()
                     else "live_exchange_order_endpoint_unbuilt"
                 ),
                 revision=before.revision + (1 if before.operator_enabled != enabled else 0),
@@ -194,9 +203,12 @@ class LiveTradingControl:
         elif normalized_mode == "live" and not state.operator_enabled:
             allowed = False
             reason = "master_live_trading_flag_disabled"
-        elif normalized_mode == "live" and not LIVE_ORDER_ENDPOINT_BUILT:
+        elif normalized_mode == "live" and not live_endpoint_enabled():
             allowed = False
             reason = "live_exchange_order_endpoint_unbuilt"
+        elif normalized_mode == "live":
+            allowed = True
+            reason = "live_enabled_by_env_process_and_operator"
         else:
             allowed = False
             reason = "fail_closed_unknown_mode"
@@ -207,7 +219,7 @@ class LiveTradingControl:
             call_site=str(call_site),
             reason=reason,
             operator_enabled=state.operator_enabled,
-            endpoint_built=LIVE_ORDER_ENDPOINT_BUILT,
+            endpoint_built=live_endpoint_enabled(),
             checked_at=_now(),
         )
         with self._lock:

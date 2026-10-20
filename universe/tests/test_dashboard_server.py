@@ -61,7 +61,7 @@ def test_status_reports_stopped_with_no_managed_process(client):
 def test_start_accepts_json_body_not_query_params(client, monkeypatch):
     """Regression test for the real body-vs-query-param bug described in the
     module docstring."""
-    monkeypatch.setattr(botctl, "start_bot", lambda risk=None: {"started": True, "pid": 1234, "risk": {}})
+    monkeypatch.setattr(botctl, "start_bot", lambda risk=None, scope="universe": {"started": True, "pid": 1234, "risk": {}})
 
     resp = client.post("/api/botctl/start", json={})
 
@@ -73,7 +73,7 @@ def test_start_accepts_json_body_not_query_params(client, monkeypatch):
 def test_start_passes_risk_overrides_through_the_body(client, monkeypatch):
     captured = {}
 
-    def fake_start_bot(risk=None):
+    def fake_start_bot(risk=None, scope="universe"):
         captured["risk"] = risk
         return {"started": True, "pid": 1}
 
@@ -86,7 +86,7 @@ def test_start_passes_risk_overrides_through_the_body(client, monkeypatch):
 
 
 def test_start_returns_409_when_botctl_reports_an_error(client, monkeypatch):
-    monkeypatch.setattr(botctl, "start_bot", lambda risk=None: {"error": "already running", "pid": 99})
+    monkeypatch.setattr(botctl, "start_bot", lambda risk=None, scope="universe": {"error": "already running", "pid": 99})
 
     resp = client.post("/api/botctl/start", json={})
 

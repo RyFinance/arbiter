@@ -189,3 +189,9 @@ def test_status_surfaces_pnl_and_universe_snapshots_when_present(isolate_botctl_
     assert st["pnl"]["session_pnl"] == 4.5
     assert st["universe"]["active_count"] == 50
     assert st["universe"]["total_tracked"] == 100
+
+
+def test_start_without_signer_uses_dry_run(monkeypatch):
+    from dashboard import botctl
+    monkeypatch.setattr(botctl, "_has_paper_signer", lambda: False)
+    assert botctl.start_bot(scope="nope") == {"error": "scope must be one of universe, btc"}

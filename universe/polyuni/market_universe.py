@@ -32,6 +32,8 @@ def qualify_market(meta: MarketMeta, settings: Settings, now: Optional[float] = 
     """
     t = now if now is not None else time.time()
 
+    if getattr(settings, "btc_only", False) and not meta.is_btc_up_down:
+        return False, "btc_only_mode"
     if not meta.enable_order_book:
         return False, "no_order_book"
     if not meta.accepting_orders:
@@ -206,6 +208,9 @@ class MarketUniverse:
                 "volume_24h_usd": round(meta.volume_24h_usd, 2),
                 "spread_at_discovery": meta.spread_at_discovery,
                 "seconds_to_resolution": (round(meta.end_time - now, 1) if meta.end_time else None),
+                "end_time": meta.end_time or None,
+                "yes_token_id": meta.yes_token_id,
+                "no_token_id": meta.no_token_id,
                 "neg_risk": meta.neg_risk,
             })
         state_counts: Dict[str, int] = {}

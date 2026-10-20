@@ -240,3 +240,14 @@ def test_finalize_closing_respects_explicit_market_id_list():
     assert released == ["m1"]
     assert universe.markets["m1"].lifecycle_state == RELEASED
     assert universe.markets["m2"].lifecycle_state == CLOSING  # not finalized yet
+
+
+def test_btc_only_mode_rejects_non_btc_markets():
+    import dataclasses
+    from polyuni.config import SETTINGS
+
+    settings = dataclasses.replace(SETTINGS, btc_only=True)
+    meta = _meta()
+    assert not meta.is_btc_up_down
+    passes, reason = qualify_market(meta, settings)
+    assert not passes and reason == "btc_only_mode"

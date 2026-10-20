@@ -22,6 +22,7 @@ from __future__ import annotations
 import asyncio
 import json
 import sys
+import time
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Any, Dict, Optional
@@ -36,9 +37,12 @@ DASHBOARD_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(PROJECT_ROOT))
 sys.path.insert(0, str(DASHBOARD_DIR))
 
+import httpx  # noqa: E402
 import botctl  # noqa: E402  (dashboard/botctl.py, same directory)
 from push import PushManager  # noqa: E402  (dashboard/push.py, same directory)
 from polyuni.live_control import default_live_control  # noqa: E402
+from polyuni import venues  # noqa: E402
+from polyuni.config import SETTINGS  # noqa: E402
 
 STATIC_DIR = DASHBOARD_DIR / "static"
 PNL_SNAPSHOT_PATH = PROJECT_ROOT / "state" / "pnl_snapshot.json"
@@ -69,6 +73,7 @@ def _read_json(path: Path) -> Optional[dict]:
 
 class StartRequest(BaseModel):
     risk: Optional[Dict[str, float]] = None
+    scope: str = "universe"
 
 
 class LiveControlToggleRequest(BaseModel):
@@ -91,7 +96,7 @@ def status() -> Dict[str, Any]:
 
 @app.post("/api/botctl/start")
 def start(req: StartRequest) -> Dict[str, Any]:
-    result = botctl.start_bot(risk=req.risk)
+    result = botctl.start_bot(risk=req.risk, scope=req.scope)
     if "error" in result:
         raise HTTPException(status_code=409, detail=result["error"])
     return result
@@ -162,6 +167,155 @@ def live_control_toggle(req: LiveControlToggleRequest) -> Dict[str, Any]:
     }
 
 
+ORDER_LEDGER_PATH = PROJECT_ROOT / "state" / "order_ledger.jsonl"
+CLOB_BASE_URL = SETTINGS.clob_base_url.rstrip("/")
+FILLED_STATUSES = {"first_filled", "second_filled", "exited", "filled", "paired"}
+
+
+@app.get("/api/paper")
+def paper_account() -> Dict[str, Any]:
+    """Paper bankroll, equity and traded notional from the bot's own ledger."""
+    bankroll = float(botctl.load_risk().get("max_total_capital", 0.0))
+    pnl = _read_json(PNL_SNAPSHOT_PATH) or {}
+    session_pnl = float(pnl.get("session_pnl") or 0.0)
+    volume = fees = 0.0
+    fills = 0
+    day_start = time.time() - (time.time() % 86400)
+    volume_today = 0.0
+    try:
+        with ORDER_LEDGER_PATH.open(encoding="utf-8") as handle:
+            for line in handle:
+                try:
+                    row = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                if row.get("status") not in FILLED_STATUSES:
+                    continue
+                notional = float(row.get("price") or 0.0) * float(row.get("size") or 0.0)
+                volume += notional
+                fees += float(row.get("fee") or 0.0)
+                fills += 1
+                if float(row.get("timestamp") or 0.0) >= day_start:
+                    volume_today += notional
+    except OSError:
+        pass
+    return {
+        "bankroll_usd": bankroll,
+        "equity_usd": round(bankroll + session_pnl, 4),
+        "session_pnl": session_pnl,
+        "deployed_usd": pnl.get("deployed_usd"),
+        "volume_usd": round(volume, 2),
+        "volume_today_usd": round(volume_today, 2),
+        "fees_usd": round(fees, 4),
+        "fills": fills,
+        "orders_sent": pnl.get("orders_sent"),
+        "opportunities": pnl.get("opportunities"),
+    }
+
+
+LIVE_MARKETS_LIMIT = 4
+_book_cache: Dict[str, Any] = {}
+
+
+def _top_of_book(client: "httpx.Client", token_id: str) -> Dict[str, Optional[float]]:
+    """Best bid/ask from the public CLOB book, cached ~2 s per token."""
+    cached = _book_cache.get(token_id)
+    if cached and time.time() - cached[0] < 2.0:
+        return cached[1]
+    top: Dict[str, Optional[float]] = {"bid": None, "ask": None}
+    try:
+        book = client.get(f"{CLOB_BASE_URL}/book", params={"token_id": token_id}).json()
+        bids = [float(level["price"]) for level in book.get("bids") or []]
+        asks = [float(level["price"]) for level in book.get("asks") or []]
+        top = {"bid": max(bids) if bids else None, "ask": min(asks) if asks else None}
+    except Exception:
+        pass
+    _book_cache[token_id] = (time.time(), top)
+    return top
+
+
+@app.get("/api/live_markets")
+def live_markets() -> Dict[str, Any]:
+    """Markets the bot is in or watching: time left and live odds per side."""
+    universe = _read_json(UNIVERSE_SNAPSHOT_PATH) or {}
+    strategy = _read_json(STRATEGY_SNAPSHOT_PATH) or {}
+    open_ids = {str(seq.get("market_id")): seq for seq in strategy.get("open_sequences") or []}
+    active = [m for m in universe.get("markets") or [] if m.get("lifecycle_state") == "active"]
+    now = time.time()
+    active = [m for m in active if not m.get("end_time") or m["end_time"] > now]
+    active.sort(key=lambda m: (str(m.get("market_id")) not in open_ids, m.get("end_time") or float("inf")))
+    rows = []
+    with httpx.Client(timeout=4.0) as client:
+        for market in active[:LIVE_MARKETS_LIMIT]:
+            yes = _top_of_book(client, market["yes_token_id"]) if market.get("yes_token_id") else {}
+            no = _top_of_book(client, market["no_token_id"]) if market.get("no_token_id") else {}
+            seq = open_ids.get(str(market.get("market_id")))
+            rows.append({
+                "market_id": market.get("market_id"),
+                "question": market.get("question"),
+                "url": f"https://polymarket.com/event/{market['slug']}" if market.get("slug") else None,
+                "outcome_yes": market.get("outcome_yes") or "Yes",
+                "outcome_no": market.get("outcome_no") or "No",
+                "seconds_left": round(market["end_time"] - now, 1) if market.get("end_time") else None,
+                "yes": yes,
+                "no": no,
+                "in_trade": seq is not None,
+                "position": {
+                    "side": seq.get("first_side"),
+                    "entry": seq.get("first_price"),
+                    "size": seq.get("size"),
+                    "phase": seq.get("phase"),
+                } if seq else None,
+            })
+    return {"generated_at": now, "markets": rows, "tracked_active": len(active)}
+
+
+class VenueLinkRequest(BaseModel):
+    address: Optional[str] = None
+    key_id: Optional[str] = None
+    private_key: Optional[str] = None
+    environment: Optional[str] = None
+
+
+@app.get("/api/venues")
+def venues_snapshot(refresh: bool = False) -> Dict[str, Any]:
+    """Linked Polymarket / Kalshi accounts. Read-only: balances, positions, P&L."""
+    return venues.snapshot(force=refresh)
+
+
+@app.post("/api/venues/{venue}/link")
+def venue_link(venue: str, req: VenueLinkRequest) -> Dict[str, Any]:
+    try:
+        return venues.link(venue, req.model_dump(exclude_none=True))
+    except KeyError:
+        raise HTTPException(status_code=404, detail=f"unknown venue: {venue}")
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+
+
+class VenueModeRequest(BaseModel):
+    mode: str
+    confirm: str = ""
+
+
+@app.post("/api/venues/{venue}/mode")
+def venue_mode(venue: str, req: VenueModeRequest) -> Dict[str, Any]:
+    try:
+        return venues.change_mode(venue, req.mode, req.confirm)
+    except KeyError:
+        raise HTTPException(status_code=404, detail=f"unknown venue: {venue}")
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+
+
+@app.post("/api/venues/{venue}/unlink")
+def venue_unlink(venue: str) -> Dict[str, Any]:
+    try:
+        return venues.unlink(venue)
+    except KeyError:
+        raise HTTPException(status_code=404, detail=f"unknown venue: {venue}")
+
+
 @app.websocket("/ws")
 async def ws_endpoint(websocket: WebSocket) -> None:
     queue = await push_manager.connect(websocket)
@@ -203,7 +357,8 @@ async def ws_endpoint(websocket: WebSocket) -> None:
 
 @app.get("/")
 def index() -> FileResponse:
-    return FileResponse(STATIC_DIR / "index.html")
+    # no-cache so a redeployed dashboard is picked up without a hard refresh.
+    return FileResponse(STATIC_DIR / "index.html", headers={"Cache-Control": "no-cache"})
 
 
 if STATIC_DIR.is_dir():

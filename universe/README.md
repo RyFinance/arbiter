@@ -11,8 +11,8 @@ UI instead of three separate poll-based ones.
 
 ## Safety status
 
-Real order submission does not exist in this codebase, full stop — not gated, not
-feature-flagged, simply not implemented. `PAPER_TRADE` uses real market data and
+Real order submission is off by default and needs three separate opt-ins (see
+"Venues and trading modes"). `PAPER_TRADE` uses real market data and
 simulated fills. LIVE mode is a real, audited operator-intent state machine
 (`live_control.py`) with an unambiguous dashboard indicator, but arming it changes
 what is displayed and logged, never whether an order can reach an exchange. See
@@ -100,6 +100,33 @@ cp .env.example .env  # then edit — never commit a populated .env
 Requires `DRY_RUN=false`, `PAPER_TRADE=true`, `LIVE_SIGNING_VERIFIED=true`, and a
 valid `PRIVATE_KEY` in `.env` for authenticated (but still simulated-fill) paper
 trading. `DRY_RUN=true` (the default) needs no key at all.
+
+## Venues and trading modes
+
+Each venue has a mode, picked in the dashboard's **Venues** row:
+
+| Mode | Polymarket | Kalshi |
+|---|---|---|
+| **Read-only** | Balances, positions, P&L, volume | Same |
+| **Paper** (default) | The engine trades simulated fills against live books | Not available: there is no Kalshi engine yet |
+| **Live** | The engine places REAL fill-or-kill orders on your account | Not available |
+
+Link Polymarket with your public wallet address, or Kalshi with an API key,
+from the dashboard or `.env` (`POLYMARKET_ADDRESS`, `KALSHI_API_KEY_ID`,
+`KALSHI_PRIVATE_KEY_PATH`, `KALSHI_ENV`). Dashboard-linked credentials live in
+`state/` (mode 600, git-ignored).
+
+**Paper fills are not flattering.** Every simulated order walks the real
+Polymarket order book at submission: it fills only if the full size is there
+within the limit (fill-or-kill), at the depth-weighted price, and pays
+Polymarket's taker-fee curve. That holds with or without a key.
+
+**Live is opt-in three times:** `ARBITER_LIVE_TRADING=enabled` in your `.env`,
+a valid `PRIVATE_KEY`, and LIVE selected for Polymarket with a typed
+confirmation. Orders are fill-or-kill and capped by `LIVE_MAX_ORDER_USD`
+(default $5), `LIVE_MAX_OPEN_USD` ($25) and `LIVE_MAX_SESSION_LOSS_USD` ($25).
+Leaving live mode revokes permission for the running bot on its next order.
+Live trading risks real money; start with the default caps.
 
 ## Run the dashboard
 

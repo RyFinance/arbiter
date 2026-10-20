@@ -16,6 +16,11 @@ graphify-out/
 *.parquet
 btc5m/edge_mining/out/
 btc5m/state/paper_session_archives/
+universe/state/
+*.local.json
+*.local.pem
+*.local.jpg
+*.local.png
 
 # AI agent config
 .claude/

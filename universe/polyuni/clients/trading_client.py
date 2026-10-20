@@ -25,13 +25,14 @@ LIVE: exchange order submission is intentionally unbuilt and fails closed.
 from __future__ import annotations
 
 import asyncio
+import httpx
 import os
 import time
 from typing import Optional
 
 from ..config import SETTINGS
 from ..live_control import (
-    LIVE_ORDER_ENDPOINT_BUILT,
+    live_endpoint_enabled,
     LiveTradingControl,
     default_live_control,
 )
@@ -336,7 +337,13 @@ class TradingClient:
         In PAPER_TRADE mode the transactions are SIGNED locally (full real auth
         flow) but NOT broadcast — we log the signed payload for audit instead.
         """
-        if not getattr(self, "_paper_trade", False) and not LIVE_ORDER_ENDPOINT_BUILT:
+        # On-chain approvals spend gas and grant token allowances, so they need
+        # their own opt-in on top of live trading. Accounts created through
+        # polymarket.com normally already carry these approvals.
+        if not getattr(self, "_paper_trade", False) and not (
+            live_endpoint_enabled()
+            and os.getenv("LIVE_BROADCAST_APPROVALS", "").strip().lower() == "true"
+        ):
             log.critical(
                 "LIVE_APPROVAL_BROADCAST_BLOCKED",
                 {"reason": "live_exchange_order_endpoint_unbuilt"},
@@ -546,7 +553,10 @@ class TradingClient:
             chain_id=POLYGON_CHAIN_ID,
             key=self.s.private_key,
             creds=self._creds,
-            signature_type=SignatureTypeV2.EOA,
+            signature_type={
+                "proxy": SignatureTypeV2.POLY_PROXY,
+                "safe": SignatureTypeV2.POLY_GNOSIS_SAFE,
+            }.get(getattr(self.s, "polymarket_signature_type", "eoa"), SignatureTypeV2.EOA),
             funder=self.s.proxy_wallet or None,
             retry_on_error=True,
         )
@@ -762,6 +772,55 @@ class TradingClient:
 
         return order_id
 
+    def _dry_run_book_fill(self, token_id: str, price: float, size: float, side: str) -> Optional[str]:
+        """Simulate a DRY_RUN fill from Polymarket's public REST book (no auth).
+
+        Fill-or-kill: the full size must be visible within the limit, and the
+        recorded fill price is the depth-weighted VWAP actually available.
+        Returns None (leg did not go) when depth is short or the book is
+        unreachable, exactly like a rejected marketable order.
+        """
+        side_upper = side.upper()
+        try:
+            resp = httpx.get(
+                f"{self.s.clob_base_url.rstrip('/')}/book",
+                params={"token_id": token_id},
+                timeout=5.0,
+            )
+            resp.raise_for_status()
+            book = resp.json()
+        except Exception as exc:
+            log.warning(f"DRY_RUN book fetch failed for {token_id[-8:]}: {exc!r}")
+            return None
+        fill_price, eligible = _paper_full_fill_price(
+            book or {}, side=side_upper, limit_price=price, size=size
+        )
+        if fill_price is None:
+            log.info(
+                f"DRY_RUN insufficient executable depth {side_upper} {token_id[-8:]} "
+                f"limit={price:.4f} requested={size} eligible={eligible:.4f}"
+            )
+            return None
+        import hashlib
+        seed = f"{token_id}:{side_upper}:{fill_price}:{size}:{time.time_ns()}"
+        order_id = "dryrun-" + hashlib.sha256(seed.encode()).hexdigest()[:24]
+        if not hasattr(self, "_paper_fill_details"):
+            self._paper_fill_details = {}
+        self._paper_fill_details[order_id] = {
+            "fill_price": fill_price,
+            "fill_source": "public_rest_book",
+            "fill_ts": time.time(),
+            "limit_price": float(price),
+            "token_id": str(token_id),
+            "side": side_upper,
+            "size": float(size),
+        }
+        log.info(
+            f"[DRY_RUN] book fill {side_upper} {token_id[-8:]} @{fill_price:.4f} "
+            f"size={size} limit={price:.4f}"
+        )
+        return order_id
+
     def get_fill_ratio(self, order_id: Optional[str]) -> float:
         """Fill ratio for a submitted order (0.0–1.0).
 
@@ -849,9 +908,10 @@ class TradingClient:
             return None
 
         if not self.s.live:
-            # DRY_RUN: no network. Simulate an immediate fill with a stable id.
-            await asyncio.sleep(0)
-            oid = f"dryrun-{side.lower()}-{token_id[-8:]}"
+            # DRY_RUN: no keys, no order API. Fill against the real public book
+            # (same fill-or-kill depth walk as authenticated paper), so dry-run
+            # P&L reflects actual executable prices, not the decision price.
+            oid = await asyncio.to_thread(self._dry_run_book_fill, token_id, price, size, side)
             return self._register_order(oid, "dry_run")
 
         # PAPER_TRADE: intercept BEFORE hitting the exchange. The full real auth
@@ -861,19 +921,65 @@ class TradingClient:
             oid = await self.submit_paper_order(token_id, price, size, side=side)
             return self._register_order(oid, "paper")
 
-        # Defense in depth: check_order_submission currently denies every live
-        # request because the exchange endpoint is deliberately unbuilt.  Keep a
-        # hard return here as well, so a future control-layer regression still
-        # cannot reach an SDK order POST by accident.
-        log.critical(
-            "LIVE_ORDER_SUBMISSION_UNBUILT",
-            {
+        # LIVE: check_order_submission above already required the env opt-in,
+        # this process's LIVE_EXECUTION flag and the audited operator flag.
+        oid = await asyncio.to_thread(self._post_live_fok, token_id, price, size, side)
+        return self._register_order(oid, "live")
+
+    def _post_live_fok(self, token_id: str, price: float, size: float, side: str) -> Optional[str]:
+        """Post one REAL fill-or-kill limit order. Returns the order id only when
+        the exchange reports it matched in full; anything else is "did not go".
+
+        Caps are enforced here, at the last step before the exchange, so no
+        caller can exceed them: notional per order <= LIVE_MAX_ORDER_USD.
+        """
+        from ..live_control import live_endpoint_enabled
+        if not (live_endpoint_enabled() and getattr(self.s, "live_execution", False)):
+            log.critical("LIVE_ORDER_BLOCKED", {"reason": "live_not_enabled", "token_suffix": token_id[-8:]})
+            return None
+        side_upper = side.upper()
+        notional = float(price) * float(size)
+        cap = float(getattr(self.s, "live_max_order_usd", 0.0))
+        if side_upper == "BUY" and notional > cap:
+            log.critical("LIVE_ORDER_BLOCKED", {
+                "reason": "over_max_order_usd", "notional": round(notional, 4), "cap": cap,
                 "token_suffix": token_id[-8:],
-                "side": side.upper(),
-                "operator_action_required": False,
-            },
-        )
-        return None
+            })
+            return None
+        from py_clob_client_v2.clob_types import OrderArgsV2, OrderType
+        try:
+            self._ensure_creds()
+            args = OrderArgsV2.__new__(OrderArgsV2)
+            args.token_id, args.price, args.size, args.side = token_id, float(price), float(size), side_upper
+            resp = self._clob_client.create_and_post_order(args, order_type=OrderType.FOK) or {}
+        except Exception as exc:
+            log.error(f"LIVE order post failed {side_upper} {token_id[-8:]}: {exc!r}")
+            return None
+        order_id = resp.get("orderID") or resp.get("orderId")
+        status = str(resp.get("status", "")).lower()
+        if not resp.get("success", bool(order_id)) or not order_id or status not in {"matched", "filled"}:
+            log.warning(f"LIVE FOK not filled {side_upper} {token_id[-8:]} status={status!r} err={resp.get('errorMsg')!r}")
+            return None
+        fill_price = float(price)
+        try:
+            making, taking = float(resp.get("makingAmount")), float(resp.get("takingAmount"))
+            if making > 0 and taking > 0:
+                fill_price = making / taking if side_upper == "BUY" else taking / making
+        except (TypeError, ValueError):
+            pass
+        if not hasattr(self, "_paper_fill_details"):
+            self._paper_fill_details = {}
+        self._paper_fill_details[str(order_id)] = {
+            "fill_price": fill_price, "fill_source": "live_fok", "fill_ts": time.time(),
+            "limit_price": float(price), "token_id": str(token_id), "side": side_upper, "size": float(size),
+        }
+        self._live_matched = getattr(self, "_live_matched", set())
+        self._live_matched.add(str(order_id))
+        log.critical("LIVE_ORDER_FILLED", {
+            "side": side_upper, "token_suffix": token_id[-8:], "price": round(fill_price, 4),
+            "size": float(size), "order_id": str(order_id),
+        })
+        return str(order_id)
 
     async def is_filled(self, order_id: Optional[str], token_id: str, gap_ms: int = 0) -> bool:
         """Did `order_id` fill?
@@ -898,6 +1004,10 @@ class TradingClient:
 
         # PAPER_TRADE: simulated fills always confirm instantly.
         if getattr(self, "_paper_trade", False):
+            return True
+
+        # LIVE FOK orders are only returned once the exchange reported a full match.
+        if str(order_id) in getattr(self, "_live_matched", set()):
             return True
 
         # FIX #6: non-blocking single-check mode (gap_ms == 0).
